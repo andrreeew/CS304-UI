@@ -17,6 +17,37 @@ const routes = [
     path: '',
     name: 'layout',
     component: Layout,
+    children:[
+      {
+        path: 'record',
+        name: 'record',
+        component: () => import('../pages/record'),
+        redirect: { name: 'record-table' },
+        children: [
+          {
+            path: 'table',
+            name: 'record-table',
+            component: () => import('../pages/record/table')
+          },
+          {
+            path: 'new',
+            name: 'record-new',
+            component: () => import('../pages/record/new')
+          },
+          {
+            path: 'detail',
+            name: 'record-detail',
+            component: () => import('../pages/record/detail')
+          }
+        ]
+      },
+
+      {
+        path: ':pathMatch(.*)*',
+        name: 'notFound',
+        component: () => import('../pages/error')
+      }
+    ]
   }
 ]
 
