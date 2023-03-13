@@ -21,7 +21,7 @@
           </a-tooltip>
         </a-space>
       </div>
-      <a-grid :cols="{ lg: 2, xl:4}" :colGap="20" :rowGap="16" >
+      <a-grid :cols="{ lg: 2, mg:4}" :colGap="20" :rowGap="16" >
         <a-grid-item span="1" v-for="i in 5">
           <group-card></group-card>
         </a-grid-item>

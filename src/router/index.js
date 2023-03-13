@@ -28,6 +28,7 @@ const routes = [
         path: 'account',
         name: 'account',
         component: () => import('../pages/account'),
+        redirect: {name:'account-table'},
         children: [
           {
             path: '',
@@ -50,6 +51,7 @@ const routes = [
         path: 'group',
         name: 'group',
         component: () => import('../pages/group'),
+        redirect: {name:'group-table'},
         children: [
           {
             path: '',
@@ -75,7 +77,7 @@ const routes = [
         redirect: {name: 'fund-table'},
         children: [
           {
-            path: 'table',
+            path: '',
             name: 'fund-table',
             component: () => import('../pages/fund/table')
           }
