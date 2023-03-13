@@ -5,19 +5,15 @@
       <a-divider style="margin-top: -10px"></a-divider>
 
       <a-form :model="form" style="min-width: 400px;margin-bottom: 20px; margin-left: -20px" >
-        <a-form-item label="用户ID">
-          <a-input v-model="form.id"></a-input>
-        </a-form-item>
-        <a-form-item label="用户名">
+        <a-form-item label="用户名" required>
           <a-input v-model="form.name"></a-input>
         </a-form-item>
-        <a-form-item label="密码">
+        <!-- <a-form-item label="密码" required>
           <a-input v-model="form.name"></a-input>
         </a-form-item>
-        <a-form-item label="确认密码">
+        <a-form-item label="确认密码" required>
           <a-input v-model="form.name"></a-input>
-        </a-form-item>
-
+        </a-form-item> -->
         <a-form-item label="课题组">
           <a-select v-model="form.group"  placeholder="Please select ..." multiple allow-create>
             <a-option v-for="item in groups">{{item.label}}</a-option>
@@ -27,12 +23,12 @@
           <a-checkbox-group v-model="form.permission" :options="form.group">
           </a-checkbox-group>
         </a-form-item>
-        <a-form-item label="邮箱">
+        <a-form-item label="邮箱" required :validate-status="emailStatus" :help="emailHelp" feedback>
           <a-input v-model="form.email">
 
           </a-input>
         </a-form-item>
-        <a-form-item label="手机号">
+        <a-form-item label="手机号" required :validate-status="phoneStatus" :help="phoneHelp" feedback>
           <a-input v-model="form.phone">
           </a-input>
         </a-form-item>
@@ -42,7 +38,7 @@
   <div class="operation">
     <a-space style="margin-right: 10px">
       <a-button @click="clearForm()">重置</a-button>
-      <a-button type="primary">确认</a-button>
+      <a-button :disabled="canSubmit" type="primary" @click="submitForm()">确认</a-button>
     </a-space>
   </div>
 </template>
@@ -53,25 +49,19 @@ export default {
   data(){
     return{
       form: {
-        title: '',
+        name : '',
         group: '',
-        permission: '',
-        category1: '',
-        category2: '',
-        number: '',
-        abstract: '',
-        comment: '',
+        email: '',
+        phone: '',
       },
+      emailStatus: '',
+      emailHelp: '',
+      phoneStatus: '',
+      phoneHelp: '',
       groups:[
         {value: 'li', label: 'Li'},
         {value: 'fang', label: 'Fang'}
       ],
-      categorise : {
-        Beijing: ['Haidian', 'Chaoyang', 'Changping'],
-        Sichuan: ['Chengdu', 'Mianyang', 'Aba'],
-        Guangdong: ['Guangzhou', 'Shenzhen', 'Shantou']
-      }
-
     }
   },
   methods: {
@@ -79,11 +69,44 @@ export default {
       for (let key in this.form){
         this.form[key] = ''
       }
+      this.emailStatus = ''
+      this.phoneStatus = ''
+      this.emailHelp = ''
+      this.phoneHelp = ''
+    },
+    submitForm() {
+
     }
   },
-  watch : {
-    'form.category1'(){
-      this.form.category2 = ''
+  watch: {
+    'form.email'(){
+      if (this.form.email != '') {
+        var reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(com|cn|net)$/
+        if (!reg.test(this.form.email)) {
+          this.emailStatus = 'error'
+          this.emailHelp = 'Please input a valid email!'
+        } else {
+          this.emailStatus = 'success'
+          this.emailHelp = ''
+        }
+      }
+    },
+    'form.phone'(){
+      if (this.form.phone != '') {
+        var reg = /[0-9]{11}/
+        if (!reg.test(this.form.phone) || this.form.phone.length != 11) {
+          this.phoneStatus = 'error'
+          this.phoneHelp = 'Please input a valid phone number!'
+        } else {
+          this.phoneStatus = 'success'
+          this.phoneHelp = ''
+        }
+      }
+    },
+  },
+  computed: {
+    canSubmit() {
+      return !(this.emailStatus == 'success' && this.phoneStatus == 'success')
     }
   }
 }
