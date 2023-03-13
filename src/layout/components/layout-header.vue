@@ -40,11 +40,15 @@
           </a-button>
         </a-tooltip>
 
-        <a-tooltip content="user">
+        <a-dropdown trigger="hover" >
         <a-avatar :size="32" style="background-color:#3370ff;cursor: pointer">
           <IconUser />
         </a-avatar>
-        </a-tooltip>
+          <template #content>
+            <a-doption style="text-align: center">个人信息</a-doption>
+            <a-doption style="text-align: center;" @click="logout">Logout</a-doption>
+          </template>
+        </a-dropdown>
       </a-space>
     </div>
 
@@ -52,8 +56,14 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+
 export default {
-  name: "header"
+  name: "header",
+  methods:{
+    ...mapActions('auth', ['logout'])
+  }
+
 }
 </script>
 

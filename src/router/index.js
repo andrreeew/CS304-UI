@@ -19,6 +19,69 @@ const routes = [
     component: Layout,
     children:[
       {
+        path: '',
+        name: 'home',
+        // component: () => import('../pages/home')
+        redirect: { name: 'account-table'}
+      },
+      {
+        path: 'account',
+        name: 'account',
+        component: () => import('../pages/account'),
+        children: [
+          {
+            path: '',
+            name: 'account-table',
+            component: () => import('../pages/account/table')
+          },
+          {
+            path: 'new',
+            name: 'account-new',
+            component: () => import('../pages/account/new')
+          },
+          {
+            path: ':user',
+            name: 'account-detail',
+            component: () => import('../pages/account/detail')
+          },
+        ]
+      },
+      {
+        path: 'group',
+        name: 'group',
+        component: () => import('../pages/group'),
+        children: [
+          {
+            path: '',
+            name: 'group-table',
+            component: () => import('../pages/group/table'),
+          },
+          {
+            path: 'new',
+            name: 'group-new',
+            component: () => import('../pages/group/new')
+          },
+          {
+            path: ':groupId',
+            name: 'group-detail',
+            component: () => import('../pages/group/detail')
+          },
+        ]
+      },
+      {
+        path: 'fund',
+        name: 'fund',
+        component: () => import('../pages/fund'),
+        redirect: {name: 'fund-table'},
+        children: [
+          {
+            path: 'table',
+            name: 'fund-table',
+            component: () => import('../pages/fund/table')
+          }
+        ]
+      },
+      {
         path: 'record',
         name: 'record',
         component: () => import('../pages/record'),
