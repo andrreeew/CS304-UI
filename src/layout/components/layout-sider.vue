@@ -50,7 +50,7 @@ export default {
     ...mapMutations(['setMenuCollapse']),
     jumpTo(v){
       this.selectKeys=v
-      this.$router.push({name:v})
+      this.$router.push({name:'admin-'+v})
     }
   },
 }

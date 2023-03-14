@@ -19,101 +19,103 @@ const routes = [
     component: Layout,
     children:[
       {
-        path: '',
-        name: 'home',
-        // component: () => import('../pages/home')
-        redirect: { name: 'account-table'}
-      },
-      {
-        path: 'account',
-        name: 'account',
-        component: () => import('../pages/account'),
-        redirect: {name:'account-table'},
+        path: 'admin',
+        name: 'admin',
         children: [
           {
-            path: '',
-            name: 'account-table',
-            component: () => import('../pages/account/table')
+            path: 'account',
+            name: 'admin-account',
+            component: () => import('../pages/admin/account'),
+            redirect: {name:'admin-account-table'},
+            children: [
+              {
+                path: '',
+                name: 'admin-account-table',
+                component: () => import('../pages/admin/account/table')
+              },
+              {
+                path: 'new',
+                name: 'admin-account-new',
+                component: () => import('../pages/admin/account/new')
+              },
+              {
+                path: ':user',
+                name: 'admin-account-detail',
+                component: () => import('../pages/admin/account/detail')
+              },
+            ]
           },
           {
-            path: 'new',
-            name: 'account-new',
-            component: () => import('../pages/account/new')
+            path: 'group',
+            name: 'admin-group',
+            component: () => import('../pages/admin/group'),
+            redirect: {name:'admin-group-table'},
+            children: [
+              {
+                path: '',
+                name: 'admin-group-table',
+                component: () => import('../pages/admin/group/table'),
+              },
+              {
+                path: 'new',
+                name: 'admin-group-new',
+                component: () => import('../pages/admin/group/new')
+              },
+              {
+                path: ':groupId',
+                name: 'admin-group-detail',
+                component: () => import('../pages/admin/group/detail')
+              },
+            ]
           },
           {
-            path: ':user',
-            name: 'account-detail',
-            component: () => import('../pages/account/detail')
+            path: 'fund',
+            name: 'admin-fund',
+            component: () => import('../pages/admin/fund'),
+            redirect: {name: 'admin-fund-table'},
+            children: [
+              {
+                path: '',
+                name: 'admin-fund-table',
+                component: () => import('../pages/admin/fund/table')
+              },
+              {
+                path: ':fundId',
+                name: 'admin-fund-detail',
+                component: () => import('../pages/admin/fund/detail')
+              },
+              {
+                path: ':fundId/:groupId',
+                name: 'admin-fund-group',
+                component: () => import('../pages/admin/fund/group')
+              }
+            ]
+          },
+          {
+            path: 'application',
+            name: 'admin-application',
+            component: () => import('../pages/admin/application'),
+            redirect: { name: 'admin-application-table' },
+            children: [
+              {
+                path: 'table',
+                name: 'admin-application-table',
+                component: () => import('../pages/admin/application/table')
+              },
+            ]
           },
         ]
       },
       {
-        path: 'group',
-        name: 'group',
-        component: () => import('../pages/group'),
-        redirect: {name:'group-table'},
+        path: 'user',
+        name: 'user',
         children: [
-          {
-            path: '',
-            name: 'group-table',
-            component: () => import('../pages/group/table'),
-          },
-          {
-            path: 'new',
-            name: 'group-new',
-            component: () => import('../pages/group/new')
-          },
-          {
-            path: ':groupId',
-            name: 'group-detail',
-            component: () => import('../pages/group/detail')
-          },
-        ]
-      },
-      {
-        path: 'fund',
-        name: 'fund',
-        component: () => import('../pages/fund'),
-        redirect: {name: 'fund-table'},
-        children: [
-          {
-            path: '',
-            name: 'fund-table',
-            component: () => import('../pages/fund/table')
-          },
-          {
-            path: ':fundId',
-            name: 'fund-detail',
-            component: () => import('../pages/fund/detail')
-          },
-          {
-            path: ':fundId/:groupId',
-            name: 'fund-group',
-            component: () => import('../pages/fund/group')
-          }
-        ]
-      },
-      {
-        path: 'application',
-        name: 'application',
-        component: () => import('../pages/application'),
-        redirect: { name: 'application-table' },
-        children: [
-          {
-            path: 'table',
-            name: 'application-table',
-            component: () => import('../pages/application/table')
-          },
-          {
-            path: 'new',
-            name: 'application-new',
-            component: () => import('../pages/application/new')
-          },
-          {
-            path: 'detail',
-            name: 'application-detail',
-            component: () => import('../pages/application/detail')
-          }
+            {
+              path: 'application',
+              name: 'user-application',
+              component:import('../pages/user/application'),
+
+            }
         ]
       },
 

@@ -5,7 +5,7 @@
         <a-avatar :size="32" :style="{ backgroundColor: '#3370ff' }">
           <IconUser />
         </a-avatar>
-        <a-link style="font-size: 20px">
+        <a-link  @click="$router.push({name:'admin-group-detail', params:{groupId:23414}})" style="font-size: 20px">
           Zhang
         </a-link>
         <a-tag color="arcoblue">管理员身份</a-tag>

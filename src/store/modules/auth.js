@@ -30,7 +30,7 @@ export default {
         login({commit}, auth) {
             commit('setToken', 42141)
             Message.success('Welcome')
-            router.push({name:'home'})
+            router.push({name:'admin'})
         },
         logout({commit}){
             commit('clearToken')
