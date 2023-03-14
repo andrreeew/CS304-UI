@@ -80,29 +80,39 @@ const routes = [
             path: '',
             name: 'fund-table',
             component: () => import('../pages/fund/table')
+          },
+          {
+            path: ':fundId',
+            name: 'fund-detail',
+            component: () => import('../pages/fund/detail')
+          },
+          {
+            path: ':fundId/:groupId',
+            name: 'fund-group',
+            component: () => import('../pages/fund/group')
           }
         ]
       },
       {
-        path: 'record',
-        name: 'record',
-        component: () => import('../pages/record'),
-        redirect: { name: 'record-table' },
+        path: 'application',
+        name: 'application',
+        component: () => import('../pages/application'),
+        redirect: { name: 'application-table' },
         children: [
           {
             path: 'table',
-            name: 'record-table',
-            component: () => import('../pages/record/table')
+            name: 'application-table',
+            component: () => import('../pages/application/table')
           },
           {
             path: 'new',
-            name: 'record-new',
-            component: () => import('../pages/record/new')
+            name: 'application-new',
+            component: () => import('../pages/application/new')
           },
           {
             path: 'detail',
-            name: 'record-detail',
-            component: () => import('../pages/record/detail')
+            name: 'application-detail',
+            component: () => import('../pages/application/detail')
           }
         ]
       },

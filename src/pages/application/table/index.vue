@@ -4,7 +4,7 @@
       <a-divider style="margin-bottom: 0px"></a-divider>
       <div style="display: flex;justify-content: space-between;width: 100%">
         <a-space>
-          <a-button type="primary" @click="$router.push({name:'record-new'})">
+          <a-button type="primary" @click="$router.push({name:'application-new'})">
             <template #icon>
               <icon-plus />
             </template>

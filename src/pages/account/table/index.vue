@@ -46,15 +46,6 @@
         <a-pagination :total="50" size="medium" show-total show-jumper show-page-size />
       </div>
 
-      <a-modal :visible="visible" @cancel="visible=false">
-        <template #title>
-
-        </template>
-        <template #footer>
-
-        </template>
-        <record-detail :record="selectedRecord"></record-detail>
-      </a-modal>
 
     </a-space>
   </a-card>
@@ -62,13 +53,13 @@
 
 <script>
 import dayjs from 'dayjs'
-import recordDetail from '@/components/record/record-detail'
+import applicationTable from '@/components/application/application-table'
 
 
 export default {
   name: "index",
   components:{
-    recordDetail
+    applicationTable
   },
   data(){
     return{

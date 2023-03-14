@@ -1,17 +1,11 @@
 <template>
-  <a-card style="width: 100%">
-    <record-detail></record-detail>
-  </a-card>
+  <router-view></router-view>
 </template>
 
 <script>
-import recordDetail from '@/components/record/record-detail'
 
 export default {
   name: "index",
-  components:{
-    recordDetail
-  },
 }
 </script>
 

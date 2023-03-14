@@ -1,6 +1,6 @@
 <template>
   <a-card style="width: 100%">
-    detail part1111111
+    detail part
   </a-card>
 </template>
 

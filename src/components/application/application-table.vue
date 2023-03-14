@@ -1,57 +1,57 @@
 <template>
 
-    <a-space direction="vertical" :size=20 style="width: 100%">
-<!--      <a-divider style="margin-bottom: 0px"></a-divider>-->
-      <a-table
-          :columns="columns"
-          :data="data"
-          :bordered="false"
-          :pagination="false"
-          :scroll="{x: 1400, y: '100%',}"
-      >
-        <template #state="{ record }">
-          <a-tag v-if="record.state==='complete'" color="green">
-            <template #icon>
-              <icon-check-circle-fill />
-            </template>
-            Complete
-          </a-tag>
-          <a-tag v-else-if="record.state==='underway'" color="arcoblue">
-            <template #icon>
-              <icon-up-circle />
-            </template>
-            Underway
-          </a-tag>
-          <a-tag v-else-if="record.state==='reject'" color="red">
-            <template #icon>
-              <icon-close-circle-fill />
-            </template>
-            Reject
-          </a-tag>
-        </template>
-        <template #date="{ record }">
-          {{dayjs(record.date).format('YYYY-MM-DD HH:mm')}}
-        </template>
-        <template #optional="{ record }">
-          <a-space>
-            <a-button @click="showDetail(record)">view</a-button>
-          </a-space>
-        </template>
-      </a-table>
+  <a-space direction="vertical" :size=20 style="width: 100%">
+    <!--      <a-divider style="margin-bottom: 0px"></a-divider>-->
+    <a-table
+        :columns="columns"
+        :data="data"
+        :bordered="false"
+        :pagination="false"
+        :scroll="{x: 1400, y: '100%',}"
+    >
+      <template #state="{ record }">
+        <a-tag v-if="record.state==='complete'" color="green">
+          <template #icon>
+            <icon-check-circle-fill />
+          </template>
+          Complete
+        </a-tag>
+        <a-tag v-else-if="record.state==='underway'" color="arcoblue">
+          <template #icon>
+            <icon-up-circle />
+          </template>
+          Underway
+        </a-tag>
+        <a-tag v-else-if="record.state==='reject'" color="red">
+          <template #icon>
+            <icon-close-circle-fill />
+          </template>
+          Reject
+        </a-tag>
+      </template>
+      <template #date="{ record }">
+        {{dayjs(record.date).format('YYYY-MM-DD HH:mm')}}
+      </template>
+      <template #optional="{ record }">
+        <a-space>
+          <a-button @click="showDetail(record)">view</a-button>
+        </a-space>
+      </template>
+    </a-table>
 
 
-<!--      <div style="display: flex; justify-content: right">-->
-<!--        <a-pagination :total="50" size="medium" show-total show-jumper show-page-size />-->
-<!--      </div>-->
+    <!--      <div style="display: flex; justify-content: right">-->
+    <!--        <a-pagination :total="50" size="medium" show-total show-jumper show-page-size />-->
+    <!--      </div>-->
 
-    </a-space>
+  </a-space>
 </template>
 
 <script>
 import dayjs from 'dayjs'
 
 export default {
-  name: "record-detail",
+  name: "application-table",
   data(){
     return{
       dayjs,
