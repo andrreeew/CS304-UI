@@ -16,11 +16,11 @@
           </template>
         </a-input>
 
-        <a-input v-model=auth.password style="margin-top: 5px">
+        <a-input-password v-model=auth.password style="margin-top: 5px">
           <template #prefix>
             <icon-lock />
           </template>
-        </a-input>
+        </a-input-password>
 
         <div style="margin-top:10px;display: flex; justify-content: space-between">
           <a-checkbox value="1">记住密码</a-checkbox>

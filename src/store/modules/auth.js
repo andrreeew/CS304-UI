@@ -1,6 +1,7 @@
 import {Message} from '@arco-design/web-vue';
 import router from "@/router";
 import {setToken, getToken, clearToken} from '@/utils/auth'
+import api from "@/api";
 
 export default {
     namespaced: true,
@@ -28,12 +29,25 @@ export default {
 
     actions: {
         login({commit}, auth) {
-            commit('setToken', 42141)
-            Message.success('Welcome')
-            router.push({name:'admin'})
+            api.login(auth)
+                .then(res => {
+                    try {
+                        commit('setToken', res.data.data.token)
+                        if(res.data.data.identity==='admin'){
+                            Message.success('欢迎管理员')
+                        }else {
+                            Message.success('欢迎用户')
+                        }
+                        router.push({name:res.data.data.identity})
+                    } catch (e) {
+                        Message.error(res.data.msg)
+                    }
+                })
         },
+
         logout({commit}){
             commit('clearToken')
+            Message.success('登出成功')
             router.push({name:'login'})
         },
 

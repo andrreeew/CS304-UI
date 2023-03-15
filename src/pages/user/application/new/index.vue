@@ -5,15 +5,19 @@
       <a-divider style="margin-top: -10px"></a-divider>
 
     <a-form :model="form" style="margin-bottom: 20px" layout="vertical">
-      <a-form-item label="经费名称">
-        <a-input v-model="form.title"></a-input>
-      </a-form-item>
       <a-form-item label="课题组">
+        <a-select v-model="form.group"  placeholder="Please select ...">
+          <a-option v-for="item in groups">{{item.label}}</a-option>
+        </a-select>
+
+      </a-form-item>
+      <a-form-item label="经费名称">
         <a-select v-model="form.group" style="max-width: 200px" placeholder="Please select ...">
           <a-option v-for="item in groups">{{item.label}}</a-option>
         </a-select>
         <div style="margin-left: 30px">剩余经费:10000</div>
       </a-form-item>
+
       <a-form-item label="支出类别">
         <a-space size="medium">
           <a-select :style="{width:'200px'}" v-model="form.category1">

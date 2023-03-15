@@ -53,14 +53,9 @@
 
 <script>
 import dayjs from 'dayjs'
-import applicationTable from '@/components/application/application-table'
-
 
 export default {
   name: "index",
-  components:{
-    applicationTable
-  },
   data(){
     return{
       dayjs,

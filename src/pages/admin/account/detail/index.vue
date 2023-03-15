@@ -21,8 +21,18 @@
       </a-space>
       </a-card>
 
-      <a-modal v-model:visible="visible">
-        
+      <a-modal v-model:visible="visible" title="加入课题组">
+        <a-form>
+          <a-form-item label="加入课题组">
+            <a-select v-model="form.group" multiple>
+              <a-option v-for="item in groups">{{item.label}}</a-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item  label="管理员权限">
+            <a-checkbox-group v-model="form.admin" :options="form.group">
+            </a-checkbox-group>
+          </a-form-item>
+        </a-form>
       </a-modal>
     </a-card>
 
@@ -79,7 +89,15 @@ export default {
         {label: '用户名', value: '李明'},
         {label: '邮箱', value: '12343214@qq.com'},
         {label: '手机号', value: 2424124124}
-      ]
+      ],
+      groups:[
+        {value: 'li', label: 'Li'},
+        {value: 'fang', label: 'Fang'}
+      ],
+      form:{
+        group:[],
+        admin:[],
+      },
     }
   }
 }

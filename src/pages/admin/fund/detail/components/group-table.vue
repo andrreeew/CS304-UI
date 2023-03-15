@@ -26,7 +26,7 @@
   <a-divider  style="margin-top: 10px"></a-divider>
 
   <a-modal v-model:visible="visible" title="添加课题组">
-    <a-select v-model="selectGroups"  placeholder="Please select ..." multiple allow-create>
+    <a-select v-model="selectGroups"  multiple>
       <a-option v-for="item in groups">{{item.label}}</a-option>
     </a-select>
   </a-modal>

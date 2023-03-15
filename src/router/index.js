@@ -2,12 +2,19 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '../layout'
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import {isLogin} from "@/utils/auth";
+import {Message} from "@arco-design/web-vue";
 
 NProgress.configure({
   showSpinner: false,
 });
 
 const routes = [
+  {
+    path: '/test',
+    name: 'test',
+    component: ()=> import('../pages/test')
+  },
   {
     path: '/login',
     name: 'login',
@@ -113,8 +120,20 @@ const routes = [
             {
               path: 'application',
               name: 'user-application',
-              component:import('../pages/user/application'),
-
+              component:()=>import('../pages/user/application'),
+              redirect: {name:'user-application-table'},
+              children: [
+                {
+                  path: 'table',
+                  name: 'user-application-table',
+                  component: ()=>import('../pages/user/application/table')
+                },
+                {
+                  path: 'new',
+                  name: 'user-application-new',
+                  component: ()=>import('../pages/user/application/new')
+                }
+              ]
             }
         ]
       },
@@ -125,7 +144,8 @@ const routes = [
         component: () => import('../pages/error')
       }
     ]
-  }
+  },
+
 ]
 
 const router = createRouter({
@@ -135,7 +155,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  next();
+  if (to.name !== 'login' && !isLogin()){
+    Message.warning('请先登录')
+    next({ name: 'login' })
+  } else next()
 })
 
 router.afterEach(() => {
