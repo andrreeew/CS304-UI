@@ -8,21 +8,15 @@
         <a-form-item label="用户名" required>
           <a-input v-model="form.name"></a-input>
         </a-form-item>
-        <!-- <a-form-item label="密码" required>
-          <a-input v-model="form.name"></a-input>
-        </a-form-item>
-        <a-form-item label="确认密码" required>
-          <a-input v-model="form.name"></a-input>
-        </a-form-item> -->
         <a-form-item label="课题组">
           <a-select v-model="form.group"  placeholder="Please select ..." multiple allow-create>
-            <a-option v-for="item in groups">{{item.label}}</a-option>
+            <a-option v-for="item in groups">{{item}}</a-option>
           </a-select>
         </a-form-item>
-        <a-form-item v-if="form.group.length!=0" label="操作权限">
+        <!-- <a-form-item v-if="form.group.length!=0" label="操作权限">
           <a-checkbox-group v-model="form.permission" :options="form.group">
           </a-checkbox-group>
-        </a-form-item>
+        </a-form-item> -->
         <a-form-item label="邮箱" required :validate-status="emailStatus" :help="emailHelp" feedback>
           <a-input v-model="form.email">
 
@@ -44,6 +38,10 @@
 </template>
 
 <script>
+import api from "@/api"
+import {Message} from '@arco-design/web-vue'
+import router from "@/router"
+
 export default {
   name: "index",
   data(){
@@ -58,10 +56,7 @@ export default {
       emailHelp: '',
       phoneStatus: '',
       phoneHelp: '',
-      groups:[
-        {value: 'li', label: 'Li'},
-        {value: 'fang', label: 'Fang'}
-      ],
+      groups:[],
     }
   },
   methods: {
@@ -75,7 +70,14 @@ export default {
       this.phoneHelp = ''
     },
     submitForm() {
-
+      api.createAccount(this.form).then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+          router.push({name:'admin-account'})
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
     }
   },
   watch: {
@@ -106,8 +108,13 @@ export default {
   },
   computed: {
     canSubmit() {
-      return !(this.emailStatus == 'success' && this.phoneStatus == 'success')
+      return !(this.emailStatus == 'success' && this.phoneStatus == 'success' && this.form.name != '')
     }
+  },
+  created() {
+    api.getAllGroupName().then(res => {
+      this.groups = res.data.data
+    })
   }
 }
 </script>
