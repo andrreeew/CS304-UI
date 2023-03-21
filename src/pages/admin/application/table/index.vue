@@ -1,55 +1,194 @@
 <template>
-  <a-card style="width: 100%">
-    <a-space direction="vertical" :size=20 style="width: 100%">
-      <a-divider style="margin-bottom: 0px"></a-divider>
-      <div style="display: flex;justify-content: space-between;width: 100%">
-        <a-space>
-          <a-button>Import</a-button>
-          select {{selectedKeys.length}} records
-        </a-space>
-        <a-space>
-          <a-tooltip content="驳回" >
-            <delete-button></delete-button>
-          </a-tooltip>
-          <a-button>
-            <template #icon>
-              <icon-download />
-            </template>
-            Download
-          </a-button>
-        </a-space>
-      </div>
-      <application-table  v-model:rows="selectedKeys" :select="true"></application-table>
+  <search-skeleton>
+    <template v-slot:header-right>
+      <a-input-search :style="{width:'320px'}" placeholder="Please enter something"/>
+  </template>
+    <template v-slot:header-left>
+      <a-tabs type="rounded" size="mini" v style="margin-bottom: -20px">
+        <a-tab-pane key="0" title="全部">
+        </a-tab-pane>
+        <a-tab-pane key="1" title="待审批">
+        </a-tab-pane>
+        <a-tab-pane key="2" title="驳回">
+        </a-tab-pane>
+        <a-tab-pane key="3" title="通过">
+        </a-tab-pane>
+      </a-tabs>
+    </template>
+    <template v-slot:table>
+      <application-table v-model:rows="selectedKeys" :select="batch"></application-table>
 
       <div style="display: flex; justify-content: right">
-        <a-pagination :total="50" size="medium" show-total show-jumper show-page-size />
+        <a-pagination :total="50" size="medium" show-total show-jumper show-page-size/>
       </div>
+    </template>
 
-    </a-space>
-  </a-card>
+    <template v-slot:search-option>
+      <a-grid  style="width: 100%" :cols="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl:4}" :colGap=22 :rowGap="16" >
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              经费编号:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              经费名称:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              课题组:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              申请日期:
+            </a-col>
+            <a-col :span="16">
+              <a-range-picker/>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              金额:
+            </a-col>
+            <a-col :span="16">
+              <a-space>
+                <a-input  placeholder="first" />
+                -
+                <a-input  placeholder="second" />
+              </a-space>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              经办人:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              支出类别一级:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              支出类别二级:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              经费状态:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              模糊搜索:
+            </a-col>
+            <a-col :span="16">
+              <a-input></a-input>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              排序:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              升序降序:
+            </a-col>
+            <a-col :span="16">
+              <a-switch>
+                <template #checked>
+                  升序
+                </template>
+                <template #unchecked>
+                  降序
+                </template>
+              </a-switch>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+
+
+      </a-grid>
+    </template>
+  </search-skeleton>
 </template>
 
 <script>
 import deleteButton from "@/components/operation/delete-button"
 import checkButton from '@/components/operation/check-button'
 import applicationTable from '@/components/application/application-table'
+import searchSkeleton from '@/components/operation/search-skeleton'
 
 export default {
   name: "index",
-  components:{
+  components: {
     deleteButton,
     checkButton,
-    applicationTable
+    applicationTable,
+    searchSkeleton
   },
-  data(){
-    return{
-      selectedKeys:['1'],
+
+  data() {
+    return {
+      // selectedKeys: ['1'],
+      batch: false,
+      advance: false,
     }
   },
-  methods: {
-  }
 }
 </script>
 
 <style scoped>
+
 </style>

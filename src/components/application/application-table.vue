@@ -71,16 +71,19 @@ export default {
     checkButton,
     deleteButton,
   },
-  mounted() {
-    console.log(this.$route.path.substring(1).split('/')[0])
-  },
+
   props:{
-    select:false,
+    select:true,
     rows:[],
   },
   watch:{
     selectedKeys(value){
       this.$emit('update:rows', value)
+    },
+  },
+  computed:{
+    rowSelection(){
+      return this.select? {type: 'checkbox', showCheckedAll: true,}:null
     }
   },
   data(){
@@ -121,10 +124,19 @@ export default {
         group: 'dsafsa',
         num: 2141,
         category: '办公费',
+      }, {
+        key: '3',
+        id: 424,
+        name: 'Jfsae Doe',
+        state: 'underway',
+        group: 'dsafsa',
+        num: 2141,
+        category: '办公费',
       }
+
       ],
       selectedKeys:this.rows,
-      rowSelection: this.select? {type: 'checkbox', showCheckedAll: true,}:null,
+      // rowSelection: this.select? {type: 'checkbox', showCheckedAll: true,}:null,
       selectedRecord:'',
       visible:false,
     }
