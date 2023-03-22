@@ -47,6 +47,7 @@ def createAccount():
             'data': None
         }
     accounts.append({
+        'key': name,
         'name': name,
         'group': group,
         'email': email,
@@ -91,6 +92,46 @@ def getAllGroupName():
         'code': 200,
         'msg': '',
         'data': [group['name'] for group in groups]
+    }
+
+@app.route('/getUsers', methods=['GET'])
+def getUsers():
+    args = request.args
+    id = args.get('key', default=None)
+    name = args.get('name', default=None)
+    email = args.get('email', default=None)
+    phone = args.get('phone', default=None)
+    pageSize = args.get('pageSize', default=None, type=int)
+    page = args.get('page', default=None, type=int)
+
+    result = []
+    for account in accounts:
+        if id and account['key'] != id: continue
+        if name and account['name'] != name: continue
+        if email and account['email'] != email: continue
+        if phone and account['phone'] != phone: continue
+        result.append(account)
+    return {
+        'code': 200,
+        'msg': '',
+        'data': {
+            'users': result[(page-1)*pageSize : min(page*pageSize,len(result))],
+            'total': len(result)
+        }
+    }
+
+@app.route('/deleteUsers', methods=['POST'])
+def deleteUsers():
+    ids = request.json
+    for id in ids:
+        for account in accounts:
+            if account['key'] == id:
+                accounts.remove(account)
+                break
+
+    return {
+        'code': 200,
+        'msg': '删除成功',
     }
 
 if __name__ == '__main__':

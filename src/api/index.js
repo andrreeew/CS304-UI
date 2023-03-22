@@ -16,7 +16,13 @@ const api={
     },
     getAllGroupName() {
         return request.get(BACKEND_URL + '/getAllGroupName')
-    }
+    },
+    getUsers(params) {
+        return request.get(BACKEND_URL+ '/getUsers', {params: params})
+    },
+    deleteUsers(ids) {
+        return request.post(BACKEND_URL + '/deleteUsers', ids)
+    },
 }
 
 export default api

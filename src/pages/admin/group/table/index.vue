@@ -7,13 +7,11 @@
         </a-grid-item>
       </a-grid>
 
-
-
-
       <div style="display: flex; justify-content: right">
         <a-pagination :total="50" size="medium" show-total show-jumper show-page-size />
       </div>
     </template>
+
     <template v-slot:header-left>
       <a-button type="primary" @click="$router.push({name:'admin-group-new'})">
         <template #icon>
@@ -113,35 +111,6 @@ export default {
   },
   data(){
     return{
-      dayjs,
-      columns:[
-        {title: 'ID', dataIndex: 'id',  width: 180 },
-        {title: '用户名', dataIndex: 'name', width: 180 },
-        {title: '邮箱', dataIndex: 'email', width: 150 },
-        {title: '手机号', dataIndex: 'phone', width: 150 },
-        {title: '操作', slotName: 'optional', fixed: 'right', width:160},
-      ],
-      data:[{
-        key: '1',
-        id: 14224,
-        name: 'Jane Doe',
-        email: 490,
-        phone: 123456,
-      }, {
-        key: '2',
-        id: 24141,
-        name: 'Alisa Ross',
-        email: 490,
-        phone: 53252,
-      }],
-      selectedKeys:[],
-      rowSelection:{
-        type: 'checkbox',
-        showCheckedAll: true,
-      },
-      selectedRecord:'',
-      visible:false,
-
     }
   },
   methods: {

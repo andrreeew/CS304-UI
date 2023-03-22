@@ -4,7 +4,6 @@
       <a-card :bordered="false"  title="个人信息">
         <a-descriptions :data="userInfo"  size="large" :column="{xs:1, lg:2}"/>
       </a-card>
-
     </a-card>
 
     <a-card>
@@ -65,15 +64,13 @@
       <application-table style="margin-bottom: 20px"></application-table>
       </a-card>
     </a-card>
-
-
-
   </a-space>
 </template>
 
 <script>
 import applicationTable from '@/components/application/application-table'
 import groupCard from '@/components/group/group-card'
+import api from "@/api"
 
 export default {
   name: "index",
@@ -85,20 +82,27 @@ export default {
     return{
       visible: false,
       userInfo:[
-        {label: 'ID', value: this.$route.params.user},
-        {label: '用户名', value: '李明'},
-        {label: '邮箱', value: '12343214@qq.com'},
-        {label: '手机号', value: 2424124124}
+        {label: 'ID', value: ''},
+        {label: '用户名', value: ''},
+        {label: '邮箱', value: ''},
+        {label: '手机号', value: ''}
       ],
-      groups:[
-        {value: 'li', label: 'Li'},
-        {value: 'fang', label: 'Fang'}
-      ],
+      groups:[],
       form:{
         group:[],
         admin:[],
       },
     }
+  },
+  created(){
+    api.getUsers({key:this.$route.params.user,pageSize:1,page:1}).then(res => {
+      let info = res.data.data.users[0]
+      this.userInfo[0].value = info.key
+      this.userInfo[1].value = info.name
+      this.userInfo[2].value = info.email
+      this.userInfo[3].value = info.phone
+      this.groups = info.group
+    })
   }
 }
 </script>
