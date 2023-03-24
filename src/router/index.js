@@ -28,7 +28,13 @@ const routes = [
       {
         path: 'admin',
         name: 'admin',
+        redirect: {name:'admin-home'},
         children: [
+          {
+            path: '',
+            name: 'admin-home',
+            component: () => import('../pages/admin/home')
+          },
           {
             path: 'account',
             name: 'admin-account',
@@ -116,7 +122,13 @@ const routes = [
       {
         path: 'user',
         name: 'user',
+        redirect: {name:'user-home'},
         children: [
+          {
+            path: '',
+            name: 'user-home',
+            component: ()=>import('../pages/user/home')
+          },
             {
               path: 'application',
               name: 'user-application',

@@ -1,7 +1,7 @@
 <template>
   <search-skeleton>
     <template v-slot:table>
-      <a-grid :cols="{ lg: 2, mg:4}" :colGap="20" :rowGap="16" >
+      <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 2, xl:2, xxl:3}" :colGap="20" :rowGap="16" >
         <a-grid-item span="1" v-for="i in 5">
           <group-card></group-card>
         </a-grid-item>

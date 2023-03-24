@@ -9,6 +9,10 @@
         @menu-item-click="jumpTo"
         @collapse="setMenuCollapse(!getMenuCollapse)"
     >
+      <a-menu-item key="home">
+        <template #icon><icon-apps></icon-apps></template>
+        主页
+      </a-menu-item>
       <a-menu-item key="account">
         <template #icon><icon-apps></icon-apps></template>
         账号
@@ -46,6 +50,10 @@
 <!--        </a-menu-item>-->
 <!--      </a-sub-menu>-->
       <a-menu-item>
+        <a-menu-item key="home">
+          <template #icon><icon-apps></icon-apps></template>
+          主页
+        </a-menu-item>
         <a-menu-item key="application">
           <template #icon><icon-apps></icon-apps></template>
           申请
