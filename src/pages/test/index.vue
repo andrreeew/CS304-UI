@@ -1,30 +1,24 @@
 <template>
-  <a-card>
-    <e-charts ref="myChart" style="height: 300px"></e-charts>
-  </a-card>
+  <group-card v-for="group in groups" :name="group.name" :total="group.total" :cost="group.cost"
+              :left="group.id" >
+  </group-card>
 </template>
 
 <script>
+import groupCard from '@/components/group/group-card'
+
 export default {
   name: "index",
-
+  components:{
+    groupCard
+  },
   data(){
     return{
-      option:{
-        xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            data: [150, 230, 224, 218, 135, 147, 260],
-            type: 'line'
-          }
-        ]
-      }
+      groups:[
+        {id: 42, name: 'Zha', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity:true},
+        {id: 42, name: 'Zhang', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity:false},
+        {id: 42, name: 'Zha', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity: false},
+      ],
     }
   },
 

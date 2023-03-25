@@ -9,10 +9,7 @@
     <template #optional="{ rowIndex }">
       <a-space>
         <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:13, groupId: 42}})">view</a-button>
-        <a-button @click="data.splice(rowIndex, 1)"
-                  status="danger">
-          <icon-delete />
-        </a-button>
+          <delete-button @click="data.splice(rowIndex, 1)"></delete-button>
       </a-space>
 
     </template>
@@ -34,8 +31,13 @@
 </template>
 
 <script>
+import deleteButton from '@/components/operation/delete-button'
+
 export default {
   name: "fund-table",
+  components:{
+    deleteButton
+  },
   data(){
     return{
       visible: false,
@@ -52,7 +54,7 @@ export default {
         {title: '经费余额', dataIndex: 'left'},
         {title: '执行率', dataIndex: 'percent'},
         {title: '是否达标', slotName: 'complete',},
-        {title: '操作', slotName: 'optional', fixed: 'right'},
+        {title: '操作', slotName: 'optional', fixed: 'right', width:175},
       ],
       data:[{
         complete: true,

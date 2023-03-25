@@ -5,11 +5,15 @@
       <div class="head" v-if="advance">
         <a-space >
           <slot name="search-option"></slot>
+
           <a-divider direction="vertical" style="height: 84px"></a-divider>
+
           <a-space direction="vertical">
             <a-button type="primary" @click="this.$emit('search')">查询</a-button>
             <a-button @click="this.$emit('clear')">清空</a-button>
           </a-space>
+
+
         </a-space>
         <a-divider style="margin-bottom: -8px"></a-divider>
       </div>

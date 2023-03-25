@@ -8,7 +8,11 @@
           <a-tag v-if="item.admin" color="arcoblue">管理员</a-tag>
 
         </a-space>
+
+        <a-space>
         <a-button @click="item.admin=!item.admin">修改权限</a-button>
+        <delete-button></delete-button>
+        </a-space>
       </div>
 
     </a-list-item>
@@ -36,8 +40,13 @@
 </template>
 
 <script>
+import deleteButton from '@/components/operation/delete-button'
+
 export default {
   name: "account-list",
+  components:{
+    deleteButton
+  },
   data(){
     return{
       visible: false,

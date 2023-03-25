@@ -3,7 +3,13 @@
     <template v-slot:table>
       <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 2, xl:2, xxl:3}" :colGap="20" :rowGap="16" >
         <a-grid-item span="1" v-for="i in 5">
-          <group-card></group-card>
+          <group-card>
+            <template v-slot:operation>
+              <a-tooltip content="移除该组">
+                <delete-button></delete-button>
+              </a-tooltip>
+            </template>
+          </group-card>
         </a-grid-item>
       </a-grid>
 
@@ -101,13 +107,15 @@
 import dayjs from 'dayjs'
 import groupCard from '@/components/group/group-card'
 import searchSkeleton from '@/components/operation/search-skeleton'
+import deleteButton from '@/components/operation/delete-button'
 
 
 export default {
   name: "index",
   components:{
     groupCard,
-    searchSkeleton
+    searchSkeleton,
+    deleteButton
   },
   data(){
     return{

@@ -8,16 +8,60 @@
 
     <a-card>
       <a-card :bordered="false" title="所属课题组">
-      <a-space direction="vertical" style="width: 100%" size="medium">
-        <group-card v-for="i in 2"></group-card>
-        <a-card hoverable>
-          <div style="display: flex; justify-content: center">
-            <a-button shape="circle" @click="visible=true">
-              <icon-plus></icon-plus>
-            </a-button>
-          </div>
-        </a-card>
-      </a-space>
+        <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 2, xl:2, xxl:3}" :colGap="20" :rowGap="16" >
+          <a-grid-item span="1" v-for="group in groups">
+            <group-card :name="group.name" :total="group.total" :cost="group.cost"
+                        :left="group.id" >
+              <template v-slot:extra>
+                <a-tag v-if="group.identity" color="arcoblue">管理员</a-tag>
+              </template>
+
+              <template v-slot:operation>
+                <a-space>
+                  <a-button>
+                    修改权限
+                  </a-button>
+                <a-tooltip content="将该人移除该组">
+                  <delete-button></delete-button>
+                </a-tooltip>
+                </a-space>
+              </template>
+
+            </group-card>
+
+          </a-grid-item>
+
+          <a-grid-item>
+            <a-card hoverable style="display: flex; justify-content: center; align-items: center;height: 148px">
+
+              <a-button shape="circle" @click="visible=true">
+                <icon-plus></icon-plus>
+              </a-button>
+            </a-card>
+          </a-grid-item>
+
+        </a-grid>
+<!--      <a-space direction="vertical" style="width: 100%" size="medium">-->
+<!--        <group-card v-for="i in 2">-->
+<!--          <template v-slot:extra>-->
+<!--            <a-tag color="arcoblue">管理员身份</a-tag>-->
+<!--          </template>-->
+<!--          <template v-slot:operation>-->
+<!--            <a-button>修改权限</a-button>-->
+<!--            <a-tooltip content="将该用户移除该组">-->
+<!--              <delete-button></delete-button>-->
+<!--            </a-tooltip>-->
+
+<!--          </template>-->
+<!--        </group-card>-->
+<!--        <a-card hoverable>-->
+<!--          <div style="display: flex; justify-content: center">-->
+<!--            <a-button shape="circle" @click="visible=true">-->
+<!--              <icon-plus></icon-plus>-->
+<!--            </a-button>-->
+<!--          </div>-->
+<!--        </a-card>-->
+<!--      </a-space>-->
       </a-card>
 
       <a-modal v-model:visible="visible" title="加入课题组">
@@ -71,10 +115,12 @@
 import applicationTable from '@/components/application/application-table'
 import groupCard from '@/components/group/group-card'
 import api from "@/api"
+import DeleteButton from "@/components/operation/delete-button";
 
 export default {
   name: "index",
   components:{
+    DeleteButton,
     applicationTable,
     groupCard,
   },
@@ -87,7 +133,12 @@ export default {
         {label: '邮箱', value: ''},
         {label: '手机号', value: ''}
       ],
-      groups:[],
+
+      groups:[
+        {id: 42, name: 'Zha', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity:true},
+        {id: 42, name: 'Zhang', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity:false},
+        {id: 42, name: 'Zha', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity: false},
+      ],
       form:{
         group:[],
         admin:[],
@@ -101,7 +152,7 @@ export default {
       this.userInfo[1].value = info.name
       this.userInfo[2].value = info.email
       this.userInfo[3].value = info.phone
-      this.groups = info.group
+      // this.groups = info.group
     })
   }
 }
