@@ -1,20 +1,18 @@
 <template>
   <a-list :bordered="false">
-    <a-list-item v-for="item in members">
+    <a-list-item v-for="item in data.users">
       <div style="display: flex;justify-content: space-between">
         <a-space size="medium">
           <a-avatar :size=35>L</a-avatar>
           <a-link style="margin-left: -10px">{{item.name}}</a-link>
           <a-tag v-if="item.admin" color="arcoblue">管理员</a-tag>
-
         </a-space>
 
         <a-space>
-        <a-button @click="item.admin=!item.admin">修改权限</a-button>
-        <delete-button></delete-button>
+        <a-button @click="changeUserAdmin(item)">修改权限</a-button>
+        <delete-button @click="deleteUser(item)"></delete-button>
         </a-space>
       </div>
-
     </a-list-item>
     <a-list-item >
       <div style="display: flex;justify-content: center">
@@ -23,17 +21,17 @@
         </a-button>
       </div>
     </a-list-item>
-    <a-modal v-model:visible="visible" title="添加成员">
+    <a-modal v-model:visible="visible" @ok="addUsers" @cancel="clearForm" title="添加成员">
       <a-form>
         <a-form-item label="添加成员">
-      <a-select v-model="form.account" multiple>
-        <a-option v-for="item in accounts">{{item.label}}</a-option>
-      </a-select>
+          <a-select v-model="form.account" multiple>
+            <a-option v-for="item in accounts">{{item}}</a-option>
+          </a-select>
         </a-form-item>
-      <a-form-item  label="管理员权限">
-        <a-checkbox-group v-model="form.admin" :options="form.account">
-        </a-checkbox-group>
-      </a-form-item>
+        <a-form-item label="管理员权限">
+          <a-checkbox-group v-model="form.admin" :options="form.account">
+          </a-checkbox-group>
+        </a-form-item>
       </a-form>
     </a-modal>
   </a-list>
@@ -41,19 +39,20 @@
 
 <script>
 import deleteButton from '@/components/operation/delete-button'
+import api from "@/api"
+import {Message} from '@arco-design/web-vue'
 
 export default {
   name: "account-list",
   components:{
     deleteButton
   },
+  props:{
+    groupData: Object
+  },
   data(){
     return{
       visible: false,
-      members:[
-        {id:124, name:'Li', admin:true},
-        {id:14, name:'fsa', admin:false},
-      ],
       accounts:[
         {value: 'li', label: 'Li'},
         {value: 'fang', label: 'Fang'}
@@ -62,7 +61,62 @@ export default {
         account:[],
         admin:[],
       },
+      data: this.groupData
     }
+  },
+  methods: {
+    getAllAccounts(){
+      api.getUsersNotInGroup(this.data.name).then(res => {
+        if (res.data.code == 200) {
+          this.accounts = res.data.data
+        }
+      })
+    },
+    changeUserAdmin(user){
+      api.changeGroupUserAdmin(this.data.name, user.name).then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+          this.data = res.data.data
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
+    },
+    deleteUser(user){
+      api.deleteGroupUser(this.data.name, user.name).then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+          this.data = res.data.data
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
+    },
+    addUsers(){
+      api.addGroupUsers(this.form).then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+          this.data = res.data.data
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
+      this.clearForm()
+    },
+    clearForm(){
+      this.form.account = []
+      this.form.admin = []
+    }
+  },
+  watch:{
+    groupData(newVal, oldVal){
+      this.data = newVal
+    },
+    data(newVal, oldVal){
+      this.getAllAccounts()
+    }
+  },
+  created(){
   }
 }
 </script>

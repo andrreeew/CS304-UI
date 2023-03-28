@@ -2,11 +2,11 @@
   <search-skeleton>
     <template v-slot:table>
       <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 2, xl:2, xxl:3}" :colGap="20" :rowGap="16" >
-        <a-grid-item span="1" v-for="i in 5">
-          <group-card>
+        <a-grid-item span="1" v-for="i in groups">
+          <group-card :info="i">
             <template v-slot:operation>
               <a-tooltip content="移除该组">
-                <delete-button></delete-button>
+                <delete-button @click="deleteGroup(i.id)"></delete-button>
               </a-tooltip>
             </template>
           </group-card>
@@ -14,7 +14,17 @@
       </a-grid>
 
       <div style="display: flex; justify-content: right">
-        <a-pagination :total="50" size="medium" show-total show-jumper show-page-size />
+        <a-pagination 
+          v-model:current="current" 
+          :total="total" 
+          :page-size="searchArgs.pageSize" 
+          :page-size-options="[searchArgs.pageSize]" 
+          size="medium" 
+          show-total 
+          show-jumper 
+          show-page-size 
+          @change="changePage()"
+        />
       </div>
     </template>
 
@@ -96,18 +106,17 @@
           </a-row>
         </a-grid-item>
 
-
-
       </a-grid>
     </template>
   </search-skeleton>
 </template>
 
 <script>
-import dayjs from 'dayjs'
 import groupCard from '@/components/group/group-card'
 import searchSkeleton from '@/components/operation/search-skeleton'
 import deleteButton from '@/components/operation/delete-button'
+import api from "@/api"
+import {Message} from '@arco-design/web-vue'
 
 
 export default {
@@ -119,12 +128,39 @@ export default {
   },
   data(){
     return{
+      groups: [],
+      searchArgs: {
+        id: null,
+        pageSize: 3,
+        page: 1
+      },
+      total: 0,
+      current: 1,
     }
   },
   methods: {
-    showDetail(record){
-      this.$router.push({name:'account-detail', params:{user:record.id}})
+    changePage(){
+      this.searchArgs.page = this.current
+      this.searchGroups()
+    },
+    deleteGroup(id){
+      api.deleteGroup(id).then(res => {
+        Message.success(res.data.msg)
+        this.changePage()
+      })
+    },
+    searchGroups(){
+      api.getGroups(this.searchArgs).then(res => {
+        this.groups = res.data.data.groups
+        this.total = res.data.data.total
+      })
+    },
+    clear(){
+      this.searchArgs.id = null
     }
+  },
+  created(){
+    this.changePage()
   }
 }
 </script>

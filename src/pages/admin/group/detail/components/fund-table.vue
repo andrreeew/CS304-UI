@@ -6,12 +6,11 @@
       <a-tag v-else color="arcoblue">否</a-tag>
     </template>
 
-    <template #optional="{ rowIndex }">
+    <template #optional="{ record }">
       <a-space>
-        <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:13, groupId: 42}})">view</a-button>
-          <delete-button @click="data.splice(rowIndex, 1)"></delete-button>
+        <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:record.fundId, groupId: groupId}})">view</a-button>
+          <delete-button @click="deleteFund(record.fundId)"></delete-button>
       </a-space>
-
     </template>
   </a-table>
 
@@ -32,11 +31,16 @@
 
 <script>
 import deleteButton from '@/components/operation/delete-button'
+import api from "@/api"
+import {Message} from '@arco-design/web-vue'
 
 export default {
   name: "fund-table",
   components:{
     deleteButton
+  },
+  props:{
+    groupId: Number
   },
   data(){
     return{
@@ -64,23 +68,31 @@ export default {
         cost: 242,
         left: 155,
         percent: 241,
-      }, {
-        complete: true,
-        fund: 'dsafsa',
-        total: 2141,
-        cost: 242,
-        left: 155,
-        percent: 241,
-      }, {
-        complete: false,
-        fund: 'dsafsa',
-        total: 2141,
-        cost: 242,
-        left: 155,
-        percent: 241,
-      }
-      ]
+      }]
     }
+  },
+  methods:{
+    deleteFund(fundId){
+      api.deleteGroupFund(this.groupId, fundId).then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+          this.data = res.data.data
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
+    }
+  },
+  watch:{
+    groupId(newVal, oldVal){
+      api.getFundInfoByGroup(newVal).then(res => {
+        if (res.data.code == 200) {
+          this.data = res.data.data
+        }
+      })
+    }
+  },
+  created(){
   }
 }
 </script>

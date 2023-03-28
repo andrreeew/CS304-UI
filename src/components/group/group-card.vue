@@ -5,19 +5,19 @@
         <a-avatar :size="32" :style="{ backgroundColor: '#3370ff' }">
           <IconUser />
         </a-avatar>
-        <a-link  @click="$router.push({name:'admin-group-detail', params:{groupId:23414}})" style="font-size: 20px">
-          {{name}}
+        <a-link  @click="$router.push({name:'admin-group-detail', params:{groupId:info.id}})" style="font-size: 20px">
+          {{info.name}}
         </a-link>
         <slot name="extra"></slot>
 
 <!--        <a-tag v-if="identity==='user'" color="arcoblue">管理员身份</a-tag>-->
       </a-space>
       <div>
-        总金额：{{total}} 已使用金额：{{cost}} 剩余金额：{{left}}
+        总金额：{{info.total}} 已使用金额：{{info.cost}} 剩余金额：{{info.left}}
       </div>
       <div style="display: flex; justify-content: space-between">
         <a-avatar-group :size="32">
-          <a-avatar v-for="item in member">{{item[0]}}</a-avatar>
+          <a-avatar v-for="item in info.users">{{item.name}}</a-avatar>
         </a-avatar-group>
         <a-space>
 
@@ -39,12 +39,14 @@ export default {
     deleteButton,
   },
   props:{
-    id: {default:1244},
-    name: {default:'Zhang'},
-    total: {default:129},
-    cost: {default:21},
-    left: {default:14},
-    member: {default:['ABC', 'BSET', 'BSET', 'BSET']}
+    info: {
+      id: '',
+      name: '',
+      total: 0,
+      cost: 0,
+      left: 0,
+      users: []
+    }
   },
   data(){
     return{

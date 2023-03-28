@@ -13,7 +13,7 @@
     </a-card>
     <a-card>
       <a-card :bordered="false" title="分得经费">
-      <fund-table></fund-table>
+      <fund-table :groupId="groupData.id"></fund-table>
       </a-card>
     </a-card>
   </a-space>
@@ -21,7 +21,7 @@
     <a-grid-item :span="1">
       <a-card>
         <a-card title="人员" :bordered="false">
-          <account-list></account-list>
+          <account-list v-model:groupData="groupData"></account-list>
         </a-card>
       </a-card>
     </a-grid-item>
@@ -32,6 +32,7 @@
 import fundTable from '@/pages/admin/group/detail/components/fund-table'
 import fundNum from '@/pages/admin/group/detail/components/fund-num'
 import accountList from '@/pages/admin/group/detail/components/account-list'
+import api from "@/api"
 
 export default {
   name: "index",
@@ -43,10 +44,17 @@ export default {
   data(){
     return{
       groupInfo:[
-        {label: '课题组', value: '李明'},
-        {label: '创建日期', value: '李明'},
-      ]
+        {label: '课题组名', value: ''},
+        // {label: '创建日期', value: ''},
+      ],
+      groupData: {}
     }
+  },
+  created(){
+    api.getGroups({id:this.$route.params.groupId,pageSize:1,page:1}).then(res => {
+      this.groupData = res.data.data.groups[0]
+      this.groupInfo[0].value = this.groupData.name
+    })
   }
 }
 </script>

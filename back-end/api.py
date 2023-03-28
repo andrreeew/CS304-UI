@@ -51,7 +51,8 @@ def createAccount():
         'name': name,
         'group': group,
         'email': email,
-        'phone': phone
+        'phone': phone,
+        'admin': False
     })
     return {
         'code': 200,
@@ -69,8 +70,12 @@ def createGroup():
             'data': None
         }
     groups.append({
+        'id': name,
         'name': name,
-        'users': users
+        'total': 20,
+        'cost': 10,
+        'left': 10,
+        'users': [{'name': user, 'admin': False} for user in users]
     })
     return {
         'code': 200,
@@ -132,6 +137,150 @@ def deleteUsers():
     return {
         'code': 200,
         'msg': '删除成功',
+    }
+
+@app.route('/getGroups', methods=['GET'])
+def getGroups():
+    args = request.args
+    id = args.get('id', default=None)
+    pageSize = args.get('pageSize', default=None, type=int)
+    page = args.get('page', default=None, type=int)
+
+    result = []
+    for group in groups:
+        if id and group['id'] != id: continue
+        result.append(group)
+    return {
+        'code': 200,
+        'msg': '',
+        'data': {
+            'groups': result[(page-1)*pageSize : min(page*pageSize,len(result))],
+            'total': len(result)
+        }
+    }
+
+@app.route('/deleteGroup', methods=['POST'])
+def deleteGroup():
+    id = request.json['id']
+    print(id)
+    for group in groups:
+        if group['id'] == id:
+            groups.remove(group)
+            break
+
+    return {
+        'code': 200,
+        'msg': '删除成功',
+    }
+
+@app.route('/changeGroupUserAdmin', methods=['POST'])
+def changeGroupUserAdmin():
+    group, user = request.json['group'], request.json['user']
+    print('changeGroupUserAdmin')
+    print(group)
+    print(user)
+    return {
+        'code':200,
+        'msg': '添加用户成功',
+        'data': {
+            'id': 'changeGroupUserAdmin',
+            'name': 'changeGroupUserAdmin',
+            'total': 20,
+            'cost': 10,
+            'left': 10,
+            'users': [{'name': 'changeGroupUserAdmin1', 'admin': False}, {'name': 'user2', 'admin': True}]
+        }
+    }
+       
+@app.route('/deleteGroupUser', methods=['POST'])
+def deleteGroupUser():
+    group, user = request.json['group'], request.json['user']
+    print('deleteGroupUser')
+    print(group)
+    print(user)
+    return {
+        'code':200,
+        'msg': '添加用户成功',
+        'data': {
+            'id': 'deleteGroupUser',
+            'name': 'deleteGroupUser',
+            'total': 20,
+            'cost': 10,
+            'left': 10,
+            'users': [{'name': 'deleteGroupUser1', 'admin': False}, {'name': 'user2', 'admin': True}]
+        }
+    }
+
+@app.route('/addGroupUsers', methods=['POST'])
+def addGroupUsers():
+    users, admin = request.json['account'], request.json['admin']
+    print('addGroupUsers')
+    print(users)
+    print(admin)
+    return {
+        'code':200,
+        'msg': '添加用户成功',
+        'data': {
+            'id': 'addGroupUser',
+            'name': 'addGroupUser',
+            'total': 20,
+            'cost': 10,
+            'left': 10,
+            'users': [{'name': 'addGroupUser1', 'admin': False}, {'name': 'user2', 'admin': True}]
+        }
+    }
+
+@app.route('/getUsersNotInGroup', methods=['GET'])
+def getUsersNotInGroup():
+    args = request.args
+    groupName = args.get('groupName')
+    print('getUsersNotInGroup')
+    print(groupName)
+    return {
+        'code':200,
+        'msg': '',
+        'data': ['user1', 'user2', 'usernotingroup']
+    }
+
+
+@app.route('/getFundInfoByGroup', methods=['GET'])
+def getFundInfoByGroup():
+    args = request.args
+    groupId = args.get('groupId')
+    print('getFundInfoByGroup')
+    print(groupId)
+    return {
+        'code':200,
+        'msg': '',
+        'data': [{
+            'complete': True,
+            'fundId': 14,
+            'fund': 'dsafsa',
+            'total': 2141,
+            'cost': 242,
+            'left': 155,
+            'percent': 241,
+        }]
+    }
+
+@app.route('/deleteGroupFund', methods=['POST'])
+def deleteGroupFund():
+    groupId, fundId = request.json['groupId'], request.json['fundId']
+    print('deleteGroupFund')
+    print(groupId)
+    print(fundId)
+    return {
+        'code':200,
+        'msg': '删除成功',
+        'data': [{
+            'complete': True,
+            'fundId': 114514,
+            'fund': 'deleteGroupFund',
+            'total': 2141,
+            'cost': 242,
+            'left': 155,
+            'percent': 241,
+        }]
     }
 
 if __name__ == '__main__':

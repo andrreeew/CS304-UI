@@ -35,7 +35,7 @@ export default {
     return{
       form: {
         name : '',
-        users: '',
+        users: [],
       },
       all_users:[],
     }
