@@ -7,11 +7,8 @@
 
     <template #optional="{ rowIndex }">
       <a-space>
-        <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:13, groupId: 42}})">view</a-button>
-        <a-button @click="data.splice(rowIndex, 1)"
-                  status="danger">
-          <icon-delete />
-        </a-button>
+        <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:13, groupId: 42}})">查看</a-button>
+        <delete-button @click="data.splice(rowIndex, 1)"></delete-button>
       </a-space>
 
     </template>
@@ -34,10 +31,14 @@
 </template>
 
 <script>
+import deleteButton from '@/components/operation/delete-button'
 
 
 export default {
   name: "group-table",
+  components:{
+    deleteButton
+  },
   data(){
     return{
       visible: false,

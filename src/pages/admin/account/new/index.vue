@@ -1,5 +1,6 @@
 <template>
   <a-card style="width: 100%; display: flex; justify-content: center;" >
+    <a-spin :loading="loading">
     <a-space direction="vertical" style="margin-top: -5px">
       <a-typography-title :heading="4">创建用户</a-typography-title>
       <a-divider style="margin-top: -10px"></a-divider>
@@ -28,6 +29,7 @@
         </a-form-item>
       </a-form>
     </a-space>
+    </a-spin>
   </a-card>
   <div class="operation">
     <a-space style="margin-right: 10px">
@@ -41,11 +43,13 @@
 import api from "@/api"
 import {Message} from '@arco-design/web-vue'
 import router from "@/router"
+import {mapMutations} from 'vuex'
 
 export default {
   name: "index",
   data(){
     return{
+      loading : false,
       form: {
         name : '',
         group: '',
@@ -60,6 +64,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setRoutes']),
     clearForm(){
       for (let key in this.form){
         this.form[key] = ''
@@ -70,8 +75,9 @@ export default {
       this.phoneHelp = ''
     },
     submitForm() {
+      this.loading=true
       api.createAccount(this.form).then(res => {
-        if (res.data.code == 200) {
+        if (res.data.code === 200) {
           Message.success(res.data.msg)
           router.push({name:'admin-account'})
         } else {
@@ -82,7 +88,7 @@ export default {
   },
   watch: {
     'form.email'(){
-      if (this.form.email != '') {
+      if (this.form.email !== '') {
         var reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(com|cn|net)$/
         if (!reg.test(this.form.email)) {
           this.emailStatus = 'error'
@@ -94,9 +100,9 @@ export default {
       }
     },
     'form.phone'(){
-      if (this.form.phone != '') {
+      if (this.form.phone !== '') {
         var reg = /[0-9]{11}/
-        if (!reg.test(this.form.phone) || this.form.phone.length != 11) {
+        if (!reg.test(this.form.phone) || this.form.phone.length !== 11) {
           this.phoneStatus = 'error'
           this.phoneHelp = 'Please input a valid phone number!'
         } else {
@@ -108,10 +114,11 @@ export default {
   },
   computed: {
     canSubmit() {
-      return !(this.emailStatus == 'success' && this.phoneStatus == 'success' && this.form.name != '')
+      return !(this.emailStatus==='success' && this.phoneStatus=== 'success' && this.form.name !=='' && !this.loading)
     }
   },
   created() {
+    this.setRoutes([{label:'账号', name:'admin-account'}, {label: '创建账号', name:'admin-account-new'}])
     api.getAllGroupName().then(res => {
       this.groups = res.data.data
     })

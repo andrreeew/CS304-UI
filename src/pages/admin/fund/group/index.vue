@@ -98,7 +98,7 @@
 </template>
 
 <script>
-
+import {mapMutations} from 'vuex'
 
 export default {
   name: "index",
@@ -149,9 +149,13 @@ export default {
 
   },
   methods:{
+    ...mapMutations(['setRoutes']),
     addRecord(){
       this.data.push({category1:'', category2:'', total:0, cost:0, left:0, new:true})
     }
+  },
+  created() {
+    this.setRoutes([{label:'经费', name:'admin-fund'}])
   }
 }
 </script>

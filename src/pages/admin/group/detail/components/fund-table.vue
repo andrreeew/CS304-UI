@@ -8,7 +8,7 @@
 
     <template #optional="{ record }">
       <a-space>
-        <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:record.fundId, groupId: groupId}})">view</a-button>
+        <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:record.fundId, groupId: groupId}})">查看</a-button>
           <delete-button @click="deleteFund(record.fundId)"></delete-button>
       </a-space>
     </template>

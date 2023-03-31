@@ -13,19 +13,19 @@
         <template #icon>
           <icon-check-circle-fill />
         </template>
-        Complete
+        通过
       </a-tag>
       <a-tag v-else-if="record.state==='underway'" color="arcoblue">
         <template #icon>
           <icon-up-circle />
         </template>
-        Underway
+        审批中
       </a-tag>
       <a-tag v-else-if="record.state==='reject'" color="red">
         <template #icon>
           <icon-close-circle-fill />
         </template>
-        Reject
+        驳回
       </a-tag>
     </template>
     <template #date="{ record }">
@@ -33,7 +33,7 @@
     </template>
     <template #optional="{ record }">
       <a-space>
-        <a-button @click="showDetail(record)">view</a-button>
+        <a-button @click="showDetail(record)">查看</a-button>
         <a-tooltip  v-if="identity==='admin'&&record.state==='underway'" content="通过" >
           <check-button></check-button>
         </a-tooltip>

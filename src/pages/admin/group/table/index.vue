@@ -1,19 +1,27 @@
 <template>
   <search-skeleton>
     <template v-slot:table>
-      <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 2, xl:2, xxl:3}" :colGap="20" :rowGap="16" >
+      <a-spin :loading="loading" style="width: 100%">
+      <div v-if="groups.length===0" style="min-height:200px;
+      border-top: 1px solid var(--color-neutral-3);border-bottom: 1px solid var(--color-neutral-3);
+      display: flex; align-items: center">
+        <a-empty />
+      </div>
+
+      <a-grid v-else :cols="{ xs: 1, sm: 1, md: 1, lg: 2, xl:2, xxl:3}" :colGap="20" :rowGap="16" >
         <a-grid-item span="1" v-for="i in groups">
           <group-card :info="i">
             <template v-slot:operation>
-              <a-tooltip content="移除该组">
-                <delete-button @click="deleteGroup(i.id)"></delete-button>
-              </a-tooltip>
+              <a-popconfirm :content="'确认移除 '+i.name +' 组?'" @ok="deleteGroup(i.id)" position="tr">
+                <delete-button></delete-button>
+              </a-popconfirm>
+
             </template>
           </group-card>
         </a-grid-item>
       </a-grid>
 
-      <div style="display: flex; justify-content: right">
+      <div style="display: flex; justify-content: right; margin-top: 20px">
         <a-pagination 
           v-model:current="current" 
           :total="total" 
@@ -26,6 +34,7 @@
           @change="changePage()"
         />
       </div>
+      </a-spin>
     </template>
 
     <template v-slot:header-left>
@@ -40,7 +49,7 @@
       <a-input-search></a-input-search>
     </template>
     <template v-slot:search-option>
-      <a-grid  style="width: 100%" :cols="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl:4}" :colGap=22 :rowGap="16" >
+      <a-grid  style="width: 100%" :cols="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl:4}" :colGap=40 :rowGap="16" >
         <a-grid-item >
           <a-row class="search-item" >
             <a-col :span="8" >
@@ -117,6 +126,7 @@ import searchSkeleton from '@/components/operation/search-skeleton'
 import deleteButton from '@/components/operation/delete-button'
 import api from "@/api"
 import {Message} from '@arco-design/web-vue'
+import {mapMutations} from "vuex";
 
 
 export default {
@@ -128,38 +138,44 @@ export default {
   },
   data(){
     return{
+      loading:false,
       groups: [],
       searchArgs: {
-        id: null,
-        pageSize: 3,
-        page: 1
+        id: this.$route.query.id,
+        pageSize: this.$route.query.pageSize|3,
+        page: this.$route.query.p|1
       },
       total: 0,
       current: 1,
     }
   },
   methods: {
+    ...mapMutations(['setRoutes']),
     changePage(){
+
       this.searchArgs.page = this.current
       this.searchGroups()
     },
     deleteGroup(id){
+      this.loading=true
       api.deleteGroup(id).then(res => {
         Message.success(res.data.msg)
         this.changePage()
-      })
+      }).finally(()=>{this.loading=true})
     },
     searchGroups(){
+      this.loading=true
       api.getGroups(this.searchArgs).then(res => {
         this.groups = res.data.data.groups
         this.total = res.data.data.total
-      })
+      }).finally(()=>{this.loading=false})
     },
     clear(){
       this.searchArgs.id = null
     }
   },
   created(){
+    this.setRoutes([{label:'课题组', name:'admin-group'}])
     this.changePage()
   }
 }
@@ -172,5 +188,8 @@ export default {
 }
 .dl-button:hover {
   color: white;
+}
+.search-item{
+  align-items: baseline
 }
 </style>

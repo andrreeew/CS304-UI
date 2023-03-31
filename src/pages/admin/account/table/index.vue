@@ -8,16 +8,17 @@
           :row-selection="rowSelection"
           :pagination="false"
           :scroll="{x: 1000, y: '100%',}"
+          :loading="loading"
           v-model:selectedKeys="selectedKeys"
       >
         <template #optional="{ record }">
           <a-space>
-            <a-button @click="showDetail(record)">view</a-button>
-            <a-tooltip  content="删除" >
-              <a-button class="delete-button" @click="deleteUsers([record.key])">
-                <icon-delete/>
-              </a-button>
-            </a-tooltip>
+            <a-button @click="showDetail(record)">查看</a-button>
+            <a-popconfirm :content="'确认删除用户'+record.name+'?'" position="tr" @ok="deleteUsers([record.key])">
+                <a-button class="delete-button" >
+                  <icon-delete/>
+                </a-button>
+            </a-popconfirm>
           </a-space>
         </template>
       </a-table>
@@ -44,20 +45,31 @@
           </template>
           创建账号
         </a-button>
-        select {{selectedKeys.length}} accounts
+        选中 {{selectedKeys.length}} 条账号
     </template>
 
     <template v-slot:header-right>
+
       <a-tooltip content="删除选中账号" >
-        <a-button class="delete-button" @click="deleteUsers(selectedKeys)">
-          <icon-delete/>
-        </a-button>
+        <delete-button @click="deleteConfirm()"></delete-button>
+<!--        <a-button class="delete-button" @click="deleteUsers(selectedKeys)">-->
+<!--          <a-button class="delete-button" @click="deleteUsers(selectedKeys)">-->
+<!--          <icon-delete/>-->
+<!--        </a-button>-->
       </a-tooltip>
-      <a-input-search/>
+      <a-modal v-model:visible="visible" title="确认删除" @ok="deleteUsers(selectedKeys)" draggable>
+        <div style="width: 100%; display: flex;justify-content: center">
+          <div>
+            确认删除{{selectedKeys.length}}个用户?
+          </div>
+        </div>
+
+      </a-modal>
+      <a-input-search></a-input-search>
     </template>
 
     <template v-slot:search-option>
-      <a-grid style="width: 100%" :cols="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl:4}" :colGap=22 :rowGap="16" >
+      <a-grid style="width: 100%" :cols="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 4, xxl:4}" :colGap=40 :rowGap="16" >
         <a-grid-item>
           <a-row class="search-item" >
             <a-col :span="8" >
@@ -108,14 +120,20 @@
 import searchSkeleton from '@/components/operation/search-skeleton'
 import api from "@/api"
 import {Message} from '@arco-design/web-vue'
+import deleteButton from '@/components/operation/delete-button'
+import {mapMutations} from "vuex";
+
 
 export default {
   name: "index",
   components:{
-    searchSkeleton
+    searchSkeleton,
+    deleteButton
   },
   data(){
     return{
+      visible:false,
+      loading: true,
       columns:[
         {title: 'ID', dataIndex: 'key',  width: 180 },
         {title: '用户名', dataIndex: 'name', width: 180 },
@@ -132,16 +150,17 @@ export default {
       total: 0,
       current: 1,
       searchArgs: {
-        key: null,
-        name: null,
-        email: null,
-        phone: null,
-        pageSize: 3,
-        page: 1
+        key: this.$route.query.key,
+        name: this.$route.query.name,
+        email: this.$route.query.email,
+        phone: this.$route.query.phone,
+        pageSize: this.$route.query.pageSize|10,
+        page: this.$route.query.p|1
       }
     }
   },
   methods: {
+    ...mapMutations(['setRoutes']),
     showDetail(record){
       this.$router.push({name:'admin-account-detail', params:{user:record.key}})
     },
@@ -149,11 +168,13 @@ export default {
       this.searchArgs.page = this.current
       this.searchUsers()
     },
+
     deleteUsers(ids){
-      if (ids.length == 0) {
+      if (ids.length === 0) {
         Message.error('未选中账号！')
         return
       }
+      this.loading=true
       api.deleteUsers(ids).then(res => {
         Message.success(res.data.msg)
         this.changePage()
@@ -161,19 +182,28 @@ export default {
       this.selectedKeys = []
     },
     searchUsers(){
+      this.loading = true
       api.getUsers(this.searchArgs).then(res => {
         this.data = res.data.data.users
         this.total = res.data.data.total
-      })
+      }).finally(()=>{this.loading=false})
+    },
+    deleteConfirm(){
+      if (this.selectedKeys.length ===0) {
+        Message.error('未选中账号！')
+        return
+      }
+      this.visible=true
     },
     clear(){
       this.searchArgs.key = null
       this.searchArgs.name = null
       this.searchArgs.email = null
       this.searchArgs.phone = null
-    }
+    },
   },
   created() {
+    this.setRoutes([{label:'账号', name:'admin-account'}])
     this.changePage()
   }
 }
@@ -186,5 +216,9 @@ export default {
 }
 .dl-button:hover {
   color: white;
+}
+
+.search-item{
+  align-items: baseline
 }
 </style>

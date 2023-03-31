@@ -40,12 +40,14 @@ export default {
   },
   props:{
     info: {
-      id: '',
-      name: '',
-      total: 0,
-      cost: 0,
-      left: 0,
-      users: []
+      default:{
+        id: 'fas',
+        name: 'fsaf',
+        total: 0,
+        cost: 0,
+        left: 0,
+        users: []
+      }
     }
   },
   data(){

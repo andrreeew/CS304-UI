@@ -138,6 +138,7 @@ import lineChart from '@/components/chart/line-chart'
 import applicationTable from '@/components/application/application-table'
 import fundTable from '@/components/fund/fund-table'
 import groupCard from '@/components/group/group-card'
+import {mapMutations} from "vuex";
 
 export default {
   name: "index",
@@ -165,6 +166,12 @@ export default {
         ]
       }
     }
+  },
+  methods:{
+    ...mapMutations(['setRoutes'])
+  },
+  created() {
+    this.setRoutes([{label:'主页', name:'user'}])
   }
 }
 </script>

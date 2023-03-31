@@ -10,24 +10,29 @@
         @collapse="setMenuCollapse(!getMenuCollapse)"
     >
       <a-menu-item key="home">
-        <template #icon><icon-apps></icon-apps></template>
+        <template #icon><icon-home /></template>
         主页
       </a-menu-item>
       <a-menu-item key="account">
-        <template #icon><icon-apps></icon-apps></template>
+        <template #icon><icon-user /></template>
         账号
       </a-menu-item>
       <a-menu-item key="group">
-        <template #icon><icon-apps></icon-apps></template>
+        <template #icon><icon-user-group /></template>
         课题组
       </a-menu-item>
       <a-menu-item key="fund">
-        <template #icon><icon-apps></icon-apps></template>
+        <template #icon><icon-layers /></template>
         经费
       </a-menu-item>
       <a-menu-item key="application">
-        <template #icon><icon-apps></icon-apps></template>
+        <template #icon><icon-unordered-list /></template>
         申请
+      </a-menu-item>
+
+      <a-menu-item key="message">
+        <template #icon><icon-message /></template>
+        通知
       </a-menu-item>
     </a-menu>
 
@@ -49,16 +54,18 @@
 <!--          {{group.name}}-->
 <!--        </a-menu-item>-->
 <!--      </a-sub-menu>-->
-      <a-menu-item>
         <a-menu-item key="home">
-          <template #icon><icon-apps></icon-apps></template>
+          <template #icon><icon-home /></template>
           主页
         </a-menu-item>
+        <a-menu-item key="group">
+          <template #icon><icon-user-group /></template>
+          课题组
+        </a-menu-item>
         <a-menu-item key="application">
-          <template #icon><icon-apps></icon-apps></template>
+          <template #icon><icon-unordered-list /></template>
           申请
         </a-menu-item>
-      </a-menu-item>
 
 
     </a-menu>
@@ -73,6 +80,7 @@ export default {
   computed:{
     ...mapGetters(['getMenuCollapse']),
     selectKeys(){
+      if(this.$route.name==='admin-fund-group') return 'fund'
       return this.$route.name
     }
   },

@@ -31,7 +31,7 @@
     </template>
     <template #optional="{ record }">
       <a-space>
-        <a-button @click="showDetail(record)">view</a-button>
+        <a-button @click="showDetail(record)">查看</a-button>
       </a-space>
     </template>
   </a-table>

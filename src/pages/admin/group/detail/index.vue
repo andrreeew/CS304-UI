@@ -33,6 +33,7 @@ import fundTable from '@/pages/admin/group/detail/components/fund-table'
 import fundNum from '@/pages/admin/group/detail/components/fund-num'
 import accountList from '@/pages/admin/group/detail/components/account-list'
 import api from "@/api"
+import {mapMutations} from "vuex";
 
 export default {
   name: "index",
@@ -40,6 +41,9 @@ export default {
     fundTable,
     fundNum,
     accountList
+  },
+  methods:{
+    ...mapMutations(['setRoutes'])
   },
   data(){
     return{
@@ -51,6 +55,7 @@ export default {
     }
   },
   created(){
+    this.setRoutes([{label:'课题组', name:'admin-group'}])
     api.getGroups({id:this.$route.params.groupId,pageSize:1,page:1}).then(res => {
       this.groupData = res.data.data.groups[0]
       this.groupInfo[0].value = this.groupData.name
