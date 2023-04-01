@@ -30,7 +30,7 @@
               <a-typography-text style="font-size: 14px;color: var(--color-neutral-6)">
                 {{edit?'保存':'修改'}}
               </a-typography-text>
-              <a-switch @click="edit=!edit" type="line"></a-switch>
+              <a-switch @click="switchEdit" type="line"></a-switch>
             </a-space>
 
           </div>
@@ -91,14 +91,15 @@
   </a-space>
   <div class="operation" v-if="edit">
     <a-space style="margin-right: 10px">
-      <a-button @click="clearForm()">刷新</a-button>
-      <a-button type="primary">保存修改</a-button>
+      <a-button @click="clearForm">刷新</a-button>
+      <a-button @click="submit" type="primary">保存修改</a-button>
     </a-space>
   </div>
 </template>
 
 <script>
-
+import api from "@/api"
+import {Message} from '@arco-design/web-vue'
 
 export default {
   name: "index",
@@ -109,6 +110,8 @@ export default {
   },
   data(){
     return{
+      fundId: this.$route.params.fundId,
+      groupId: this.$route.params.groupId,
       edit: false,
       groupInfo:[
         {label: '课题组', value: 'fsafa'},
@@ -144,14 +147,39 @@ export default {
         Sichuan: ['Chengdu', 'Mianyang', 'Aba'],
         Guangdong: ['Guangzhou', 'Shenzhen', 'Shantou']
       }
-
     }
-
   },
   methods:{
     addRecord(){
       this.data.push({category1:'', category2:'', total:0, cost:0, left:0, new:true})
+    },
+    getData(){
+      api.getFundDetailByGroup(this.fundId, this.groupId).then(res => {
+        this.data = res.data.data
+      })
+    },
+    switchEdit(){
+      this.edit = !this.edit
+      if (!this.edit) {
+        this.getData()
+      }
+    },
+    clearForm(){
+      this.getData()
+    },
+    submit(){
+      api.modifyGroupFundDetail(this.data).then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+          this.data = res.data.data
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
     }
+  },
+  created(){
+    this.getData()
   }
 }
 </script>

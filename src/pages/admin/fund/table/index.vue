@@ -75,9 +75,6 @@
             </a-col>
           </a-row>
         </a-grid-item>
-
-
-
       </a-grid>
     </template>
   </search-skeleton>

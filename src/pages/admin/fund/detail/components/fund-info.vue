@@ -10,8 +10,12 @@
 <script>
 export default {
   name: "fund-info",
+  props: {
+    fundData: Object
+  },
   data(){
     return{
+      data: {},
       fundInfo: [
         {label: '经费编号', value: 4214},
         {label: '经费名称', value: 'Jane Doe'},
@@ -19,6 +23,14 @@ export default {
         {label: '授权日期', value: '2013/4/2-2018/4/3'},
         {label: '剩余天数', value: 19},
       ],
+    }
+  },
+  watch: {
+    fundData(newVal, oldVal){
+      this.data = newVal
+      this.fundInfo[0].value = this.data.id
+      this.fundInfo[1].value = this.data.name
+      // TODO
     }
   }
 }
