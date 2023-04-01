@@ -1,18 +1,23 @@
 <template>
   <div class="container">
     <div class="left-side">
-      <a-space>
-        <img
-            alt="logo"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/dfdba5317c0c20ce20e64fac803d52bc.svg~tplv-49unhts6dw-image.image"
-        />
-        <a-typography-title
-            :style="{ margin: 0, fontSize: '18px' }"
-            :heading="5"
-        >
-          CS Funding
-        </a-typography-title>
-      </a-space>
+      <a-breadcrumb :style="{fontSize: `24px`}">
+        <a-breadcrumb-item style="color:rgb(var(--arcoblue-6)); font-variant: small-caps;">
+          <icon-copy style="font-size:28; color:rgb(var(--arcoblue-6)); "/>
+          CS Funding</a-breadcrumb-item>
+      </a-breadcrumb>
+<!--      <a-space>-->
+<!--        <img-->
+<!--            alt="logo"-->
+<!--            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/dfdba5317c0c20ce20e64fac803d52bc.svg~tplv-49unhts6dw-image.image"-->
+<!--        />-->
+<!--        <a-typography-title-->
+<!--            :style="{ margin: 0, fontSize: '18px' }"-->
+<!--            :heading="5"-->
+<!--        >-->
+<!--          CS Funding-->
+<!--        </a-typography-title>-->
+<!--      </a-space>-->
     </div>
     <div class="right-side">
       <a-space :size="20">

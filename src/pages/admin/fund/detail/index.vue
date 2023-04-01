@@ -1,32 +1,49 @@
 <template>
-  <a-space direction="vertical" size="medium" style="width: 100%">
-    <a-card title="经费信息">
-      <fund-info></fund-info>
-      <a-divider></a-divider>
-      <fund-num></fund-num>
-    </a-card>
+  <detail-skeleton>
+    <template v-slot:left>
+      <a-space direction="vertical" size="medium" style="width: 100%">
+        <a-card title="经费信息">
+          <fund-info></fund-info>
+          <a-divider></a-divider>
+          <fund-num></fund-num>
+        </a-card>
 
-    <a-card title="分配课题组" style="padding-bottom: 20px">
-      <group-table ></group-table>
-    </a-card>
+        <a-card title="分配课题组" style="padding-bottom: 20px">
+          <group-table ></group-table>
+        </a-card>
 
-    <a-card title="使用记录">
-      <template #extra>
-        <a-link>更多</a-link>
-      </template>
-      <application-table style="margin-bottom: 20px"></application-table>
-    </a-card>
+        <a-card title="使用记录">
+          <template #extra>
+            <a-link>更多</a-link>
+          </template>
+          <application-table style="margin-bottom: 20px"></application-table>
+        </a-card>
 
-  </a-space>
+      </a-space>
 
 
 
-  <a-modal v-model:visible="visible" >
-    <template #title>
-      添加课题组
+      <a-modal v-model:visible="visible" >
+        <template #title>
+          添加课题组
+        </template>
+        <group-form></group-form>
+      </a-modal>
     </template>
-    <group-form></group-form>
-  </a-modal>
+
+    <template v-slot:right>
+      <a-space direction="vertical" style="width: 100%" size="medium">
+        <a-card style="background-color:rgb(var(--arcoblue-6))">
+          <a-space size="medium">
+            <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">A</a-avatar>
+            <a-typography style="color:white;font-size: 22px">
+              经费：国自然zz
+            </a-typography>
+          </a-space>
+        </a-card>
+      </a-space>
+    </template>
+  </detail-skeleton>
 
 </template>
 
@@ -37,6 +54,7 @@ import fundInfo from '@/pages/admin/fund/detail/components/fund-info'
 import fundNum from '@/pages/admin/fund/detail/components/fund-num'
 import deleteButton from '@/components/operation/delete-button'
 import {mapMutations} from 'vuex'
+import detailSkeleton from "@/components/operation/detail-skeleton";
 
 export default {
   name: "index",
@@ -45,7 +63,8 @@ export default {
     groupTable,
     fundInfo,
     fundNum,
-    deleteButton
+    deleteButton,
+    detailSkeleton
   },
   methods:{
     ...mapMutations(['setRoutes'])

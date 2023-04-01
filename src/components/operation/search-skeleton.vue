@@ -2,8 +2,8 @@
   <!--  <a-card  style="width: 100%;">-->
   <a-space direction="vertical" :size=20 style="width: 100%;">
     <TransitionGroup name="list">
-      <div class="head" v-if="advance">
-        <div style=" display: grid; grid-template-columns: 1fr 100px; align-items: center">
+      <div class="head" v-if="advance" >
+        <div style=" display: grid; grid-template-columns: 1fr 100px; align-items: center;">
           <slot name="search-option"></slot>
           <a-space>
             <a-divider direction="vertical" style="height: 84px"></a-divider>

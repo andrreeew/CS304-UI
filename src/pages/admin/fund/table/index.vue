@@ -7,7 +7,14 @@
       </div>
     </template>
     <template v-slot:header-left>
-      <a-button>导入</a-button>
+      <a-tabs type="rounded" :active-key="type" size="mini" v style="margin-bottom: -20px" @change="jump">
+        <a-tab-pane key="0" title="全部">
+        </a-tab-pane>
+        <a-tab-pane key="1" title="待分配">
+        </a-tab-pane>
+        <a-tab-pane key="2" title="未达标">
+        </a-tab-pane>
+      </a-tabs>
     </template>
     <template v-slot:header-right>
       <a-input-search></a-input-search>
@@ -97,12 +104,31 @@ export default {
     searchSkeleton,
     fundTable
   },
+  data(){
+    return{
+      type:'',
+    }
+  },
   methods:{
-    ...mapMutations(['setRoutes'])
+    ...mapMutations(['setRoutes']),
+    init(){
+      this.type=this.$route.query.type?this.$route.query.type:'0'
+    },
+    jump(value){
+      this.$router.push({name:'admin-fund-table', query:{type:value}})
+    }
   },
   created() {
+    this.init()
     this.setRoutes([{label:'经费', name:'admin-fund'}])
-  }
+  },
+  watch: {
+    $route() {
+      this.init()
+
+    },
+  },
+
 }
 </script>
 

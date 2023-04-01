@@ -1,31 +1,36 @@
 <template>
-  <a-grid :cols="3" :colGap="17">
-    <a-grid-item :span="2">
-  <a-space direction="vertical" size="medium" style="width: 100%">
-    <a-card >
-      <a-card :bordered="false" title="课题组信息">
-        <a-descriptions :data="groupInfo"  size="large" :column="{xs:1, lg:2}"/>
-      </a-card>
+  <detail-skeleton>
+    <template v-slot:left>
+      <a-space direction="vertical" size="medium" style="width: 100%">
+        <a-card title="课题组信息">
+<!--            <a-descriptions :data="groupInfo"  size="large" :column="{xs:1, lg:2}"/>-->
+<!--            <a-divider></a-divider>-->
+            <fund-num></fund-num>
+          </a-card>
+        <a-card title="分得经费">
 
-    </a-card>
-    <a-card>
-      <fund-num></fund-num>
-    </a-card>
-    <a-card>
-      <a-card :bordered="false" title="分得经费">
-      <fund-table :groupId="groupData.id"></fund-table>
-      </a-card>
-    </a-card>
-  </a-space>
-    </a-grid-item>
-    <a-grid-item :span="1">
-      <a-card>
-        <a-card title="人员" :bordered="false">
-          <account-list v-model:groupData="groupData"></account-list>
+            <fund-table :groupId="groupData.id"></fund-table>
         </a-card>
+      </a-space>
+    </template>
+    <template v-slot:right>
+      <a-space direction="vertical" style="width: 100%" size="medium">
+        <a-card style="background-color:rgb(var(--arcoblue-6))">
+          <a-space size="medium">
+            <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">A</a-avatar>
+            <a-typography style="color:white;font-size: 22px">
+              课题组：1224
+            </a-typography>
+          </a-space>
+        </a-card>
+      <a-card title="人员">
+
+          <account-list v-model:groupData="groupData"></account-list>
       </a-card>
-    </a-grid-item>
-  </a-grid>
+      </a-space>
+    </template>
+  </detail-skeleton>
+
 </template>
 
 <script>
@@ -34,13 +39,15 @@ import fundNum from '@/pages/admin/group/detail/components/fund-num'
 import accountList from '@/pages/admin/group/detail/components/account-list'
 import api from "@/api"
 import {mapMutations} from "vuex";
+import detailSkeleton from "@/components/operation/detail-skeleton";
 
 export default {
   name: "index",
   components:{
     fundTable,
     fundNum,
-    accountList
+    accountList,
+    detailSkeleton
   },
   methods:{
     ...mapMutations(['setRoutes'])

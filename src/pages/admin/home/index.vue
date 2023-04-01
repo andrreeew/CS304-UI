@@ -1,7 +1,6 @@
 <template>
-  <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 1, xl: 3, }" :colGap="20" :rowGap="16">
-    <a-grid-item :span="{ lg: 1, xl: 2, }">
-
+  <detail-skeleton>
+    <template v-slot:left>
       <a-space direction="vertical" style="width: 100%" size="medium">
         <a-card>
           <a-space direction="vertical" style="width: 100%">
@@ -69,12 +68,12 @@
 
         </a-card>
       </a-space>
-    </a-grid-item>
-    <a-grid-item :span="{ lg: 1, xl: 1, }">
+    </template>
+    <template v-slot:right>
       <a-space direction="vertical" style="width: 100%" size="medium">
         <a-card style="background-color:rgb(var(--arcoblue-6))">
           <a-space size="medium">
-          <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">A</a-avatar>
+            <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">A</a-avatar>
             <a-typography style="color:white;font-size: 22px">
               管理员：LI
             </a-typography>
@@ -86,8 +85,8 @@
 
 
       </a-space>
-    </a-grid-item>
-  </a-grid>
+    </template>
+  </detail-skeleton>
 </template>
 
 <script>
@@ -95,6 +94,7 @@ import lineChart from '@/components/chart/line-chart'
 import applicationTable from '@/components/application/application-table'
 import fundTable from '@/components/fund/fund-table'
 import notifyList from '@/components/operation/notify-list'
+import detailSkeleton from '@/components/operation/detail-skeleton'
 import {mapMutations} from 'vuex'
 
 
@@ -104,7 +104,8 @@ export default {
     lineChart,
     applicationTable,
     fundTable,
-    notifyList
+    notifyList,
+    detailSkeleton
   },
   data() {
     return {
@@ -131,6 +132,8 @@ export default {
     jump(){
       if(this.selectedKey==='1'){
         this.$router.push({name:'admin-application-table', query:{type:'underway'}})
+      }else if(this.selectedKey==='2'){
+        this.$router.push({name:'admin-fund-table', query:{type:'1'}})
       }
     },
     change(value){
