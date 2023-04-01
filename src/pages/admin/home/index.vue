@@ -51,10 +51,10 @@
             </a-grid>
           </a-space>
         </a-card>
-        <a-card>
-          <a-tabs size="small" v style="width: 100%">
+        <a-card style="padding-bottom: 20px">
+          <a-tabs size="small" v :active-key="selectedKey" style="width: 100%" @change="change">
             <template #extra>
-              <a-link>更多</a-link>
+              <a-link @click="jump()">更多</a-link>
             </template>
             <a-tab-pane key="0" title="大致预览" >
               <line-chart style="height: 300px"></line-chart>
@@ -82,28 +82,8 @@
         </a-card>
 
 
-        <a-list hoverable style="background-color: white; padding: 10px" scrollbar :bordered="false" >
-          <template #header>
-            <div style="display: flex;justify-content: space-between">
-              <div>通知</div>
-              <a-link>更多</a-link>
-            </div>
-          </template>
-          <a-list-item class="msg" v-for="i in 3" >
-            <a-typography-paragraph
-                :ellipsis="{
-        rows: 2,
-        showTooltip: true,
-      }"
-            class="msg">
-              A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.
-            </a-typography-paragraph>
-            <div style="display: flex;justify-content: space-between; color: var(--color-neutral-6)">
-              <div>系统通知</div>
-              <div>2020-10-01</div>
-            </div>
-          </a-list-item>
-        </a-list>
+        <notify-list style="padding: 10px; background-color: white;border: 1px solid var(--color-neutral-3);border-radius: var(--border-radius-small);"></notify-list>
+
 
       </a-space>
     </a-grid-item>
@@ -114,16 +94,21 @@
 import lineChart from '@/components/chart/line-chart'
 import applicationTable from '@/components/application/application-table'
 import fundTable from '@/components/fund/fund-table'
+import notifyList from '@/components/operation/notify-list'
+import {mapMutations} from 'vuex'
+
 
 export default {
   name: "index",
   components: {
     lineChart,
     applicationTable,
-    fundTable
+    fundTable,
+    notifyList
   },
   data() {
     return {
+      selectedKey:'0',
       option: {
         xAxis: {
           type: 'category',
@@ -140,6 +125,20 @@ export default {
         ]
       }
     }
+  },
+  methods:{
+    ...mapMutations(['setRoutes']),
+    jump(){
+      if(this.selectedKey==='1'){
+        this.$router.push({name:'admin-application-table', query:{type:'underway'}})
+      }
+    },
+    change(value){
+      this.selectedKey = value
+    }
+  },
+  created() {
+    this.setRoutes([{label:'主页', name:'admin'}])
   }
 }
 </script>

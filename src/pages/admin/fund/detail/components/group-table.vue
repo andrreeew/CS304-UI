@@ -7,11 +7,8 @@
 
     <template #optional="{ record }">
       <a-space>
-        <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:fundId, groupId: record.group}})">view</a-button>
-        <a-button @click="deleteGroup(record.group)"
-                  status="danger">
-          <icon-delete />
-        </a-button>
+        <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:fundId, groupId: record.group}})">查看</a-button>
+        <delete-button @click="deleteGroup(record.group)"></delete-button>
       </a-space>
 
     </template>
@@ -36,11 +33,15 @@
 <script>
 import api from "@/api";
 import {Message} from '@arco-design/web-vue'
+import deleteButton from '@/components/operation/delete-button'
 
 export default {
   name: "group-table",
   props: {
     fundId: Number
+  },
+  components:{
+    deleteButton
   },
   data(){
     return{

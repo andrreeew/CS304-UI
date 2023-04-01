@@ -103,6 +103,7 @@
 import applicationTable from '@/components/application/application-table'
 import deleteButton from '@/components/operation/delete-button'
 import searchSkeleton from '@/components/operation/search-skeleton'
+import {mapMutations} from "vuex";
 
 export default {
   name: "index",
@@ -116,6 +117,12 @@ export default {
       selectedKeys:[],
     }
   },
+  methods:{
+    ...mapMutations(['setRoutes'])
+  },
+  created() {
+    this.setRoutes([{label:'申请', name:'user-application'}])
+  }
 
 }
 </script>

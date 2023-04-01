@@ -12,7 +12,7 @@
 
     <a-card title="使用记录">
       <template #extra>
-        <a-link>More</a-link>
+        <a-link>更多</a-link>
       </template>
       <application-table style="margin-bottom: 20px"></application-table>
     </a-card>
@@ -33,7 +33,9 @@ import applicationTable from '@/components/application/application-table'
 import groupTable from '@/pages/admin/fund/detail/components/group-table'
 import fundInfo from '@/pages/admin/fund/detail/components/fund-info'
 import fundNum from '@/pages/admin/fund/detail/components/fund-num'
-import api from "@/api";
+import api from "@/api"
+import deleteButton from '@/components/operation/delete-button'
+import {mapMutations} from 'vuex'
 
 export default {
   name: "index",
@@ -41,7 +43,11 @@ export default {
     applicationTable,
     groupTable,
     fundInfo,
-    fundNum
+    fundNum,
+    deleteButton
+  },
+  methods:{
+    ...mapMutations(['setRoutes'])
   },
   data() {
     return {
@@ -58,6 +64,7 @@ export default {
     }
   },
   created(){
+    this.setRoutes([{label:'经费', name:'admin-fund'}])
     this.getData()
   }
 }

@@ -60,6 +60,8 @@
 <script>
 
 
+import {mapMutations} from "vuex";
+
 export default {
   name: "index",
 
@@ -87,6 +89,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setRoutes']),
     clearForm(){
       for (let key in this.form){
          this.form[key] = ''
@@ -97,6 +100,10 @@ export default {
     'form.category1'(){
       this.form.category2 = ''
     }
+  },
+
+  created() {
+    this.setRoutes([{label:'申请', name:'user-application'}, {label: '创建申请', name: 'user-application-new'}])
   }
 }
 </script>

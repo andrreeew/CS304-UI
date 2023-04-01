@@ -100,6 +100,7 @@
 <script>
 import api from "@/api"
 import {Message} from '@arco-design/web-vue'
+import {mapMutations} from 'vuex'
 
 export default {
   name: "index",
@@ -150,6 +151,7 @@ export default {
     }
   },
   methods:{
+    ...mapMutations(['setRoutes']),
     addRecord(){
       this.data.push({category1:'', category2:'', total:0, cost:0, left:0, new:true})
     },
@@ -180,6 +182,7 @@ export default {
   },
   created(){
     this.getData()
+    this.setRoutes([{label:'经费', name:'admin-fund'}])
   }
 }
 </script>

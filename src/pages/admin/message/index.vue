@@ -4,19 +4,48 @@
       <a-input-search :style="{width:'320px'}" placeholder="Please enter something"/>
     </template>
     <template v-slot:header-left>
-      <a-tabs type="rounded" :active-key="type" size="mini" v style="margin-bottom: -20px" @change="jump">
-        <a-tab-pane key="all" title="全部">
+      <a-tabs type="rounded" size="mini" :active-key="type" v style="margin-bottom: -20px" @change="jump">
+        <a-tab-pane key="all" title="全部通知">
         </a-tab-pane>
-        <a-tab-pane key="underway" title="待审批">
+        <a-tab-pane key="old" title="已读通知">
         </a-tab-pane>
-        <a-tab-pane key="reject" title="驳回">
-        </a-tab-pane>
-        <a-tab-pane key="complete" title="通过">
+        <a-tab-pane key="new" title="未读通知">
         </a-tab-pane>
       </a-tabs>
     </template>
     <template v-slot:table>
-      <application-table v-model:rows="selectedKeys" :select="batch"></application-table>
+      <a-list :bordered="false" hoverable style="border-top:1px solid var(--color-neutral-3);border-bottom: 1px solid var(--color-neutral-3);;">
+        <a-list-item v-for="item in msg"  >
+          <div style="display: flex;justify-content: space-between; align-items: center">
+            <a-space style="padding-right: 150px" align="center" size="medium">
+              <a-tag v-if="item.type==='系统通知'" color="arcoblue">{{item.type}}</a-tag>
+              <a-tag v-else color="green">{{item.type}}</a-tag>
+              <a-typography-paragraph
+                  :ellipsis="{
+        rows: 1,
+      }"
+                  class="msg" @click="showDetail(item)">
+                {{item.msg}}
+              </a-typography-paragraph>
+              <a-badge v-if="item.new" text="new"></a-badge>
+            </a-space>
+
+            <div style="color: var(--color-neutral-6)">{{item.date}}</div>
+          </div>
+
+        </a-list-item>
+      </a-list>
+      <a-modal v-model:visible="visible" >
+        <template #title>
+          {{selected.type}}
+        </template>
+       <div>
+         {{selected.msg}}
+       </div>
+        <div style="display: flex; justify-content: right; margin-top: 10px">
+          <div style="color: var(--color-neutral-6)">日期: {{selected.date}}</div>
+        </div>
+      </a-modal>
 
       <div style="display: flex; justify-content: right">
         <a-pagination :total="50" size="medium" show-total show-jumper show-page-size/>
@@ -179,6 +208,19 @@ export default {
     applicationTable,
     searchSkeleton
   },
+  methods:{
+    ...mapMutations(['setRoutes']),
+    showDetail(item){
+      this.selected = item
+      this.visible = true
+    },
+    init(){
+      this.type=this.$route.query.type?this.$route.query.type:'all'
+    },
+    jump(value){
+      this.$router.push({name:'admin-message', query:{type:value}})
+    }
+  },
   watch: {
     $route() {
       this.init()
@@ -186,35 +228,37 @@ export default {
     },
   },
 
-
-  methods:{
-    init(){
-      this.type=this.$route.query.type?this.$route.query.type:'all'
-    },
-    ...mapMutations(['setRoutes']),
-    jump(value){
-      this.$router.push({name:'admin-application-table', query:{type:value}})
-    }
-  },
   created() {
-    this.setRoutes([{label:'申请', name:'admin-application'}])
+    this.setRoutes([{label:'通知', name:'admin-message'}])
     this.init()
   },
 
   data() {
     return {
       // selectedKeys: ['1'],
+      msg:[{type:'系统通知', date:'2010-10-1', new:true, msg:'A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.'},
+        {type:'审批通知', date:'2010-10-1',new:false, msg:'A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to '}],
+
+      visible:false,
       batch: false,
       advance: false,
-      type:''
+      selected: '',
+      type:'',
     }
   },
-
 }
 </script>
 
 <style scoped>
 .search-item{
   align-items: baseline
+}
+
+.msg{
+  padding-top: 13px;
+}
+.msg:hover{
+  cursor: pointer;
+  color: #3370ff;
 }
 </style>

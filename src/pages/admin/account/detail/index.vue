@@ -10,8 +10,7 @@
       <a-card :bordered="false" title="所属课题组">
         <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 2, xl:2, xxl:3}" :colGap="20" :rowGap="16" >
           <a-grid-item span="1" v-for="group in groups">
-            <group-card :name="group.name" :total="group.total" :cost="group.cost"
-                        :left="group.id" >
+            <group-card :info="group" >
               <template v-slot:extra>
                 <a-tag v-if="group.identity" color="arcoblue">管理员</a-tag>
               </template>
@@ -116,6 +115,7 @@ import applicationTable from '@/components/application/application-table'
 import groupCard from '@/components/group/group-card'
 import api from "@/api"
 import DeleteButton from "@/components/operation/delete-button";
+import {mapMutations} from 'vuex'
 
 export default {
   name: "index",
@@ -123,6 +123,9 @@ export default {
     DeleteButton,
     applicationTable,
     groupCard,
+  },
+  methods:{
+    ...mapMutations(['setRoutes'])
   },
   data(){
     return{
@@ -146,14 +149,15 @@ export default {
     }
   },
   created(){
-    api.getUsers({key:this.$route.params.user,pageSize:1,page:1}).then(res => {
-      let info = res.data.data.users[0]
-      this.userInfo[0].value = info.key
-      this.userInfo[1].value = info.name
-      this.userInfo[2].value = info.email
-      this.userInfo[3].value = info.phone
-      // this.groups = info.group
-    })
+    this.setRoutes([{label:'账号', name:'admin-account'}])
+    // api.getUsers({key:this.$route.params.user,pageSize:1,page:1}).then(res => {
+    //   let info = res.data.data.users[0]
+    //   this.userInfo[0].value = info.key
+    //   this.userInfo[1].value = info.name
+    //   this.userInfo[2].value = info.email
+    //   this.userInfo[3].value = info.phone
+    //   // this.groups = info.group
+    // })
   }
 }
 </script>

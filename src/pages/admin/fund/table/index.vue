@@ -2,15 +2,18 @@
   <search-skeleton>
     <template v-slot:table>
       <fund-table></fund-table>
+      <div style="display: flex; justify-content: right">
+        <a-pagination :total="50" size="medium" show-total show-jumper show-page-size/>
+      </div>
     </template>
     <template v-slot:header-left>
-      <a-button>Import</a-button>
+      <a-button>导入</a-button>
     </template>
     <template v-slot:header-right>
       <a-input-search></a-input-search>
     </template>
     <template v-slot:search-option>
-      <a-grid  style="width: 100%" :cols="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl:4}" :colGap=22 :rowGap="16" >
+      <a-grid  style="width: 100%" :cols="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl:4}" :colGap=40 :rowGap="16" >
         <a-grid-item >
           <a-row class="search-item" >
             <a-col :span="8" >
@@ -83,6 +86,7 @@
 <script>
 import searchSkeleton from '@/components/operation/search-skeleton'
 import fundTable from '@/components/fund/fund-table'
+import {mapMutations} from 'vuex'
 
 export default {
   name: "index",
@@ -90,8 +94,17 @@ export default {
     searchSkeleton,
     fundTable
   },
+  methods:{
+    ...mapMutations(['setRoutes'])
+  },
+  created() {
+    this.setRoutes([{label:'经费', name:'admin-fund'}])
+  }
 }
 </script>
 
 <style scoped>
+.search-item{
+  align-items: baseline
+}
 </style>

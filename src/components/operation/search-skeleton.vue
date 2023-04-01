@@ -3,18 +3,17 @@
   <a-space direction="vertical" :size=20 style="width: 100%;">
     <TransitionGroup name="list">
       <div class="head" v-if="advance">
-        <a-space >
+        <div style=" display: grid; grid-template-columns: 1fr 100px; align-items: center">
           <slot name="search-option"></slot>
+          <a-space>
+            <a-divider direction="vertical" style="height: 84px"></a-divider>
 
-          <a-divider direction="vertical" style="height: 84px"></a-divider>
-
-          <a-space direction="vertical">
-            <a-button type="primary" @click="this.$emit('search')">查询</a-button>
-            <a-button @click="this.$emit('clear')">清空</a-button>
+            <a-space direction="vertical">
+              <a-button type="primary" @click="this.$emit('search')">查询</a-button>
+              <a-button @click="this.$emit('clear')">清空</a-button>
+            </a-space>
           </a-space>
-
-
-        </a-space>
+        </div>
         <a-divider style="margin-bottom: -8px"></a-divider>
       </div>
 
@@ -39,6 +38,7 @@
 
             </a-space>
           </div>
+
           <slot name="table"></slot>
 
 
@@ -87,6 +87,7 @@ export default {
 .list-move, /* 对移动中的元素应用的过渡 */
 .list-enter-active,
 .list-leave-active {
+
   transition: all 0.5s ease;
 }
 

@@ -117,6 +117,12 @@ const routes = [
               },
             ]
           },
+          {
+            path: 'message',
+            name: 'admin-message',
+            component: () => import('../pages/admin/message')
+
+          }
         ]
       },
       {

@@ -1,5 +1,6 @@
 <template>
   <a-card style="width: 100%; display: flex; justify-content: center;" >
+    <a-spin :loading="loading">
     <a-space direction="vertical" style="margin-top: -5px">
       <a-typography-title :heading="4">创建课题组</a-typography-title>
       <a-divider style="margin-top: -10px"></a-divider>
@@ -15,6 +16,7 @@
         </a-form-item>
       </a-form>
     </a-space>
+    </a-spin>
   </a-card>
   <div class="operation">
     <a-space style="margin-right: 10px">
@@ -28,11 +30,13 @@
 import api from "@/api"
 import {Message} from '@arco-design/web-vue'
 import router from "@/router"
+import {mapMutations} from 'vuex'
 
 export default {
   name: "index",
   data(){
     return{
+      loading: false,
       form: {
         name : '',
         users: [],
@@ -41,14 +45,16 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setRoutes']),
     clearForm(){
       for (let key in this.form){
         this.form[key] = ''
       }
     },
     submitForm() {
+      this.loading=true
       api.createGroup(this.form).then(res => {
-        if (res.data.code == 200) {
+        if (res.data.code === 200) {
           Message.success(res.data.msg)
           router.push({name:'admin-group'})
         } else {
@@ -61,10 +67,11 @@ export default {
   },
   computed: {
     canSubmit() {
-      return this.form.name == ''
+      return this.form.name === '' && !this.loading
     }
   },
   created() {
+    this.setRoutes([{label:'课题组', name:'admin-group'}, {label:'创建课题组', name:'admin-group-new'}])
     api.getAllAccountName().then(res => {
       this.all_users = res.data.data
     })
