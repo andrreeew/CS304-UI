@@ -4,7 +4,7 @@
       <a-space direction="vertical" style="width: 100%" size="medium">
         <a-card>
           <a-space direction="vertical" style="width: 100%">
-            <a-typography style="font-size: 20px; line-height: 1.4; padding-left: 10px">下午好</a-typography>
+            <a-typography style="font-size: 20px; line-height: 1.4; padding-left: 10px">{{period}}</a-typography>
             <a-divider style="margin-top: 10px; margin-bottom: 10px"></a-divider>
             <a-grid :cols="{ xs: 2, sm: 2, md: 2, lg: 4, xl: 2, xxl:4}">
               <a-space class="panel">
@@ -96,11 +96,13 @@ import fundTable from '@/components/fund/fund-table'
 import notifyList from '@/components/operation/notify-list'
 import detailSkeleton from '@/components/operation/detail-skeleton'
 import {mapMutations} from 'vuex'
+import dayjs from "dayjs";
 
 
 export default {
   name: "index",
   components: {
+
     lineChart,
     applicationTable,
     fundTable,
@@ -109,6 +111,7 @@ export default {
   },
   data() {
     return {
+      period:'',
       selectedKey:'1',
       option: {
         xAxis: {
@@ -142,6 +145,20 @@ export default {
   },
   created() {
     this.setRoutes([{label:'主页', name:'admin'}])
+    const now = dayjs()
+    const hour = now.hour()
+
+    if (hour >= 4 && hour < 11) {
+      this.period = '早上好'
+    } else if(hour>=11 && hour<15){
+      this.period = '中午好'
+    } else if(hour>=15 && hour<18){
+      this.period = '下午好'
+    }else if(hour>=18 && hour<24){
+      this.period = '晚上好'
+    }else {
+      this.period ='夜深了，注意休息'
+    }
   }
 }
 </script>

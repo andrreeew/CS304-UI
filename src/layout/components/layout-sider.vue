@@ -66,6 +66,10 @@
           <template #icon><icon-unordered-list /></template>
           申请
         </a-menu-item>
+        <a-menu-item key="message">
+          <template #icon><icon-message /></template>
+          通知
+        </a-menu-item>
 
 
     </a-menu>

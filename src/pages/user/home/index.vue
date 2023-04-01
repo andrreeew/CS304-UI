@@ -1,11 +1,10 @@
 <template>
-  <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 1, xl: 3, }" :colGap="20" :rowGap="16">
-    <a-grid-item :span="{ lg: 1, xl: 2, }">
-
+  <detail-skeleton>
+    <template v-slot:left>
       <a-space direction="vertical" style="width: 100%" size="medium">
         <a-card>
           <a-space direction="vertical" style="width: 100%">
-            <a-typography style="font-size: 20px; line-height: 1.4; padding-left: 10px">下午好</a-typography>
+            <a-typography style="font-size: 20px; line-height: 1.4; padding-left: 10px">{{period}}</a-typography>
             <a-divider style="margin-top: 10px; margin-bottom: 10px"></a-divider>
             <a-grid :cols="{ xs: 2, sm: 2, md: 2, lg: 4, xl: 2, xxl:4}">
               <a-space class="panel">
@@ -55,8 +54,8 @@
           <a-tabs type="rounded" size="small" v style="width: 100%">
             <template #extra>
               <a-space>
-              <a-button type="primary" @click="$router.push({name:'user-application-new'})">创建申请</a-button>
-              <a-button >更多</a-button>
+                <a-button type="primary" @click="$router.push({name:'user-application-new'})">创建申请</a-button>
+                <a-button >更多</a-button>
               </a-space>
             </template>
             <a-tab-pane key="0" style="padding: 0px 5px" title="我的申请" >
@@ -76,8 +75,9 @@
         </a-card>
 
       </a-space>
-    </a-grid-item>
-    <a-grid-item :span="{ lg: 1, xl: 1, }">
+    </template>
+
+    <template v-slot:right>
       <a-space direction="vertical" style="width: 100%" size="medium">
         <a-card style="background-color:rgb(var(--arcoblue-6))">
           <a-space size="medium">
@@ -90,28 +90,28 @@
 
 
 
-<!--        <a-list hoverable style="background-color: white; padding: 10px" scrollbar :bordered="false" >-->
-<!--          <template #header>-->
-<!--            <div style="display: flex;justify-content: space-between">-->
-<!--              <div>通知</div>-->
-<!--              <a-link>更多</a-link>-->
-<!--            </div>-->
-<!--          </template>-->
-<!--          <a-list-item class="msg" v-for="i in 3" >-->
-<!--            <a-typography-paragraph-->
-<!--                :ellipsis="{-->
-<!--        rows: 2,-->
-<!--        showTooltip: true,-->
-<!--      }"-->
-<!--                class="msg">-->
-<!--              A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.-->
-<!--            </a-typography-paragraph>-->
-<!--            <div style="display: flex;justify-content: space-between; color: var(&#45;&#45;color-neutral-6)">-->
-<!--              <div>系统通知</div>-->
-<!--              <div>2020-10-01</div>-->
-<!--            </div>-->
-<!--          </a-list-item>-->
-<!--        </a-list>-->
+        <!--        <a-list hoverable style="background-color: white; padding: 10px" scrollbar :bordered="false" >-->
+        <!--          <template #header>-->
+        <!--            <div style="display: flex;justify-content: space-between">-->
+        <!--              <div>通知</div>-->
+        <!--              <a-link>更多</a-link>-->
+        <!--            </div>-->
+        <!--          </template>-->
+        <!--          <a-list-item class="msg" v-for="i in 3" >-->
+        <!--            <a-typography-paragraph-->
+        <!--                :ellipsis="{-->
+        <!--        rows: 2,-->
+        <!--        showTooltip: true,-->
+        <!--      }"-->
+        <!--                class="msg">-->
+        <!--              A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.-->
+        <!--            </a-typography-paragraph>-->
+        <!--            <div style="display: flex;justify-content: space-between; color: var(&#45;&#45;color-neutral-6)">-->
+        <!--              <div>系统通知</div>-->
+        <!--              <div>2020-10-01</div>-->
+        <!--            </div>-->
+        <!--          </a-list-item>-->
+        <!--        </a-list>-->
 
         <a-card>
           <a-space direction="vertical" style="width: 100%">
@@ -129,8 +129,8 @@
         </a-card>
 
       </a-space>
-    </a-grid-item>
-  </a-grid>
+    </template>
+  </detail-skeleton>
 </template>
 
 <script>
@@ -139,6 +139,8 @@ import applicationTable from '@/components/application/application-table'
 import fundTable from '@/components/fund/fund-table'
 import groupCard from '@/components/group/group-card'
 import {mapMutations} from "vuex";
+import dayjs from "dayjs";
+import detailSkeleton from "@/components/operation/detail-skeleton";
 
 export default {
   name: "index",
@@ -146,10 +148,12 @@ export default {
     lineChart,
     applicationTable,
     fundTable,
-    groupCard
+    groupCard,
+    detailSkeleton
   },
   data() {
     return {
+      period:'',
       option: {
         xAxis: {
           type: 'category',
@@ -172,6 +176,20 @@ export default {
   },
   created() {
     this.setRoutes([{label:'主页', name:'user'}])
+    const now = dayjs()
+    const hour = now.hour()
+
+    if (hour >= 4 && hour < 11) {
+      this.period = '早上好'
+    } else if(hour>=11 && hour<15){
+      this.period = '中午好'
+    } else if(hour>=15 && hour<18){
+      this.period = '下午好'
+    }else if(hour>=18 && hour<24){
+      this.period = '晚上好'
+    }else {
+      this.period ='夜深了，注意休息'
+    }
   }
 }
 </script>

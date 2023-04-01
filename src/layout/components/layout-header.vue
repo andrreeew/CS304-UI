@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="left-side">
+    <div class="left-side" @click="this.$router.push({name:identity+'-home'})">
       <a-breadcrumb :style="{fontSize: `24px`}">
         <a-breadcrumb-item style="color:rgb(var(--arcoblue-6)); font-variant: small-caps;">
           <icon-copy style="font-size:28; color:rgb(var(--arcoblue-6)); "/>
@@ -80,6 +80,11 @@ export default {
   methods:{
     ...mapActions('auth', ['logout'])
   },
+  data(){
+    return{
+      identity:this.$route.path.substring(1).split('/')[0],
+    }
+  }
 
 
 }
@@ -97,6 +102,10 @@ export default {
 
 .left-side{
   padding-left: 20px;
+}
+
+.left-side:hover{
+  cursor: pointer;
 }
 
 .right-side{

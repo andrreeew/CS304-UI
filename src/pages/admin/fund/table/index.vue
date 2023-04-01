@@ -1,7 +1,7 @@
 <template>
   <search-skeleton>
     <template v-slot:table>
-      <fund-table></fund-table>
+      <fund-table ></fund-table>
       <div style="display: flex; justify-content: right">
         <a-pagination :total="50" size="medium" show-total show-jumper show-page-size/>
       </div>

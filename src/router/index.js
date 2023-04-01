@@ -165,7 +165,13 @@ const routes = [
                 component: ()=>import('../pages/user/group/table')
               }
             ]
+          },
+          {
+            path:'message',
+            name: 'user-message',
+            component: ()=>import('../pages/user/message')
           }
+
         ]
       },
 
