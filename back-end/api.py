@@ -143,8 +143,8 @@ def deleteUsers():
 def getGroups():
     args = request.args
     id = args.get('id', default=None)
-    pageSize = args.get('pageSize', default=None, type=int)
-    page = args.get('page', default=None, type=int)
+    pageSize = args.get('pageSize', default=100000000, type=int)
+    page = args.get('page', default=1, type=int)
 
     result = []
     for group in groups:
@@ -281,6 +281,149 @@ def deleteGroupFund():
             'left': 155,
             'percent': 241,
         }]
+    }
+
+@app.route('/getFunds', methods=['GET'])
+def getFunds():
+    print('getFunds')
+    return {
+        'code':200,
+        'msg': '',
+        'data': [{
+            'key': '1',
+            'id': 4214,
+            'name': 'getFunds',
+            'dateRange': [5325, 5325],
+            'totalNum': 123451,
+            'leftNum': 21515,
+            'percent': 321,
+            'state': 'complete',
+            'leftDay': 19,
+            'disabled': True,
+        },{
+            'key': '2',
+            'id': 114514,
+            'name': 'Fund2',
+            'dateRange': [5325, 5325],
+            'totalNum': 123451,
+            'leftNum': 21515,
+            'percent': 321,
+            'state': 'complete',
+            'leftDay': 19,
+            'disabled': True,
+        }]
+    }
+
+@app.route('/getGroupByFund', methods=['GET'])
+def getGroupByFund():
+    id = request.args.get('id')
+    print('getGroupByFund')
+    print(id)
+    return {
+        'code':200,
+        'msg': '',
+        'data': [{
+            'complete': False,
+            'group': 'getGroupByFund',
+            'total': 2141,
+            'cost': 242,
+            'left': 155,
+            'percent': 241,
+        }, {
+            'complete': True,
+            'group': 'group2',
+            'total': 2141,
+            'cost': 242,
+            'left': 155,
+            'percent': 241,
+        }, {
+            'complete': True,
+            'group': 'group3',
+            'total': 2141,
+            'cost': 242,
+            'left': 155,
+            'percent': 241,
+        }]
+    }
+
+@app.route('/deleteFundGroup', methods=['POST'])
+def deleteFundGroup():
+    groupName, fundId = request.json['groupName'], request.json['fundId']
+    print('deleteFundGroup')
+    print(groupName)
+    print(fundId)
+    return {
+        'code':200,
+        'msg': '删除成功',
+        'data': [{
+            'complete': False,
+            'group': 'deleteFundGroup',
+            'total': 2141,
+            'cost': 242,
+            'left': 155,
+            'percent': 241,
+        }, {
+            'complete': True,
+            'group': 'group2',
+            'total': 2141,
+            'cost': 242,
+            'left': 155,
+            'percent': 241,
+        }]
+    }
+
+@app.route('/addGroupsToFund', methods=['POST'])
+def addGroupsToFund():
+    groups = request.json['groups']
+    print('addGroupsToFund')
+    print(groups)
+    return {
+        'code':200,
+        'msg': '添加成功',
+        'data': [{
+            'complete': False,
+            'group': 'addGroupsToFund',
+            'total': 2141,
+            'cost': 242,
+            'left': 155,
+            'percent': 241,
+        }, {
+            'complete': True,
+            'group': 'group2',
+            'total': 2141,
+            'cost': 242,
+            'left': 155,
+            'percent': 241,
+        }]
+    }
+
+@app.route('/getFundDetailByGroup', methods=['GET'])
+def getFundDetailByGroup():
+    args = request.args
+    print('getFundDetailByGroup')
+    print(args.get('fundId'))
+    print(args.get('groupId'))
+    return {
+        'code':200,
+        'msg': '',
+        'data': [
+            {'category1':'getFundDetailByGroup', 'category2':'', 'total':10, 'cost':20, 'left':10, 'new':False},
+            {'category1':'Sichuan', 'category2':4, 'total':10, 'cost':20, 'left':10, 'new':True}
+        ]
+    }
+
+@app.route('/modifyGroupFundDetail', methods=['POST'])
+def modifyGroupFundDetail():
+    detail = request.json['detail']
+    print('modifyGroupFundDetail')
+    print(detail)
+    return {
+        'code':200,
+        'msg': '修改成功',
+        'data': [
+            {'category1':'modifyGroupFundDetail', 'category2':'', 'total':10, 'cost':20, 'left':10, 'new':False},
+            {'category1':'Sichuan', 'category2':4, 'total':10, 'cost':20, 'left':10, 'new':True}
+        ]
     }
 
 if __name__ == '__main__':

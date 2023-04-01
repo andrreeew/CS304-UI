@@ -2,7 +2,7 @@
   <search-skeleton>
     <template v-slot:header-right>
       <a-input-search :style="{width:'320px'}" placeholder="Please enter something"/>
-  </template>
+    </template>
     <template v-slot:header-left>
       <a-tabs type="rounded" :active-key="type" size="mini" v style="margin-bottom: -20px" @change="jump">
         <a-tab-pane key="all" title="全部">

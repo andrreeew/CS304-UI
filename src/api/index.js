@@ -46,6 +46,24 @@ const api={
     },
     deleteGroupFund(groupId, fundId) {
         return request.post(BACKEND_URL + '/deleteGroupFund', {groupId:groupId,fundId:fundId})
+    },
+    getFunds(params) {
+        return request.get(BACKEND_URL + '/getFunds', {params: params})
+    },
+    getGroupByFund(fundId) {
+        return request.get(BACKEND_URL + '/getGroupByFund', {params: {id:fundId}})
+    },
+    deleteFundGroup(fundId, groupName) {
+        return request.post(BACKEND_URL + '/deleteFundGroup', {fundId:fundId,groupName,groupName})
+    },
+    addGroupsToFund(groups) {
+        return request.post(BACKEND_URL + '/addGroupsToFund', {groups:groups})
+    },
+    getFundDetailByGroup(fundId, groupId) {
+        return request.get(BACKEND_URL + '/getFundDetailByGroup', {params: {fundId:fundId,groupId,groupId}})
+    },
+    modifyGroupFundDetail(detail) {
+        return request.post(BACKEND_URL + '/modifyGroupFundDetail', {detail:detail})
     }
 }
 

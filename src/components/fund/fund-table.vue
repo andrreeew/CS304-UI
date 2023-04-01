@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import api from "@/api";
 import dayjs from "dayjs";
 
 export default {
@@ -82,7 +83,15 @@ export default {
   methods: {
     showDetail(record){
       this.$router.push({name:'admin-fund-detail', params:{fundId:record.id}})
+    },
+    getFunds(){
+      api.getFunds({}).then(res => {
+        this.data = res.data.data
+      })
     }
+  },
+  created(){
+    this.getFunds()
   }
 }
 </script>

@@ -5,10 +5,10 @@
       <a-tag v-else color="arcoblue">否</a-tag>
     </template>
 
-    <template #optional="{ rowIndex }">
+    <template #optional="{ record }">
       <a-space>
-        <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:13, groupId: 42}})">查看</a-button>
-        <delete-button @click="data.splice(rowIndex, 1)"></delete-button>
+        <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:fundId, groupId: record.group}})">查看</a-button>
+        <delete-button @click="deleteGroup(record.group)"></delete-button>
       </a-space>
 
     </template>
@@ -22,20 +22,24 @@
   </div>
   <a-divider  style="margin-top: 10px"></a-divider>
 
-  <a-modal v-model:visible="visible" title="添加课题组">
+  <a-modal v-model:visible="visible" @ok="addGroup" @cancel="clearForm" title="添加课题组">
     <a-select v-model="selectGroups"  multiple>
-      <a-option v-for="item in groups">{{item.label}}</a-option>
+      <a-option v-for="item in groups">{{item}}</a-option>
     </a-select>
   </a-modal>
 
 </template>
 
 <script>
+import api from "@/api";
+import {Message} from '@arco-design/web-vue'
 import deleteButton from '@/components/operation/delete-button'
-
 
 export default {
   name: "group-table",
+  props: {
+    fundId: Number
+  },
   components:{
     deleteButton
   },
@@ -45,7 +49,6 @@ export default {
       selectGroups:[],
       groups:[
         {value: 'li', label: 'Li'},
-        {value: 'fang', label: 'Fang'}
       ],
       columns:[
         {title: '课题组', dataIndex: 'group'},
@@ -80,6 +83,44 @@ export default {
       }
       ]
     }
+  },
+  methods: {
+    deleteGroup(groupName){
+      api.deleteFundGroup(this.fundId, groupName).then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+          this.data = res.data.data
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
+    },
+    addGroup(){
+      api.addGroupsToFund(this.selectGroups).then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+          this.data = res.data.data
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
+      this.clearForm()
+    },
+    clearForm(){
+      this.selectGroups = []
+    }
+  },
+  watch: {
+    fundId(newVal, oldVal){
+      api.getGroupByFund(newVal).then(res => {
+        this.data = res.data.data
+      })
+    }
+  },
+  created(){
+    api.getAllGroupName().then(res => {
+      this.groups = res.data.data
+    })
   }
 }
 </script>

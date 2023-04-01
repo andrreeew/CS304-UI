@@ -1,16 +1,29 @@
 <template>
+<!--<<<<<<< HEAD-->
   <detail-skeleton>
     <template v-slot:left>
       <a-space direction="vertical" size="medium" style="width: 100%">
         <a-card title="经费信息">
-          <fund-info></fund-info>
+          <fund-info :fundData="data"></fund-info>
+<!--          <fund-info></fund-info>-->
           <a-divider></a-divider>
           <fund-num></fund-num>
         </a-card>
 
         <a-card title="分配课题组" style="padding-bottom: 20px">
-          <group-table ></group-table>
+          <group-table :fundId="data.id"></group-table>
         </a-card>
+<!--=======-->
+<!--  <a-space direction="vertical" size="medium" style="width: 100%">-->
+<!--    <a-card title="经费信息">-->
+<!--      <fund-info :fundData="data"></fund-info>-->
+<!--      <a-divider></a-divider>-->
+<!--      <fund-num></fund-num>-->
+<!--    </a-card>-->
+
+<!--    <a-card title="分配课题组" style="padding-bottom: 20px">-->
+<!--      <group-table :fundId="data.id"></group-table>-->
+<!--    </a-card>-->
 
         <a-card title="使用记录">
           <template #extra>
@@ -21,14 +34,15 @@
 
       </a-space>
 
-
-
       <a-modal v-model:visible="visible" >
         <template #title>
           添加课题组
         </template>
         <group-form></group-form>
       </a-modal>
+<!--  <a-modal v-model:visible="visible" >-->
+<!--    <template #title>-->
+<!--      添加课题组-->
     </template>
 
     <template v-slot:right>
@@ -52,6 +66,7 @@ import applicationTable from '@/components/application/application-table'
 import groupTable from '@/pages/admin/fund/detail/components/group-table'
 import fundInfo from '@/pages/admin/fund/detail/components/fund-info'
 import fundNum from '@/pages/admin/fund/detail/components/fund-num'
+import api from "@/api"
 import deleteButton from '@/components/operation/delete-button'
 import {mapMutations} from 'vuex'
 import detailSkeleton from "@/components/operation/detail-skeleton";
@@ -67,15 +82,23 @@ export default {
     detailSkeleton
   },
   methods:{
-    ...mapMutations(['setRoutes'])
+    ...mapMutations(['setRoutes']),
+    getData(){
+      api.getFunds({id:this.id}).then(res => {
+        this.data = res.data.data[0]
+      })
+    }
   },
   data() {
     return {
+      id: this.$route.params.fundId,
+      data: {},
       visible: false,
     }
   },
-  created() {
+  created(){
     this.setRoutes([{label:'经费', name:'admin-fund'}])
+    this.getData()
   }
 }
 </script>
