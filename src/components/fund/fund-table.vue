@@ -5,6 +5,7 @@
       :bordered="false"
       :pagination="false"
       :scroll="{x: 1400, y: '100%',}"
+      :loading="loading"
   >
     <template #state="{ record }">
       <a-tag v-if="record.state==='complete'" color="green">
@@ -57,19 +58,8 @@ export default {
         {title: '剩余天数', dataIndex: 'leftDay'},
         {title: '操作', slotName: 'optional', fixed: 'right', width:150},
       ],
-      data:[{
-        key: '1',
-        id: 4214,
-        name: 'Jane Doe',
-        dateRange: [5325, 5325],
-        totalNum: 123451,
-        leftNum: 21515,
-        percent: 321,
-        state: 'complete',
-        leftDay: 19,
-        disabled: true,
-      }
-      ],
+      loading: true,
+      data:[],
       selectedKeys:[],
       rowSelection:{
         type: 'checkbox',
@@ -85,9 +75,10 @@ export default {
       this.$router.push({name:'admin-fund-detail', params:{fundId:record.id}})
     },
     getFunds(){
+      this.loading=true
       api.getFunds({}).then(res => {
         this.data = res.data.data
-      })
+      }).finally(()=>{this.loading=false})
     }
   },
   created(){

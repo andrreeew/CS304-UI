@@ -1,11 +1,9 @@
 <template>
-<!--<<<<<<< HEAD-->
   <detail-skeleton>
     <template v-slot:left>
       <a-space direction="vertical" size="medium" style="width: 100%">
         <a-card title="经费信息">
           <fund-info :fundData="data"></fund-info>
-<!--          <fund-info></fund-info>-->
           <a-divider></a-divider>
           <fund-num></fund-num>
         </a-card>
@@ -13,24 +11,12 @@
         <a-card title="分配课题组" style="padding-bottom: 20px">
           <group-table :fundId="data.id"></group-table>
         </a-card>
-<!--=======-->
-<!--  <a-space direction="vertical" size="medium" style="width: 100%">-->
-<!--    <a-card title="经费信息">-->
-<!--      <fund-info :fundData="data"></fund-info>-->
-<!--      <a-divider></a-divider>-->
-<!--      <fund-num></fund-num>-->
-<!--    </a-card>-->
-
-<!--    <a-card title="分配课题组" style="padding-bottom: 20px">-->
-<!--      <group-table :fundId="data.id"></group-table>-->
-<!--    </a-card>-->
-
-        <a-card title="使用记录">
-          <template #extra>
-            <a-link>更多</a-link>
-          </template>
-          <application-table style="margin-bottom: 20px"></application-table>
-        </a-card>
+<!--        <a-card title="使用记录">-->
+<!--          <template #extra>-->
+<!--            <a-link>更多</a-link>-->
+<!--          </template>-->
+<!--          <application-table style="margin-bottom: 20px"></application-table>-->
+<!--        </a-card>-->
 
       </a-space>
 

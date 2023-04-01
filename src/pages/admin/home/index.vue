@@ -55,9 +55,9 @@
             <template #extra>
               <a-link @click="jump()">更多</a-link>
             </template>
-            <a-tab-pane key="0" title="大致预览" >
-              <line-chart style="height: 300px"></line-chart>
-            </a-tab-pane>
+<!--            <a-tab-pane key="0" title="大致预览" >-->
+<!--              <line-chart style="height: 300px"></line-chart>-->
+<!--            </a-tab-pane>-->
             <a-tab-pane key="1"  style="padding: 0px 5px" title="待审批">
               <application-table ></application-table>
             </a-tab-pane>
@@ -109,7 +109,7 @@ export default {
   },
   data() {
     return {
-      selectedKey:'0',
+      selectedKey:'1',
       option: {
         xAxis: {
           type: 'category',

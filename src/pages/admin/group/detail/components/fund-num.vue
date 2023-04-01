@@ -6,7 +6,7 @@
             src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
         />
       </a-avatar>
-      <a-statistic title="总金额" :value="50" >
+      <a-statistic title="总人数" :value="50" >
 
       </a-statistic>
     </a-space>
@@ -16,7 +16,7 @@
             src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/fdc66b07224cdf18843c6076c2587eb5.svg~tplv-49unhts6dw-image.image"
         />
       </a-avatar>
-      <a-statistic title="待分配" :value="50" :value-from="0" animation>
+      <a-statistic title="总金额" :value="50" :value-from="0" animation>
       </a-statistic>
     </a-space>
     <a-space class="panel">
@@ -34,8 +34,7 @@
             src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/c8b36e26d2b9bb5dbf9b74dd6d7345af.svg~tplv-49unhts6dw-image.image"
         />
       </a-avatar>
-      <a-statistic title="完成率" :value="50" :value-from="0" animation>
-        <template #suffix>%</template>
+      <a-statistic title="剩余金额" :value="50" :value-from="0" animation>
       </a-statistic>
     </a-space>
 

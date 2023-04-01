@@ -152,7 +152,20 @@ const routes = [
                   component: ()=>import('../pages/user/application/new')
                 }
               ]
-            }
+            },
+          {
+            path: 'group',
+            name: 'user-group',
+            component: ()=>import('../pages/user/group'),
+            redirect: {name:'user-group-table'},
+            children: [
+              {
+                path: '',
+                name: 'user-group-table',
+                component: ()=>import('../pages/user/group/table')
+              }
+            ]
+          }
         ]
       },
 

@@ -1,32 +1,41 @@
 <template>
   <search-skeleton>
     <template v-slot:table>
-      <application-table :select="true" v-model:rows="selectedKeys"></application-table>
-      <div style="display: flex; justify-content: right">
-        <a-pagination :total="50" size="medium" show-total show-jumper show-page-size />
-      </div>
+      <a-spin :loading="loading" style="width: 100%">
+        <div v-if="groups.length===0" style="min-height:200px;
+      border-top: 1px solid var(--color-neutral-3);border-bottom: 1px solid var(--color-neutral-3);
+      display: flex; align-items: center">
+          <a-empty />
+        </div>
+
+        <a-grid v-else :cols="{ xs: 1, sm: 1, md: 1, lg: 2, xl:2, xxl:3}" :colGap="20" :rowGap="16" >
+          <a-grid-item span="1" v-for="i in groups">
+            <group-card :info="i">
+            </group-card>
+          </a-grid-item>
+        </a-grid>
+
+        <div style="display: flex; justify-content: right; margin-top: 20px">
+          <a-pagination
+              v-model:current="current"
+              :total="total"
+              :page-size="searchArgs.pageSize"
+              :page-size-options="[searchArgs.pageSize]"
+              size="medium"
+              show-total
+              show-jumper
+              show-page-size
+          />
+        </div>
+      </a-spin>
     </template>
-    <template v-slot:header-left>
-      <a-button type="primary" @click="$router.push({name:'user-application-new'})">
-        <template #icon>
-          <icon-plus />
-        </template>
-        创建申请
-      </a-button>
-      <a-button>导入</a-button>
-      选中 {{selectedKeys.length}} 条申请
-    </template>
+
 
     <template v-slot:header-right>
-      <a-tooltip content="撤回" >
-        <delete-button></delete-button>
-      </a-tooltip>
-
       <a-input-search></a-input-search>
     </template>
-
     <template v-slot:search-option>
-      <a-grid  style="width: 100%" :cols="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl:4}" :colGap=22 :rowGap="16" >
+      <a-grid  style="width: 100%" :cols="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl:4}" :colGap=40 :rowGap="16" >
         <a-grid-item >
           <a-row class="search-item" >
             <a-col :span="8" >
@@ -92,40 +101,48 @@
           </a-row>
         </a-grid-item>
 
-
-
       </a-grid>
     </template>
   </search-skeleton>
 </template>
 
 <script>
-import applicationTable from '@/components/application/application-table'
-import deleteButton from '@/components/operation/delete-button'
+import groupCard from '@/components/group/group-card'
 import searchSkeleton from '@/components/operation/search-skeleton'
 import {mapMutations} from "vuex";
+
 
 export default {
   name: "index",
   components:{
-    applicationTable,
+    groupCard,
     searchSkeleton,
-    deleteButton
   },
   data(){
     return{
-      selectedKeys:[],
+      loading:false,
+      groups: [],
+      searchArgs: {
+        id: this.$route.query.id,
+        pageSize: this.$route.query.pageSize|3,
+        page: this.$route.query.p|1
+      },
+      total: 0,
+      current: 1,
     }
   },
-  methods:{
-    ...mapMutations(['setRoutes'])
+  methods: {
+    ...mapMutations(['setRoutes']),
   },
-  created() {
-    this.setRoutes([{label:'申请', name:'user-application'}])
+  created(){
+    this.setRoutes([{label:'课题组', name:'user-group'}])
   }
-
 }
 </script>
 
 <style scoped>
+
+.search-item{
+  align-items: baseline
+}
 </style>

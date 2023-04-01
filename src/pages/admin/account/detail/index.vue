@@ -2,14 +2,13 @@
   <detail-skeleton>
     <template v-slot:left>
       <a-space style="width: 100%" size="medium" direction="vertical">
-        <a-card>
-          <a-card :bordered="false"  title="个人信息">
+        <a-card title="个人信息">
+
             <a-descriptions :data="userInfo"  size="large" :column="{xs:1, lg:2}"/>
-          </a-card>
         </a-card>
 
-        <a-card>
-          <a-card :bordered="false" title="所属课题组">
+        <a-card title="所属课题组">
+          <a-card :bordered="false" >
             <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 2, xl:2, xxl:2}" :colGap="20" :rowGap="16" >
               <a-grid-item span="1" v-for="group in groups">
                 <group-card :info="group" >
@@ -81,14 +80,14 @@
         <!--        </a-statistic>-->
         <!--      </div>-->
         <!--    </a-card>-->
-        <a-card >
-          <a-card :bordered="false" title="申请记录">
-            <template #extra>
-              <a-link>More</a-link>
-            </template>
-            <application-table style="margin-bottom: 20px"></application-table>
-          </a-card>
-        </a-card>
+<!--        <a-card >-->
+<!--          <a-card :bordered="false" title="申请记录">-->
+<!--            <template #extra>-->
+<!--              <a-link>More</a-link>-->
+<!--            </template>-->
+<!--            <application-table style="margin-bottom: 20px"></application-table>-->
+<!--          </a-card>-->
+<!--        </a-card>-->
       </a-space>
     </template>
     <template v-slot:right>
@@ -133,7 +132,8 @@ export default {
         {label: 'ID', value: ''},
         {label: '用户名', value: ''},
         {label: '邮箱', value: ''},
-        {label: '手机号', value: ''}
+        {label: '手机号', value: ''},
+        {label:'密码', value:''},
       ],
 
       groups:[

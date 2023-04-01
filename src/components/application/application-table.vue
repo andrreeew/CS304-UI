@@ -44,7 +44,7 @@
     </template>
   </a-table>
 
-    <a-modal v-model:visible="visible" title="申请详情">
+    <a-modal v-model:visible="visible" width="auto" title="申请详情" >
       <template #footer>
         <a-tooltip  v-if="identity==='admin'&&selectedRecord.state==='underway'" content="通过" >
           <check-button></check-button>
@@ -54,7 +54,6 @@
         </a-tooltip>
       </template>
       <application-detail></application-detail>
-
     </a-modal>
 </template>
 
