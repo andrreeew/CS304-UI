@@ -64,6 +64,18 @@ const api={
     },
     modifyGroupFundDetail(detail) {
         return request.post(BACKEND_URL + '/modifyGroupFundDetail', {detail:detail})
+    },
+    getApplications(params) {
+        return request.get(BACKEND_URL + '/getApplications', {params: params})
+    },
+    permitApplication(applicationId) {
+        return request.post(BACKEND_URL + '/permitApplication', {id:applicationId})
+    },
+    denyApplications(applicationIds, role) {
+        return request.post(BACKEND_URL + '/denyApplications', {ids:applicationIds,role:role})
+    },
+    createApplication(form){
+        return request.post(BACKEND_URL + '/createApplication', form)
     }
 }
 

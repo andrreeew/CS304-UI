@@ -168,7 +168,6 @@ export default {
       this.searchArgs.page = this.current
       this.searchUsers()
     },
-
     deleteUsers(ids){
       if (ids.length === 0) {
         Message.error('未选中账号！')

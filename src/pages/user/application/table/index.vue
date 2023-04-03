@@ -1,9 +1,26 @@
 <template>
   <search-skeleton>
     <template v-slot:table>
-      <application-table :select="true" v-model:rows="selectedKeys"></application-table>
+      <application-table 
+        v-model:rows="selectedKeys" 
+        :select="true" 
+        :applicationData="applicationData"
+        @deny="cancelApplication" 
+      >
+      </application-table>
+
       <div style="display: flex; justify-content: right">
-        <a-pagination :total="50" size="medium" show-total show-jumper show-page-size />
+        <a-pagination 
+          v-model:current="current" 
+          :total="total" 
+          :page-size="pageSize" 
+          :page-size-options="[pageSize]" 
+          size="medium" 
+          show-total 
+          show-jumper 
+          show-page-size 
+          @change="changePage"
+        />
       </div>
     </template>
     <template v-slot:header-left>
@@ -19,7 +36,7 @@
 
     <template v-slot:header-right>
       <a-tooltip content="撤回" >
-        <delete-button></delete-button>
+        <delete-button @click="batchCancelApplication"></delete-button>
       </a-tooltip>
 
       <a-input-search></a-input-search>
@@ -103,7 +120,9 @@
 import applicationTable from '@/components/application/application-table'
 import deleteButton from '@/components/operation/delete-button'
 import searchSkeleton from '@/components/operation/search-skeleton'
-import {mapMutations} from "vuex";
+import {mapMutations} from "vuex"
+import api from "@/api"
+import {Message} from '@arco-design/web-vue'
 
 export default {
   name: "index",
@@ -115,15 +134,79 @@ export default {
   data(){
     return{
       selectedKeys:[],
+      pageSize:3,
+      current:1,
+      total:5,
+      queryArgs:{
+        type:null,
+        page:null,
+      },
+      applicationData:null,
+      loading:false
     }
   },
   methods:{
-    ...mapMutations(['setRoutes'])
+    ...mapMutations(['setRoutes']),
+    jumpPage(queryArgs){
+      this.$router.push({name:'user-application-table', query:queryArgs})
+    },
+    init(){
+      this.type=this.$route.query.type?this.$route.query.type:'all'
+      this.queryArgs.page=this.$route.query.page?this.$route.query.page:1
+      if (this.$route.query.page == null) {
+        this.current = 1
+      }
+      this.getData()
+    },
+    jump(value){
+      this.jumpPage({type:value})
+    },
+    changePage(){
+      this.queryArgs.page = this.current
+      this.queryArgs.type = this.type
+      this.jumpPage(this.queryArgs)
+    },
+    getData(){
+      this.loading = true
+      api.getApplications(this.queryArgs).then(res => {
+        this.applicationData = res.data.data.data
+        this.total = res.data.data.total
+      }).finally(()=>{this.loading=false})
+    },
+    cancelApplication(id){
+      api.denyApplications([id], 'user').then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+          this.getData()
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
+    },
+    batchCancelApplication(){
+      if (this.selectedKeys.length === 0) {
+        Message.error('未选中申请记录！')
+        return
+      }
+      api.denyApplications(this.selectedKeys, 'user').then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+          this.getData()
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
+    }
+  },
+  watch: {
+    $route() {
+      this.init()
+    },
   },
   created() {
     this.setRoutes([{label:'申请', name:'user-application'}])
+    this.init()
   }
-
 }
 </script>
 

@@ -35,10 +35,10 @@
       <a-space>
         <a-button @click="showDetail(record)">查看</a-button>
         <a-tooltip  v-if="identity==='admin'&&record.state==='underway'" content="通过" >
-          <check-button></check-button>
+          <check-button @click="this.$emit('permit', record.id)"></check-button>
         </a-tooltip>
         <a-tooltip  v-if="record.state==='underway'" :content="identity==='admin'?'驳回':'撤回'" >
-          <delete-button></delete-button>
+          <delete-button @click="this.$emit('deny', record.id)"></delete-button>
         </a-tooltip>
       </a-space>
     </template>
@@ -74,11 +74,15 @@ export default {
   props:{
     select:true,
     rows:[],
+    applicationData:null
   },
   watch:{
     selectedKeys(value){
       this.$emit('update:rows', value)
     },
+    applicationData(newVal, oldVal){
+      this.data = newVal
+    }
   },
   computed:{
     rowSelection(){
@@ -131,9 +135,7 @@ export default {
         group: 'dsafsa',
         num: 2141,
         category: '办公费',
-      }
-
-      ],
+      }],
       selectedKeys:this.rows,
       // rowSelection: this.select? {type: 'checkbox', showCheckedAll: true,}:null,
       selectedRecord:'',
@@ -145,7 +147,7 @@ export default {
     showDetail(record){
       this.selectedRecord = record
       this.visible = true
-    }
+    },
   }
 }
 </script>

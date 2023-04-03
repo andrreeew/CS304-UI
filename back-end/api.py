@@ -6,6 +6,39 @@ CORS(app, supports_credentials=True)
 
 accounts = []
 groups = []
+applications = [{
+    'key': '1',
+    'id': 4214,
+    'name': 'getApplications',
+    'state': 'complete',
+    'group': 'dsafsa',
+    'num': 2141,
+    'category': '办公费',
+    }, {
+    'key': '2',
+    'id': 424,
+    'name': 'Jfsae Doe',
+    'state': 'reject',
+    'group': 'dsafsa',
+    'num': 2141,
+    'category': '办公费',
+    }, {
+    'key': '3',
+    'id': 114514,
+    'name': 'Jfsae Doe',
+    'state': 'underway',
+    'group': 'dsafsa',
+    'num': 2141,
+    'category': '办公费',
+    }, {
+    'key': '4',
+    'id': 425,
+    'name': 'Jfsae Doe',
+    'state': 'underway',
+    'group': 'dsafsa',
+    'num': 2141,
+    'category': '办公费',
+}]
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -424,6 +457,56 @@ def modifyGroupFundDetail():
             {'category1':'modifyGroupFundDetail', 'category2':'', 'total':10, 'cost':20, 'left':10, 'new':False},
             {'category1':'Sichuan', 'category2':4, 'total':10, 'cost':20, 'left':10, 'new':True}
         ]
+    }
+
+@app.route('/getApplications', methods=['GET'])
+def getApplications():
+    args = request.args
+    page = args.get('page', default=1, type=int)
+    print('getApplications')
+    print(page)
+    return {
+        'code':200,
+        'msg': '修改成功',
+        'data': {
+            'data': applications[(page-1)*3 : min(page*3,len(applications))],
+            "total": 4
+        }
+    }
+
+@app.route('/permitApplication', methods=['POST'])
+def permitApplication():
+    id = request.json['id']
+    print('permitApplication')
+    print(id)
+    return {
+        'code':200,
+        'msg': '通过成功',
+        'data': {}
+    }
+
+@app.route('/denyApplications', methods=['POST'])
+def denyApplications():
+    id = request.json['ids']
+    role = request.json['role']
+    print('denyApplications')
+    print(id)
+    print(role)
+    return {
+        'code':200,
+        'msg': '驳回成功' if role == 'admin' else '撤回成功',
+        'data': {}
+    }
+
+@app.route('/createApplication', methods=['POST'])
+def createApplication():
+    form = request.json
+    print('createApplication')
+    print(form)
+    return {
+        'code':200,
+        'msg': '创建申请成功',
+        'data': {}
     }
 
 if __name__ == '__main__':

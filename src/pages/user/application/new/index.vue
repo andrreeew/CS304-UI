@@ -52,15 +52,15 @@
   <div class="operation">
     <a-space style="margin-right: 10px">
       <a-button @click="clearForm()">重置</a-button>
-      <a-button type="primary">确认</a-button>
+      <a-button type="primary" @click="submit">确认</a-button>
     </a-space>
   </div>
 </template>
 
 <script>
-
-
-import {mapMutations} from "vuex";
+import api from "@/api"
+import {mapMutations} from "vuex"
+import {Message} from '@arco-design/web-vue'
 
 export default {
   name: "index",
@@ -94,6 +94,16 @@ export default {
       for (let key in this.form){
          this.form[key] = ''
       }
+    },
+    submit(){
+      api.createApplication(this.form).then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
+      this.$router.push({name:'user-application-table', query:{}})
     }
   },
   watch : {
@@ -101,9 +111,11 @@ export default {
       this.form.category2 = ''
     }
   },
-
   created() {
     this.setRoutes([{label:'申请', name:'user-application'}, {label: '创建申请', name: 'user-application-new'}])
+    api.getAllGroupName().then(res => {
+      this.groups = res.data.data
+    })
   }
 }
 </script>
