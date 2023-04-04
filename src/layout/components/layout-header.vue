@@ -47,7 +47,7 @@
           </a-tooltip>
           <template #content>
             <div class="card">
-              <notify-list></notify-list>
+              <notify-list :data="notify"></notify-list>
             </div>
 
           </template>
@@ -83,6 +83,20 @@ export default {
   data(){
     return{
       identity:this.$route.path.substring(1).split('/')[0],
+      notify:[],
+    }
+  },
+  mounted() {
+    this.$options.sockets.onmessage = (message) => {
+
+      var data = JSON.parse(message.data)
+      if(this.identity===data.identity){
+        if(data.type==='permit'){
+          this.$notification.success(data.msg)
+        }else if(data.type==='deny') {
+          this.$notification.error(data.msg)
+        }
+      }
     }
   }
 

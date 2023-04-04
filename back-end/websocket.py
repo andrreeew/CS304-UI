@@ -19,15 +19,17 @@ class DanmakuServer:
         self.clients.append(client)
         try:
             while True:
-                message = await websocket.recv()
-                if message=='admin':
-                    client[1] = True
+                # message = await websocket.recv()
+                # if message=='admin':
+                #     client[1] = True
 
-                print("Received message:", message)
-                if client[1]:
-                    response = "You said: " + message
-                    for c in self.clients:
-                        await c[0].send(json.dumps({'msg':response}))
+                # print("Received message:", message)
+                # if client[1]:
+                    # response = "You said: " + message
+                for c in self.clients:
+                    await c[0].send(json.dumps({'msg':response}))
+                
+                await asyncio.sleep(10)
         except websockets.exceptions.ConnectionClosedOK:
             try:
                 self.clients.remove(websocket)

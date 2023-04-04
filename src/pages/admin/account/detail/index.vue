@@ -148,7 +148,7 @@ export default {
     }
   },
   created(){
-    this.setRoutes([{label:'账号', name:'admin-accouxnt'}])
+    this.setRoutes([{label:'账号', name:'admin-account'}])
     // api.getUsers({key:this.$route.params.user,pageSize:1,page:1}).then(res => {
     //   let info = res.data.data.users[0]
     //   this.userInfo[0].value = info.key

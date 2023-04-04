@@ -247,6 +247,7 @@ export default {
       api.denyApplications([id], 'admin').then(res => {
         if (res.data.code == 200) {
           Message.success(res.data.msg)
+          this.$socket.send('deny');
           this.getData()
         } else {
           Message.error(res.data.msg)
@@ -257,6 +258,7 @@ export default {
       api.permitApplication(id).then(res => {
         if (res.data.code == 200) {
           Message.success(res.data.msg)
+          this.$socket.send('permit');
           this.getData()
         } else {
           Message.error(res.data.msg)
