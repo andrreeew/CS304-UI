@@ -5,6 +5,7 @@
       :bordered="false"
       :row-selection="rowSelection"
       :pagination="false"
+      :loading="loading"
       :scroll="{x: 1400, y: '100%',}"
       v-model:selectedKeys="selectedKeys"
   >
@@ -35,10 +36,10 @@
       <a-space>
         <a-button @click="showDetail(record)">查看</a-button>
         <a-tooltip  v-if="identity==='admin'&&record.state==='underway'" content="通过" >
-          <check-button @click="this.$emit('permit', record.id)"></check-button>
+          <check-button @click="permitApplication(record.id)"></check-button>
         </a-tooltip>
         <a-tooltip  v-if="record.state==='underway'" :content="identity==='admin'?'驳回':'撤回'" >
-          <delete-button @click="this.$emit('deny', record.id)"></delete-button>
+          <delete-button @click="denyApplication(record.id)"></delete-button>
         </a-tooltip>
       </a-space>
     </template>
@@ -62,6 +63,8 @@ import dayjs from 'dayjs'
 import applicationDetail from '@/components/application/application-detail'
 import deleteButton from '@/components/operation/delete-button'
 import checkButton from '@/components/operation/check-button'
+import api from "@/api";
+import {Message} from "@arco-design/web-vue";
 
 export default {
   name: "application-table",
@@ -72,17 +75,19 @@ export default {
   },
 
   props:{
-    select:true,
-    rows:[],
-    applicationData:null
+    select:{default:true},
+    rows:{default:[]},
+    data:{default:[]},
+    loading:{default:false},
+    updateData: {
+      type: Function,
+      default() {}
+    }
   },
   watch:{
     selectedKeys(value){
       this.$emit('update:rows', value)
     },
-    applicationData(newVal, oldVal){
-      this.data = newVal
-    }
   },
   computed:{
     rowSelection(){
@@ -103,41 +108,7 @@ export default {
         {title: '支出类别一级', dataIndex: 'category'},
         {title: '操作', slotName: 'optional', fixed: 'right', width:200},
       ],
-      data:[{
-        key: '1',
-        id: 4214,
-        name: 'Jane Doe',
-        state: 'complete',
-        group: 'dsafsa',
-        num: 2141,
-        category: '办公费',
-      }, {
-        key: '2',
-        id: 424,
-        name: 'Jfsae Doe',
-        state: 'reject',
-        group: 'dsafsa',
-        num: 2141,
-        category: '办公费',
-      }, {
-        key: '3',
-        id: 424,
-        name: 'Jfsae Doe',
-        state: 'underway',
-        group: 'dsafsa',
-        num: 2141,
-        category: '办公费',
-      }, {
-        key: '3',
-        id: 424,
-        name: 'Jfsae Doe',
-        state: 'underway',
-        group: 'dsafsa',
-        num: 2141,
-        category: '办公费',
-      }],
       selectedKeys:this.rows,
-      // rowSelection: this.select? {type: 'checkbox', showCheckedAll: true,}:null,
       selectedRecord:'',
       visible:false,
     }
@@ -148,6 +119,26 @@ export default {
       this.selectedRecord = record
       this.visible = true
     },
+    denyApplication(id){
+      api.denyApplications([id], 'admin').then(res => {
+        if (res.data.code=== 200) {
+          Message.success(res.data.msg)
+          this.$socket.send('deny');
+        } else {
+          Message.error(res.data.msg)
+        }
+      }).finally(()=>{this.updateData()})
+    },
+    permitApplication(id){
+      api.permitApplication(id).then(res => {
+        if (res.data.code=== 200) {
+          Message.success(res.data.msg)
+          this.$socket.send('permit');
+        } else {
+          Message.error(res.data.msg)
+        }
+      }).finally(()=>{this.updateData()})
+    }
   }
 }
 </script>

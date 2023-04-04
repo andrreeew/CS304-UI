@@ -19,9 +19,9 @@
       <application-table 
         v-model:rows="selectedKeys" 
         :select="batch" 
-        :applicationData="applicationData" 
-        @deny="denyApplication" 
-        @permit="permitApplication"
+        :data="applicationData"
+        :loading="loading"
+        :update-data="getData"
       >
       </application-table>
 
@@ -211,7 +211,7 @@ export default {
         type:null,
         page:null,
       },
-      applicationData:null,
+      applicationData:[],
       loading:false
     }
   },
@@ -243,28 +243,6 @@ export default {
         this.total = res.data.data.total
       }).finally(()=>{this.loading=false})
     },
-    denyApplication(id){
-      api.denyApplications([id], 'admin').then(res => {
-        if (res.data.code == 200) {
-          Message.success(res.data.msg)
-          this.$socket.send('deny');
-          this.getData()
-        } else {
-          Message.error(res.data.msg)
-        }
-      })
-    },
-    permitApplication(id){
-      api.permitApplication(id).then(res => {
-        if (res.data.code == 200) {
-          Message.success(res.data.msg)
-          this.$socket.send('permit');
-          this.getData()
-        } else {
-          Message.error(res.data.msg)
-        }
-      })
-    }
   },
   watch: {
     $route() {

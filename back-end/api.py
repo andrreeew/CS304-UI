@@ -8,44 +8,42 @@ import threading
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-clients = []
+# clients = []
 
-
-
-async def reply(websocket):
-    print("New client connected.")
-    response = "Welcome to my WebSocket server!"
-    await websocket.send(json.dumps({'msg':response}))
-    clients.append(websocket)
-    try:
-        while True:
-            message = await websocket.recv()
-            print("Received message:", message)
-            if message=='permit':
-                for c in clients:
-                    await c.send(json.dumps({'identity':'user', 'type':'permit', 'msg':'申请已通过'}))
-            elif message=='deny':
-                for c in clients:
-                    await c.send(json.dumps({'identity':'user', 'type':'deny', 'msg':'申请被驳回'}))
+# async def reply(websocket):
+#     print("New client connected.")
+#     response = "Welcome to my WebSocket server!"
+#     await websocket.send(json.dumps({'msg':response}))
+#     clients.append(websocket)
+#     try:
+#         while True:
+#             message = await websocket.recv()
+#             print("Received message:", message)
+#             if message=='permit':
+#                 for c in clients:
+#                     await c.send(json.dumps({'identity':'user', 'type':'permit', 'msg':'申请已通过'}))
+#             elif message=='deny':
+#                 for c in clients:
+#                     await c.send(json.dumps({'identity':'user', 'type':'deny', 'msg':'申请被驳回'}))
                 
-    except websockets.exceptions.ConnectionClosedOK:
-        try:
-            clients.remove(websocket)
-        except:
-            pass
-        finally:
-            print("Client disconnected.")
+#     except websockets.exceptions.ConnectionClosedOK:
+#         try:
+#             clients.remove(websocket)
+#         except:
+#             pass
+#         finally:
+#             print("Client disconnected.")
 
-def ws():
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(websockets.serve(reply, 'localhost', 5002))
-    loop.run_forever()
-    # asyncio.get_event_loop().run_until_complete(websockets.serve(reply, 'localhost', 5002))
-    # asyncio.get_event_loop().run_forever()
+# def ws():
+#     loop = asyncio.new_event_loop()
+#     asyncio.set_event_loop(loop)
+#     loop.run_until_complete(websockets.serve(reply, 'localhost', 5002))
+#     loop.run_forever()
+#     # asyncio.get_event_loop().run_until_complete(websockets.serve(reply, 'localhost', 5002))
+#     # asyncio.get_event_loop().run_forever()
 
-t = threading.Thread(target=ws)
-t.start()
+# t = threading.Thread(target=ws)
+# t.start()
 
 
 
@@ -523,6 +521,7 @@ def getApplications():
 def permitApplication():
     id = request.json['id']
     print('permitApplication')
+    print(id)
     return {
         'code':200,
         'msg': '通过成功',
