@@ -170,7 +170,7 @@ export default {
       this.getData()
     },
     submit(){
-      api.modifyGroupFundDetail(this.data).then(res => {
+      api.modifyGroupFundDetail(this.fundId, this.groupId, this.data).then(res => {
         if (res.data.code == 200) {
           Message.success(res.data.msg)
           this.data = res.data.data

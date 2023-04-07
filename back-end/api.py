@@ -490,6 +490,7 @@ def getFundDetailByGroup():
 
 @app.route('/modifyGroupFundDetail', methods=['POST'])
 def modifyGroupFundDetail():
+    groupId, fundId = request.json['groupId'], request.json['fundId']
     detail = request.json['detail']
     print('modifyGroupFundDetail')
     print(detail)

@@ -62,8 +62,8 @@ const api={
     getFundDetailByGroup(fundId, groupId) {
         return request.get(BACKEND_URL + '/getFundDetailByGroup', {params: {fundId:fundId,groupId:groupId}})
     },
-    modifyGroupFundDetail(detail) {
-        return request.post(BACKEND_URL + '/modifyGroupFundDetail', {detail:detail})
+    modifyGroupFundDetail(fundId, groupId, detail) {
+        return request.post(BACKEND_URL + '/modifyGroupFundDetail', {fundId:fundId,groupId:groupId, detail:detail})
     },
     getApplications(params) {
         return request.get(BACKEND_URL + '/getApplications', {params: params})
