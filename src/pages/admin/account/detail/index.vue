@@ -149,14 +149,14 @@ export default {
   },
   created(){
     this.setRoutes([{label:'账号', name:'admin-account'}])
-    // api.getUsers({key:this.$route.params.user,pageSize:1,page:1}).then(res => {
-    //   let info = res.data.data.users[0]
-    //   this.userInfo[0].value = info.key
-    //   this.userInfo[1].value = info.name
-    //   this.userInfo[2].value = info.email
-    //   this.userInfo[3].value = info.phone
-    //   // this.groups = info.group
-    // })
+    api.getUsers({key:this.$route.params.user,pageSize:1,page:1}).then(res => {
+      let info = res.data.data.users[0]
+      this.userInfo[0].value = info.key
+      this.userInfo[1].value = info.name
+      this.userInfo[2].value = info.email
+      this.userInfo[3].value = info.phone
+      this.groups = info.group
+    })
   }
 }
 </script>

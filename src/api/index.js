@@ -54,13 +54,13 @@ const api={
         return request.get(BACKEND_URL + '/getGroupByFund', {params: {id:fundId}})
     },
     deleteFundGroup(fundId, groupName) {
-        return request.post(BACKEND_URL + '/deleteFundGroup', {fundId:fundId,groupName,groupName})
+        return request.post(BACKEND_URL + '/deleteFundGroup', {fundId:fundId,groupName:groupName})
     },
     addGroupsToFund(groups) {
         return request.post(BACKEND_URL + '/addGroupsToFund', {groups:groups})
     },
     getFundDetailByGroup(fundId, groupId) {
-        return request.get(BACKEND_URL + '/getFundDetailByGroup', {params: {fundId:fundId,groupId,groupId}})
+        return request.get(BACKEND_URL + '/getFundDetailByGroup', {params: {fundId:fundId,groupId:groupId}})
     },
     modifyGroupFundDetail(detail) {
         return request.post(BACKEND_URL + '/modifyGroupFundDetail', {detail:detail})
