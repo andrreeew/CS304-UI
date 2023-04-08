@@ -96,7 +96,7 @@ export default {
       })
     },
     addGroup(){
-      api.addGroupsToFund(this.selectGroups).then(res => {
+      api.addGroupsToFund(this.fundId,this.selectGroups).then(res => {
         if (res.data.code == 200) {
           Message.success(res.data.msg)
           this.data = res.data.data
