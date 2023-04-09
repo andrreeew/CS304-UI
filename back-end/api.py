@@ -309,8 +309,10 @@ def deleteGroupUser():
 
 @app.route('/addGroupUsers', methods=['POST'])
 def addGroupUsers():
-    users, admin = request.json['account'], request.json['admin']
+    groupName = request.json['group']
+    users, admin = request.json['form']['account'], request.json['form']['admin']
     print('addGroupUsers')
+    print(groupName)
     print(users)
     print(admin)
     return {
@@ -676,11 +678,129 @@ def getAdminMessages():
     print(page)
     return {
         'code':200,
-        'msg': '修改成功',
+        'msg': '',
         'data': {
             'data': adminMsgs[(page-1)*4 : min(page*4,len(adminMsgs))],
             "total": len(adminMsgs)
         }
+    }
+
+@app.route('/getUserHomeStatistics', methods=['GET'])
+def getUserHomeStatistics():
+    print('getUserHomeStatistics')
+    return {
+        'code':200,
+        'msg': '',
+        'data': {
+            'underwayApplication':4,
+            'recentApplication':3,
+            'permittedApplication':2,
+            'rejectedApplication':1
+        }
+    }
+
+@app.route('/getUserGroups', methods=['GET'])
+def getUserGroups():
+    print('getUserGroups')
+    return {
+        'code':200,
+        'msg': '',
+        'data': [
+            {
+                'id': '1',
+                'name': 'group1',
+                'total': 100,
+                'cost': 20,
+                'left': 80,
+                'users': [{'name': 'addGroupUser1', 'admin': False}, {'name': 'user2', 'admin': True}]
+            },
+            {
+                'id': '2',
+                'name': 'group2',
+                'total': 100,
+                'cost': 20,
+                'left': 80,
+                'users': [{'name': 'addGroupUser1', 'admin': False}, {'name': 'user2', 'admin': True}]
+            },
+            {
+                'id': '3',
+                'name': 'group3',
+                'total': 100,
+                'cost': 20,
+                'left': 80,
+                'users': [{'name': 'addGroupUser1', 'admin': False}, {'name': 'user2', 'admin': True}]
+            },
+            {
+                'id': '4',
+                'name': 'group4',
+                'total': 100,
+                'cost': 20,
+                'left': 80,
+                'users': [{'name': 'addGroupUser1', 'admin': False}, {'name': 'user2', 'admin': True}]
+            },
+        ]
+    }
+
+@app.route('/getUserMessages', methods=['GET'])
+def getUserMessages():
+    args = request.args
+    page = args.get('page', default=1, type=int)
+    print('getUserMessages')
+    print(page)
+    return {
+        'code':200,
+        'msg': '',
+        'data': {
+            'data': adminMsgs[(page-1)*4 : min(page*4,len(adminMsgs))],
+            "total": len(adminMsgs)
+        }
+    }
+
+@app.route('/addUserToGroups', methods=['POST'])
+def addUserToGroups():
+    userId = request.json['userId']
+    groups, admin = request.json['form']['group'], request.json['form']['admin']
+    print('addUserToGroups')
+    print(userId)
+    print(groups)
+    print(admin)
+    return {
+        'code':200,
+        'msg': '添加成功',
+        'data': [
+            {
+                'id': '1',
+                'name': 'group1',
+                'total': 100,
+                'cost': 20,
+                'left': 80,
+                'users': [{'name': 'addGroupUser1', 'admin': False}, {'name': 'user2', 'admin': True}]
+            },
+            {
+                'id': '2',
+                'name': 'group2',
+                'total': 100,
+                'cost': 20,
+                'left': 80,
+                'users': [{'name': 'addGroupUser1', 'admin': False}, {'name': 'user2', 'admin': True}]
+            },
+            {
+                'id': '3',
+                'name': 'group3',
+                'total': 100,
+                'cost': 20,
+                'left': 80,
+                'users': [{'name': 'addGroupUser1', 'admin': False}, {'name': 'user2', 'admin': True}]
+            },
+            {
+                'id': '4',
+                'name': 'group4',
+                'total': 100,
+                'cost': 20,
+                'left': 80,
+                'users': [{'name': 'addGroupUser1', 'admin': False}, {'name': 'user2', 'admin': True}]
+            },
+        ]
     }
 
 if __name__ == '__main__':

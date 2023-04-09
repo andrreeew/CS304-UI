@@ -36,7 +36,7 @@ const api={
         return request.post(BACKEND_URL + '/deleteGroupUser', {group:group, user:name})
     },
     addGroupUsers(group, form) {
-        return request.post(BACKEND_URL + '/addGroupUsers', form)
+        return request.post(BACKEND_URL + '/addGroupUsers', {group:group, form:form})
     },
     getUsersNotInGroup(groupName) {
         return request.get(BACKEND_URL + '/getUsersNotInGroup', {params: {groupName:groupName}})
@@ -96,7 +96,16 @@ const api={
         return request.get(BACKEND_URL + '/getAdminMessages', {params: params})
     },
     getUserHomeStatistics(){
-        
+        return request.get(BACKEND_URL + '/getUserHomeStatistics')
+    },
+    getUserGroups(){
+        return request.get(BACKEND_URL + '/getUserGroups')
+    },
+    getUserMessages(params){
+        return request.get(BACKEND_URL + '/getUserMessages', {params: params})
+    },
+    addUserToGroups(userId, form){
+        return request.post(BACKEND_URL + '/addUserToGroups', {userId:userId, form:form})
     }
 }
 

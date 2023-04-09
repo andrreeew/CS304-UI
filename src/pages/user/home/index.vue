@@ -55,13 +55,13 @@
             <template #extra>
               <a-space>
                 <a-button type="primary" @click="$router.push({name:'user-application-new'})">创建申请</a-button>
-                <a-button >更多</a-button>
+                <a-button @click="$router.push({name:'user-application'})">更多</a-button>
               </a-space>
             </template>
             <a-tab-pane key="0" style="padding: 0px 5px" title="我的申请" >
-              <application-table ></application-table>
+              <application-table :data="applicationData" :loading="loading"></application-table>
             </a-tab-pane>
-            <a-tab-pane key="1"  style="padding: 0px 5px" title="申请中">
+            <!-- <a-tab-pane key="1"  style="padding: 0px 5px" title="申请中">
               <application-table ></application-table>
             </a-tab-pane>
             <a-tab-pane key="2" style="padding: 0px 5px" title="已通过">
@@ -69,7 +69,7 @@
             </a-tab-pane>
             <a-tab-pane key="3" style="padding: 0px 5px" title="已驳回">
               <application-table ></application-table>
-            </a-tab-pane>
+            </a-tab-pane> -->
           </a-tabs>
 
         </a-card>
@@ -121,8 +121,8 @@
             </div>
             <a-divider style="margin-top: 0px; margin-bottom: 10px"></a-divider>
             <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 1, xl:1, xxl:1}" :colGap="20" :rowGap="16" >
-              <a-grid-item span="1" v-for="i in 2">
-                <group-card></group-card>
+              <a-grid-item span="1" v-for="i in groups">
+                <group-card :info="i"></group-card>
               </a-grid-item>
             </a-grid>
           </a-space>
@@ -141,6 +141,7 @@ import groupCard from '@/components/group/group-card'
 import {mapMutations} from "vuex";
 import dayjs from "dayjs";
 import detailSkeleton from "@/components/operation/detail-skeleton";
+import api from "@/api"
 
 export default {
   name: "index",
@@ -159,6 +160,9 @@ export default {
         permittedApplication:0,
         rejectedApplication:0
       },
+      groups:[],
+      applicationData:[],
+      loading:false,
       period:'',
       option: {
         xAxis: {
@@ -180,10 +184,26 @@ export default {
   methods:{
     ...mapMutations(['setRoutes']),
     getStatistics(){
-      
-    }
+      api.getUserHomeStatistics().then(res => {
+        this.statistics = res.data.data
+      })
+    },
+    getGroups(){
+      api.getUserGroups().then(res => {
+        this.groups = res.data.data
+      })
+    },
+    getApplications(){
+      this.loading = true
+      api.getApplications({type:'all',page:1}).then(res => {
+        this.applicationData = res.data.data.data
+      }).finally(()=>{this.loading=false})
+    },
   },
   created() {
+    this.getStatistics()
+    this.getGroups()
+    this.getApplications()
     this.setRoutes([{label:'主页', name:'user'}])
     const now = dayjs()
     const hour = now.hour()
