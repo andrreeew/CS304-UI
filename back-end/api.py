@@ -56,6 +56,8 @@ applications = [{
     'state': 'complete',
     'group': 'dsafsa',
     'num': 2141,
+    'date':'2022-4-9',
+    'people':'Xiao Wang',
     'category': '办公费',
     }, {
     'key': '2',
@@ -64,6 +66,8 @@ applications = [{
     'state': 'reject',
     'group': 'dsafsa',
     'num': 2141,
+    'date':'2023-4-9',
+    'people':'Xiao Wang',
     'category': '办公费',
     }, {
     'key': '3',
@@ -72,6 +76,8 @@ applications = [{
     'state': 'underway',
     'group': 'dsafsa',
     'num': 2141,
+    'date':'2024-4-9',
+    'people':'Xiao Wang',
     'category': '办公费',
     }, {
     'key': '4',
@@ -80,8 +86,22 @@ applications = [{
     'state': 'underway',
     'group': 'dsafsa',
     'num': 2141,
+    'date':'2025-4-9',
+    'people':'Xiao Wang',
     'category': '办公费',
 }]
+adminMsgs = [
+    {'type':'系统通知', 'date':'2010-10-1', 'new':True, 'msg':'1test msg api'},
+    {'type':'系统通知', 'date':'2010-10-1', 'new':True, 'msg':'2test msg api'},
+    {'type':'系统通知', 'date':'2010-10-1', 'new':True, 'msg':'3test msg api'},
+    {'type':'系统通知', 'date':'2010-10-1', 'new':True, 'msg':'4test msg api'},
+    {'type':'系统通知', 'date':'2010-10-1', 'new':True, 'msg':'5test msg api'},
+    {'type':'系统通知', 'date':'2010-10-1', 'new':True, 'msg':'6test msg api'},
+    {'type':'系统通知', 'date':'2010-10-1', 'new':True, 'msg':'7test msg api'},
+    {'type':'系统通知', 'date':'2010-10-1', 'new':True, 'msg':'8test msg api'},
+    {'type':'系统通知', 'date':'2010-10-1', 'new':True, 'msg':'A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.'},
+    {'type':'审批通知', 'date':'2010-10-1','new':False, 'msg':'A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to '}
+]
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -551,6 +571,115 @@ def createApplication():
         'code':200,
         'msg': '创建申请成功',
         'data': {}
+    }
+
+@app.route('/getAdminHomeStatistics', methods=['GET'])
+def getAdminHomeStatistics():
+    print('getAdminHomeStatistics')
+    return {
+        'code':200,
+        'msg': '',
+        'data': {
+            'newApplication':1,
+            'unserwayApplication':2,
+            'newFund':3,
+            'underwayFund':4
+        }
+    }
+
+@app.route('/getGroupStatistics', methods=['GET'])
+def getGroupStatistics():
+    args = request.args
+    groupId = args.get('groupId')
+    print('getGroupStatistics')
+    print(groupId)
+    return {
+        'code':200,
+        'msg': '',
+        'data': {
+            'name':'group1',
+            'memberNum':2,
+            'totalFund':10,
+            'usedFund':2,
+            'leftFund':8,
+            'completeRate':20,
+            'complete':True
+        }
+    }
+
+@app.route('/getFundStatistics', methods=['GET'])
+def getFundStatistics():
+    args = request.args
+    fundId = args.get('fundId')
+    print('getFundStatistics')
+    print(fundId)
+    return {
+        'code':200,
+        'msg': '',
+        'data': {
+            'name':'fund1',
+            'totalFund':100,
+            'left':20,
+            'used':80,
+            'completeRate':80,
+            'complete':True
+        }
+    }
+
+@app.route('/getApplicationInfo', methods=['GET'])
+def getApplicationInfo():
+    args = request.args
+    fundId = args.get('fundId')
+    print('getApplicationInfo')
+    print(fundId)
+    return {
+        'code':200,
+        'msg': '',
+        'data': {
+            'applicationId':1234,
+            'fundId':5678,
+            'fundName':'fund1',
+            'groupName':'group1',
+            'groupTotalFund':100,
+            'groupUsedFund':20,
+            'people':'wang fang',
+            'category1':'category1',
+            'category2':'category2',
+            'useNum':30,
+            'summary':'summary',
+            'comment':'comment'
+        }
+    }
+
+@app.route('/getApplicationTimeline', methods=['GET'])
+def getApplicationTimeline():
+    args = request.args
+    fundId = args.get('fundId')
+    print('getApplicationTimeline')
+    print(fundId)
+    return {
+        'code':200,
+        'msg': '',
+        'data': {
+            'date1':'2010-10-1',
+            'date2': '2011-10-1',
+            'state': 'complete',
+        }
+    }
+
+@app.route('/getAdminMessages', methods=['GET'])
+def getAdminMessages():
+    args = request.args
+    page = args.get('page', default=1, type=int)
+    print('getAdminMessages')
+    print(page)
+    return {
+        'code':200,
+        'msg': '修改成功',
+        'data': {
+            'data': adminMsgs[(page-1)*4 : min(page*4,len(adminMsgs))],
+            "total": len(adminMsgs)
+        }
     }
 
 if __name__ == '__main__':

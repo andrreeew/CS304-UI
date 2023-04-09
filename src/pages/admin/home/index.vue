@@ -13,7 +13,7 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="新增申请" :value="50" :value-from="0" animation>
+                <a-statistic title="新增申请" :value="statistics.newApplication" :value-from="0" animation>
                   <template #suffix>件</template>
                 </a-statistic>
               </a-space>
@@ -23,7 +23,7 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/fdc66b07224cdf18843c6076c2587eb5.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="待审批" :value="50" :value-from="0" animation>
+                <a-statistic title="待审批" :value="statistics.unserwayApplication" :value-from="0" animation>
                   <template #suffix>件</template>
                 </a-statistic>
               </a-space>
@@ -33,7 +33,7 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77d74c9a245adeae1ec7fb5d4539738d.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="新增经费" :value="50" :value-from="0" animation>
+                <a-statistic title="新增经费" :value="statistics.newFund" :value-from="0" animation>
                   <template #suffix>件</template>
                 </a-statistic>
               </a-space>
@@ -43,7 +43,7 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="待分配经费" :value="50" :value-from="0" animation>
+                <a-statistic title="待分配经费" :value="statistics.underwayFund" :value-from="0" animation>
                   <template #suffix>件</template>
                 </a-statistic>
               </a-space>
@@ -59,7 +59,12 @@
 <!--              <line-chart style="height: 300px"></line-chart>-->
 <!--            </a-tab-pane>-->
             <a-tab-pane key="1"  style="padding: 0px 5px" title="待审批">
-              <application-table ></application-table>
+              <application-table 
+                :data="applicationData"
+                :loading="loading"
+                :update-data="getData"
+              >
+              </application-table>
             </a-tab-pane>
             <a-tab-pane key="2" style="padding: 0px 5px" title="待分配">
               <fund-table></fund-table>
@@ -81,7 +86,7 @@
         </a-card>
 
 
-        <notify-list style="padding: 10px; background-color: white;border: 1px solid var(--color-neutral-3);border-radius: var(--border-radius-small);"></notify-list>
+        <notify-list :data="msgs" style="padding: 10px; background-color: white;border: 1px solid var(--color-neutral-3);border-radius: var(--border-radius-small);"></notify-list>
 
 
       </a-space>
@@ -97,6 +102,7 @@ import notifyList from '@/components/operation/notify-list'
 import detailSkeleton from '@/components/operation/detail-skeleton'
 import {mapMutations} from 'vuex'
 import dayjs from "dayjs";
+import api from "@/api"
 
 
 export default {
@@ -113,6 +119,15 @@ export default {
     return {
       period:'',
       selectedKey:'1',
+      applicationData:[],
+      msgs:[],
+      loading:false,
+      statistics:{
+        newApplication:0,
+        unserwayApplication:0,
+        newFund:0,
+        underwayFund:0
+      },
       option: {
         xAxis: {
           type: 'category',
@@ -141,9 +156,28 @@ export default {
     },
     change(value){
       this.selectedKey = value
+    },
+    getData(){
+      this.loading = true
+      api.getApplications({type:'underway',page:1}).then(res => {
+        this.applicationData = res.data.data.data
+      }).finally(()=>{this.loading=false})
+    },
+    getStatistics(){
+      api.getAdminHomeStatistics().then(res => {
+        this.statistics = res.data.data
+      })
+    },
+    getMsgs(){
+      api.getAdminMessages({type:'all',page:1}).then(res => {
+        this.msgs = res.data.data.data
+      })
     }
   },
   created() {
+    this.getData()
+    this.getStatistics()
+    this.getMsgs()
     this.setRoutes([{label:'主页', name:'admin'}])
     const now = dayjs()
     const hour = now.hour()

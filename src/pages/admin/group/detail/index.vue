@@ -5,8 +5,8 @@
         <a-card title="课题组信息">
 <!--            <a-descriptions :data="groupInfo"  size="large" :column="{xs:1, lg:2}"/>-->
 <!--            <a-divider></a-divider>-->
-            <fund-num></fund-num>
-          </a-card>
+            <fund-num :statistics="statistics"></fund-num>
+        </a-card>
         <a-card title="分得经费">
 
             <fund-table :groupId="groupData.id"></fund-table>
@@ -54,18 +54,28 @@ export default {
   },
   data(){
     return{
-      groupInfo:[
-        {label: '课题组名', value: ''},
-        // {label: '创建日期', value: ''},
-      ],
-      groupData: {}
+      // groupInfo:[
+      //   {label: '课题组名', value: ''},
+      //   // {label: '创建日期', value: ''},
+      // ],
+      groupData: {},
+      statistics: {
+        memberNum:1,
+        totalFund:2,
+        usedFund:3,
+        leftFund:4
+      }
     }
   },
   created(){
     this.setRoutes([{label:'课题组', name:'admin-group'}])
     api.getGroups({id:this.$route.params.groupId,pageSize:1,page:1}).then(res => {
       this.groupData = res.data.data.groups[0]
-      this.groupInfo[0].value = this.groupData.name
+      // this.groupInfo[0].value = this.groupData.name
+    }).then(() => {
+      api.getGroupStatistics(this.groupData.id).then(res => {
+        this.statistics = res.data.data
+      })
     })
   }
 }

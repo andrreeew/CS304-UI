@@ -5,7 +5,7 @@
         <a-card title="经费信息">
           <fund-info :fundData="data"></fund-info>
           <a-divider></a-divider>
-          <fund-num></fund-num>
+          <fund-num :statistics="statistics"></fund-num>
         </a-card>
 
         <a-card title="分配课题组" style="padding-bottom: 20px">
@@ -73,6 +73,9 @@ export default {
       api.getFunds({id:this.id}).then(res => {
         this.data = res.data.data[0]
       })
+      api.getFundStatistics(this.id).then(res => {
+        this.statistics = res.data.data
+      })
     }
   },
   data() {
@@ -80,6 +83,12 @@ export default {
       id: this.$route.params.fundId,
       data: {},
       visible: false,
+      statistics: {
+        totalFund:0,
+        left:0,
+        used:0,
+        completeRate:0
+      }
     }
   },
   created(){

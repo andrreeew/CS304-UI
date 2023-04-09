@@ -13,7 +13,7 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="正在审批" :value="50" :value-from="0" animation>
+                <a-statistic title="正在审批" :value="statistics.underwayApplication" :value-from="0" animation>
                   <template #suffix>件</template>
                 </a-statistic>
               </a-space>
@@ -23,7 +23,7 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/fdc66b07224cdf18843c6076c2587eb5.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="最近申请" :value="50" :value-from="0" animation>
+                <a-statistic title="最近申请" :value="statistics.recentApplication" :value-from="0" animation>
                   <template #suffix>件</template>
                 </a-statistic>
               </a-space>
@@ -33,7 +33,7 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77d74c9a245adeae1ec7fb5d4539738d.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="最近通过" :value="50" :value-from="0" animation>
+                <a-statistic title="最近通过" :value="statistics.permittedApplication" :value-from="0" animation>
                   <template #suffix>件</template>
                 </a-statistic>
               </a-space>
@@ -43,7 +43,7 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="最近驳回" :value="50" :value-from="0" animation>
+                <a-statistic title="最近驳回" :value="statistics.rejectedApplication" :value-from="0" animation>
                   <template #suffix>件</template>
                 </a-statistic>
               </a-space>
@@ -153,6 +153,12 @@ export default {
   },
   data() {
     return {
+      statistics:{
+        underwayApplication:0,
+        recentApplication:0,
+        permittedApplication:0,
+        rejectedApplication:0
+      },
       period:'',
       option: {
         xAxis: {
@@ -172,7 +178,10 @@ export default {
     }
   },
   methods:{
-    ...mapMutations(['setRoutes'])
+    ...mapMutations(['setRoutes']),
+    getStatistics(){
+      
+    }
   },
   created() {
     this.setRoutes([{label:'主页', name:'user'}])

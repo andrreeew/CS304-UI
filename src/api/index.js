@@ -76,6 +76,27 @@ const api={
     },
     createApplication(form){
         return request.post(BACKEND_URL + '/createApplication', form)
+    },
+    getAdminHomeStatistics(){
+        return request.get(BACKEND_URL + '/getAdminHomeStatistics')
+    },
+    getGroupStatistics(groupId){
+        return request.get(BACKEND_URL + '/getGroupStatistics', {params: {groupId,groupId}})
+    },
+    getFundStatistics(fundId){
+        return request.get(BACKEND_URL + '/getFundStatistics', {params: {fundId,fundId}})
+    },
+    getApplicationInfo(fundId){
+        return request.get(BACKEND_URL + '/getApplicationInfo', {params: {fundId,fundId}})
+    },
+    getApplicationTimeline(fundId){
+        return request.get(BACKEND_URL + '/getApplicationTimeline', {params: {fundId,fundId}})
+    },
+    getAdminMessages(params){
+        return request.get(BACKEND_URL + '/getAdminMessages', {params: params})
+    },
+    getUserHomeStatistics(){
+        
     }
 }
 

@@ -178,10 +178,34 @@ export default {
           Message.error(res.data.msg)
         }
       })
+    },
+    getGroupInfo(){
+      api.getGroupStatistics(this.groupId).then(res => {
+        let info = res.data.data
+        this.groupInfo[0].value = info.name
+        this.groupInfo[1].value = info.totalFund
+        this.groupInfo[2].value = info.usedFund
+        this.groupInfo[3].value = info.leftFund
+        this.groupInfo[4].value = info.completeRate.toString() + '%'
+        this.groupInfo[5].value = info.complete
+      })
+    },
+    getFundInfo(){
+      api.getFundStatistics(this.fundId).then(res => {
+        let info = res.data.data
+        this.fundInfo[0].value = this.fundId
+        this.fundInfo[1].value = info.name
+        this.fundInfo[2].value = info.totalFund
+        this.fundInfo[3].value = info.left
+        this.fundInfo[4].value = info.completeRate
+        this.fundInfo[5].value = info.complete
+      })
     }
   },
   created(){
     this.getData()
+    this.getGroupInfo()
+    this.getFundInfo()
     this.setRoutes([{label:'经费', name:'admin-fund'}])
   }
 }

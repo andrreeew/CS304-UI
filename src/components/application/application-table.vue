@@ -48,13 +48,13 @@
     <a-modal v-model:visible="visible" width="auto" title="申请详情" >
       <template #footer>
         <a-tooltip  v-if="identity==='admin'&&selectedRecord.state==='underway'" content="通过" >
-          <check-button></check-button>
+          <check-button @click="permitApplication(selectedRecord.id)"></check-button>
         </a-tooltip>
         <a-tooltip  v-if="selectedRecord.state==='underway'" :content="identity==='admin'?'驳回':'撤回'" >
-          <delete-button></delete-button>
+          <delete-button @click="denyApplication(selectedRecord.id)"></delete-button>
         </a-tooltip>
       </template>
-      <application-detail></application-detail>
+      <application-detail :applicationInfo="applicationInfo" :applicationTimeline="applicationTimeline"></application-detail>
     </a-modal>
 </template>
 
@@ -102,8 +102,8 @@ export default {
         {title: '经费名称', dataIndex: 'name' },
         {title: '课题组', dataIndex: 'group'},
         {title:'经费状态', slotName: 'state'},
-        {title: '金额', dataIndex: 'cost'},
-        {title: '申请日期', slotName: 'date',},
+        {title: '金额', dataIndex: 'num'},
+        {title: '申请日期', dataIndex: 'date'},
         {title: '经办人', dataIndex: 'people'},
         {title: '支出类别一级', dataIndex: 'category'},
         {title: '操作', slotName: 'optional', fixed: 'right', width:200},
@@ -111,11 +111,28 @@ export default {
       selectedKeys:this.rows,
       selectedRecord:'',
       visible:false,
+      applicationInfo:[
+        {label: '申请序号', value: 213},
+        {label: '经费编号', value: 321321},
+        {label: '经费名称', value: 124214},
+        {label: '课题组', value: 1244},
+        {label: '课题组总额度', value: 19},
+        {label: '已用额度', value: true},
+        {label: '经办人', value: 'fasfsa'},
+        {label: '支出类别一级', value: true},
+        {label: '支出类别二级', value: true},
+        {label: '支出金额', value: 192},
+        {label: '内容摘要', value: 21414451251},
+        {label: '备注', value:241241242}
+      ],
+      applicationTimeline:{}
     }
   },
 
   methods: {
     showDetail(record){
+      this.getApplicationInfo(record.id)
+      this.getApplicationTimeline(record.id)
       this.selectedRecord = record
       this.visible = true
     },
@@ -138,6 +155,28 @@ export default {
           Message.error(res.data.msg)
         }
       }).finally(()=>{this.updateData()})
+    },
+    getApplicationInfo(id){
+      api.getApplicationInfo(id).then(res => {
+        let info = res.data.data
+        this.applicationInfo[0].value = info.applicationId
+        this.applicationInfo[1].value = info.fundId
+        this.applicationInfo[2].value = info.fundName
+        this.applicationInfo[3].value = info.groupName
+        this.applicationInfo[4].value = info.groupTotalFund
+        this.applicationInfo[5].value = info.groupUsedFund
+        this.applicationInfo[6].value = info.people
+        this.applicationInfo[7].value = info.category1
+        this.applicationInfo[8].value = info.category2
+        this.applicationInfo[9].value = info.useNum
+        this.applicationInfo[10].value = info.summary
+        this.applicationInfo[11].value = info.comment
+      })
+    },
+    getApplicationTimeline(id){
+      api.getApplicationTimeline(id).then(res => {
+        this.applicationTimeline = res.data.data
+      })
     }
   }
 }
