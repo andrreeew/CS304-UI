@@ -35,7 +35,7 @@ const api={
     deleteGroupUser(group, name) {
         return request.post(BACKEND_URL + '/deleteGroupUser', {group:group, user:name})
     },
-    addGroupUsers(form) {
+    addGroupUsers(group, form) {
         return request.post(BACKEND_URL + '/addGroupUsers', form)
     },
     getUsersNotInGroup(groupName) {
@@ -56,8 +56,8 @@ const api={
     deleteFundGroup(fundId, groupName) {
         return request.post(BACKEND_URL + '/deleteFundGroup', {fundId:fundId,groupName:groupName})
     },
-    addGroupsToFund(groups) {
-        return request.post(BACKEND_URL + '/addGroupsToFund', {groups:groups})
+    addGroupsToFund(fundId, groups) {
+        return request.post(BACKEND_URL + '/addGroupsToFund', {fundId: fundId, groups:groups})
     },
     getFundDetailByGroup(fundId, groupId) {
         return request.get(BACKEND_URL + '/getFundDetailByGroup', {params: {fundId:fundId,groupId:groupId}})

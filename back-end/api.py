@@ -471,6 +471,7 @@ def deleteFundGroup():
 @app.route('/addGroupsToFund', methods=['POST'])
 def addGroupsToFund():
     groups = request.json['groups']
+    fundId = request.json['fundId']
     print('addGroupsToFund')
     print(groups)
     return {

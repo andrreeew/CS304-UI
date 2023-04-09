@@ -93,7 +93,7 @@ export default {
       })
     },
     addUsers(){
-      api.addGroupUsers(this.form).then(res => {
+      api.addGroupUsers(this.data.name, this.form).then(res => {
         if (res.data.code == 200) {
           Message.success(res.data.msg)
           this.data = res.data.data
