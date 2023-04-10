@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     getAllAccounts(){
-      api.getUsersNotInGroup(this.data.name).then(res => {
+      api.getUsersNotInGroup(this.data.id).then(res => {
         if (res.data.code == 200) {
           this.accounts = res.data.data
         }
@@ -94,7 +94,7 @@ export default {
       })
     },
     addUsers(){
-      api.addGroupUsers(this.data.name, this.form).then(res => {
+      api.addGroupUsers(this.data.id, this.form).then(res => {
         if (res.data.code == 200) {
           Message.success(res.data.msg)
           this.data = res.data.data

@@ -35,11 +35,11 @@ const api={
     deleteGroupUser(groupId, userId) {
         return request.post(BACKEND_URL + '/deleteGroupUser', {group:groupId, user:userId})
     },
-    addGroupUsers(group, form) {
-        return request.post(BACKEND_URL + '/addGroupUsers', {group:group, form:form})
+    addGroupUsers(groupId, form) {
+        return request.post(BACKEND_URL + '/addGroupUsers', {group:groupId, form:form})
     },
-    getUsersNotInGroup(groupName) {
-        return request.get(BACKEND_URL + '/getUsersNotInGroup', {params: {groupName:groupName}})
+    getUsersNotInGroup(groupId) {
+        return request.get(BACKEND_URL + '/getUsersNotInGroup', {params: {groupId:groupId}})
     },
     getFundInfoByGroup(groupId) {
         return request.get(BACKEND_URL + '/getFundInfoByGroup', {params: {groupId:groupId}})
