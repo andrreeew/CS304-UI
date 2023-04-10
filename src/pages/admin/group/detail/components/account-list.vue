@@ -1,6 +1,6 @@
 <template>
   <a-list :bordered="false">
-    <a-list-item v-for="item in data.users">
+    <a-list-item v-for="item in groupData.users">
       <div style="display: flex;justify-content: space-between">
         <a-space size="medium">
           <a-avatar :size=35>L</a-avatar>
@@ -25,7 +25,7 @@
       <a-form>
         <a-form-item label="添加成员">
           <a-select v-model="form.account" multiple>
-            <a-option v-for="item in accounts">{{item}}</a-option>
+            <a-option v-for="item in accounts">{{item.name}}</a-option>
           </a-select>
         </a-form-item>
         <a-form-item label="管理员权限">
@@ -48,77 +48,67 @@ export default {
     deleteButton
   },
   props:{
-    groupData: Object
+    groupData: {
+      default:{
+        name: '',
+        users: [],
+      }
+    },
+    accounts:{
+      default:[]
+    },
+    updateData: {
+      type: Function,
+      default() {}
+    }
   },
   data(){
     return{
       visible: false,
-      accounts:[
-        {value: 'li', label: 'Li'},
-        {value: 'fang', label: 'Fang'}
-      ],
       form:{
         account:[],
         admin:[],
       },
-      data: this.groupData
     }
   },
   methods: {
-    getAllAccounts(){
-      api.getUsersNotInGroup(this.data.name).then(res => {
-        if (res.data.code == 200) {
-          this.accounts = res.data.data
-        }
-      })
-    },
     changeUserAdmin(user){
-      console.log(user)
-      api.changeGroupUserAdmin(this.data.name, user.id).then(res => {
-        if (res.data.code == 200) {
+      api.changeGroupUserAdmin(this.groupData.name, user.id).then(res => {
+        if (res.data.code === 200) {
           Message.success(res.data.msg)
           this.data = res.data.data
         } else {
           Message.error(res.data.msg)
         }
-      })
+      }).finally(()=>this.updateData)
     },
     deleteUser(user){
-      api.deleteGroupUser(this.data.name, user.id).then(res => {
-        if (res.data.code == 200) {
+      api.deleteGroupUser(this.groupData.name, user.id).then(res => {
+        if (res.data.code === 200) {
           Message.success(res.data.msg)
           this.data = res.data.data
         } else {
           Message.error(res.data.msg)
         }
-      })
+      }).finally(()=>this.updateData)
     },
     addUsers(){
-      api.addGroupUsers(this.data.name, this.form).then(res => {
-        if (res.data.code == 200) {
+      api.addGroupUsers(this.groupData.name, this.form).then(res => {
+        if (res.data.code === 200) {
           Message.success(res.data.msg)
           this.data = res.data.data
         } else {
           Message.error(res.data.msg)
         }
-      })
+      }).finally(()=>this.updateData)
       this.clearForm()
     },
+
     clearForm(){
       this.form.account = []
       this.form.admin = []
     }
   },
-  watch:{
-    groupData(newVal, oldVal){
-      this.data = newVal
-    },
-    data(newVal, oldVal){
-      this.getAllAccounts()
-    }
-  },
-  created(){
-  }
 }
 </script>
 

@@ -6,7 +6,7 @@
             src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
         />
       </a-avatar>
-      <a-statistic title="总人数" :value="statistics.memberNum" >
+      <a-statistic title="总人数" :value="memberNumber" >
 
       </a-statistic>
     </a-space>
@@ -16,7 +16,7 @@
             src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/fdc66b07224cdf18843c6076c2587eb5.svg~tplv-49unhts6dw-image.image"
         />
       </a-avatar>
-      <a-statistic title="总金额" :value="statistics.totalFund" :value-from="0" animation>
+      <a-statistic title="总金额" :value="totalFund" :value-from="0" animation>
       </a-statistic>
     </a-space>
     <a-space class="panel">
@@ -25,7 +25,7 @@
             src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77d74c9a245adeae1ec7fb5d4539738d.svg~tplv-49unhts6dw-image.image"
         />
       </a-avatar>
-      <a-statistic title="已使用" :value="statistics.usedFund" :value-from="0" animation>
+      <a-statistic title="已使用" :value="usedFund" :value-from="0" animation>
       </a-statistic>
     </a-space>
     <a-space class="panel">
@@ -34,7 +34,7 @@
             src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/c8b36e26d2b9bb5dbf9b74dd6d7345af.svg~tplv-49unhts6dw-image.image"
         />
       </a-avatar>
-      <a-statistic title="剩余金额" :value="statistics.leftFund" :value-from="0" animation>
+      <a-statistic title="剩余金额" :value="leftFund" :value-from="0" animation>
       </a-statistic>
     </a-space>
 
@@ -81,12 +81,10 @@
 export default {
   name: "fund-num",
   props:{
-    statistics: {
-      memberNum:0,
-      totalFund:0,
-      usedFund:0,
-      leftFund:0
-    }
+    memberNum: {default:0},
+    totalFund: {default:0},
+    usedFund: {default:0},
+    leftFund: {default:0},
   },
 
 }

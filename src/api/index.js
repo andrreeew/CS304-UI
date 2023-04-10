@@ -3,44 +3,53 @@ import request from "@/utils/request";
 
 const api={
     login(user) {
-        return request.post(BACKEND_URL + '/login', user)
+        return request.post(BACKEND_URL + '/user/login', user)
     },
     createAccount(account) {
-        return request.post(BACKEND_URL + '/createAccount', account)
+        return request.post(BACKEND_URL + '/admin/system/sysUser/createAccount', account)
     },
+
     createGroup(group) {
-        return request.post(BACKEND_URL + '/createGroup', group)
+        return request.post(BACKEND_URL + '/admin/system/sysGroup/create', group)
     },
+
     getAllAccountName() {
-        return request.get(BACKEND_URL + '/getAllAccountName')
+        return request.get(BACKEND_URL + '/admin/system/sysUser/getAllAccountName')
     },
     getAllGroupName() {
-        return request.get(BACKEND_URL + '/getAllGroupName')
+        return request.get(BACKEND_URL + '/admin/system/sysGroup/getAllGroupName')
     },
     getUsers(params) {
-        return request.get(BACKEND_URL + '/getUsers', {params: params})
+        return request.get(BACKEND_URL + '/admin/system/sysUser/getUsers', {params: params})
     },
     deleteUsers(ids) {
-        return request.post(BACKEND_URL + '/deleteUsers', ids)
+        return request.post(BACKEND_URL + '/admin/system/sysUser/deleteUsers', ids)
     },
     getGroups(params) {
-        return request.get(BACKEND_URL + '/getGroups', {params: params})
+        return request.get(BACKEND_URL + '/admin/system/sysGroup/getGroups', {params: params})
+    },
+
+    getGroup(id){
+        return request.get(BACKEND_URL + '/admin/system/sysGroup/getGroup', {params:{id:id}})
     },
     deleteGroup(id) {
-        return request.post(BACKEND_URL + '/deleteGroup', {id:id})
+        return request.post(BACKEND_URL + '/admin/system/sysGroup/deleteGroup', {id:id})
     },
+
     changeGroupUserAdmin(group, userId) {
-        return request.post(BACKEND_URL + '/changeGroupUserAdmin', {group:group, user:userId})
+        return request.post(BACKEND_URL + '/admin/system/sysRole/changeAdmin', {group:group, user:userId})
     },
     deleteGroupUser(group, userId) {
-        return request.post(BACKEND_URL + '/deleteGroupUser', {group:group, user:userId})
+        return request.post(BACKEND_URL + '/admin/system/sysGroup/deleteGroupUser', {group:group, user:userId})
     },
     addGroupUsers(group, form) {
         return request.post(BACKEND_URL + '/addGroupUsers', {group:group, form:form})
     },
     getUsersNotInGroup(groupName) {
-        return request.get(BACKEND_URL + '/getUsersNotInGroup', {params: {groupName:groupName}})
+        return request.get(BACKEND_URL + '/admin/system/sysGroup/getUsersNotInGroup', {params: {groupName:groupName}})
     },
+
+
     getFundInfoByGroup(groupId) {
         return request.get(BACKEND_URL + '/getFundInfoByGroup', {params: {groupId:groupId}})
     },
@@ -66,7 +75,7 @@ const api={
         return request.post(BACKEND_URL + '/modifyGroupFundDetail', {fundId:fundId,groupId:groupId, detail:detail})
     },
     getApplications(params) {
-        return request.get(BACKEND_URL + '/getApplications', {params: params})
+        return request.get(BACKEND_URL + '/admin/system/application/getApplications', {params: params})
     },
     permitApplication(applicationId) {
         return request.post(BACKEND_URL + '/permitApplication', {id:applicationId})
@@ -75,7 +84,7 @@ const api={
         return request.post(BACKEND_URL + '/denyApplications', {ids:applicationIds,role:role})
     },
     createApplication(form){
-        return request.post(BACKEND_URL + '/createApplication', form)
+        return request.post(BACKEND_URL + '/admin/system/application/createApplication', form)
     },
     getAdminHomeStatistics(){
         return request.get(BACKEND_URL + '/getAdminHomeStatistics')

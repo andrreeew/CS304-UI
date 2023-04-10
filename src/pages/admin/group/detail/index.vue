@@ -5,10 +5,10 @@
         <a-card title="课题组信息">
 <!--            <a-descriptions :data="groupInfo"  size="large" :column="{xs:1, lg:2}"/>-->
 <!--            <a-divider></a-divider>-->
-            <fund-num :statistics="statistics"></fund-num>
+            <fund-num :member-num="groupData.users?length(groupData.users):0" :total-fund="groupData.total" :left-fund="groupData.left"
+                      :used-fund="groupData.cost"></fund-num>
         </a-card>
         <a-card title="分得经费">
-
             <fund-table :groupId="groupData.id"></fund-table>
         </a-card>
       </a-space>
@@ -25,7 +25,7 @@
         </a-card>
       <a-card title="人员">
 
-          <account-list v-model:groupData="groupData"></account-list>
+          <account-list v-model:groupData="groupData" :accounts="accounts" :update-data="updateData"></account-list>
       </a-card>
       </a-space>
     </template>
@@ -49,16 +49,33 @@ export default {
     accountList,
     detailSkeleton
   },
+  computed:{
+    memberNum(){
+      if(this.groupData.users){
+        return length(this.groupData.users)
+      }
+      return 0;
+    }
+  },
   methods:{
-    ...mapMutations(['setRoutes'])
+    ...mapMutations(['setRoutes']),
+    updateData(){
+      api.getGroups({id:this.$route.params.groupId,pageSize:1,page:1}).then(res => {
+        this.groupData = res.data.data.groups[0]
+        // this.groupInfo[0].value = this.groupData.name
+      }).then(() => {
+        api.getUsersNotInGroup(this.groupData.name).then(res => {
+          if (res.data.code === 200) {
+            this.accounts = res.data.data
+          }
+        })
+      })
+    }
   },
   data(){
     return{
-      // groupInfo:[
-      //   {label: '课题组名', value: ''},
-      //   // {label: '创建日期', value: ''},
-      // ],
       groupData: {},
+      accounts:[],
       statistics: {
         memberNum:1,
         totalFund:2,
@@ -69,14 +86,7 @@ export default {
   },
   created(){
     this.setRoutes([{label:'课题组', name:'admin-group'}])
-    api.getGroups({id:this.$route.params.groupId,pageSize:1,page:1}).then(res => {
-      this.groupData = res.data.data.groups[0]
-      // this.groupInfo[0].value = this.groupData.name
-    }).then(() => {
-      api.getGroupStatistics(this.groupData.id).then(res => {
-        this.statistics = res.data.data
-      })
-    })
+    this.updateData()
   }
 }
 </script>
