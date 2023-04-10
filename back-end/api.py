@@ -331,9 +331,9 @@ def addGroupUsers():
 @app.route('/getUsersNotInGroup', methods=['GET'])
 def getUsersNotInGroup():
     args = request.args
-    groupName = args.get('groupName')
+    groupId = args.get('groupId')
     print('getUsersNotInGroup')
-    print(groupName)
+    print(groupId)
     return {
         'code':200,
         'msg': '',
