@@ -74,7 +74,7 @@ export default {
     },
     changeUserAdmin(user){
       console.log(user)
-      api.changeGroupUserAdmin(this.data.name, user.id).then(res => {
+      api.changeGroupUserAdmin(this.data.id, user.id).then(res => {
         if (res.data.code == 200) {
           Message.success(res.data.msg)
           this.data = res.data.data
@@ -84,7 +84,7 @@ export default {
       })
     },
     deleteUser(user){
-      api.deleteGroupUser(this.data.name, user.id).then(res => {
+      api.deleteGroupUser(this.data.id, user.id).then(res => {
         if (res.data.code == 200) {
           Message.success(res.data.msg)
           this.data = res.data.data

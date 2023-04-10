@@ -21,7 +21,7 @@ const api={
         return request.get(BACKEND_URL + '/getUsers', {params: params})
     },
     deleteUsers(ids) {
-        return request.post(BACKEND_URL + '/deleteUsers', ids)
+        return request.post(BACKEND_URL + '/deleteUsers', {ids: ids})
     },
     getGroups(params) {
         return request.get(BACKEND_URL + '/getGroups', {params: params})
@@ -29,11 +29,11 @@ const api={
     deleteGroup(id) {
         return request.post(BACKEND_URL + '/deleteGroup', {id:id})
     },
-    changeGroupUserAdmin(group, userId) {
-        return request.post(BACKEND_URL + '/changeGroupUserAdmin', {group:group, user:userId})
+    changeGroupUserAdmin(groupId, userId) {
+        return request.post(BACKEND_URL + '/changeGroupUserAdmin', {group:groupId, user:userId})
     },
-    deleteGroupUser(group, userId) {
-        return request.post(BACKEND_URL + '/deleteGroupUser', {group:group, user:userId})
+    deleteGroupUser(groupId, userId) {
+        return request.post(BACKEND_URL + '/deleteGroupUser', {group:groupId, user:userId})
     },
     addGroupUsers(group, form) {
         return request.post(BACKEND_URL + '/addGroupUsers', {group:group, form:form})
