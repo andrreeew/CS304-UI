@@ -16,13 +16,17 @@
     <template v-slot:table>
       <a-list :bordered="false" hoverable style="border-top:1px solid var(--color-neutral-3);border-bottom: 1px solid var(--color-neutral-3);;">
         <a-list-item v-for="item in msg"  >
+          <a-row>
+            <a-col flex="auto"></a-col>
+            <a-col flex="300px"></a-col>
+          </a-row>
           <div style="display: flex;justify-content: space-between; align-items: center">
-            <a-space style="padding-right: 150px" align="center" size="medium">
+            <a-space style="padding-right: 150px; " align="center" size="medium">
               <a-tag v-if="item.type==='系统通知'" color="arcoblue">{{item.type}}</a-tag>
               <a-tag v-else color="green">{{item.type}}</a-tag>
-              <a-typography-paragraph
+              <a-typography-paragraph style="width: 100%"
                   :ellipsis="{
-                    rows: 1,
+                    rows: 2,
                   }"
                   class="msg" @click="showDetail(item)">
                 {{item.msg}}

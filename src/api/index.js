@@ -29,11 +29,11 @@ const api={
     deleteGroup(id) {
         return request.post(BACKEND_URL + '/deleteGroup', {id:id})
     },
-    changeGroupUserAdmin(group, name) {
-        return request.post(BACKEND_URL + '/changeGroupUserAdmin', {group:group, user:name})
+    changeGroupUserAdmin(group, userId) {
+        return request.post(BACKEND_URL + '/changeGroupUserAdmin', {group:group, user:userId})
     },
-    deleteGroupUser(group, name) {
-        return request.post(BACKEND_URL + '/deleteGroupUser', {group:group, user:name})
+    deleteGroupUser(group, userId) {
+        return request.post(BACKEND_URL + '/deleteGroupUser', {group:group, user:userId})
     },
     addGroupUsers(group, form) {
         return request.post(BACKEND_URL + '/addGroupUsers', form)
@@ -81,16 +81,16 @@ const api={
         return request.get(BACKEND_URL + '/getAdminHomeStatistics')
     },
     getGroupStatistics(groupId){
-        return request.get(BACKEND_URL + '/getGroupStatistics', {params: {groupId,groupId}})
+        return request.get(BACKEND_URL + '/getGroupStatistics', {params: {groupId:groupId}})
     },
     getFundStatistics(fundId){
-        return request.get(BACKEND_URL + '/getFundStatistics', {params: {fundId,fundId}})
+        return request.get(BACKEND_URL + '/getFundStatistics', {params: {fundId:fundId}})
     },
     getApplicationInfo(fundId){
-        return request.get(BACKEND_URL + '/getApplicationInfo', {params: {fundId,fundId}})
+        return request.get(BACKEND_URL + '/getApplicationInfo', {params: {fundId:fundId}})
     },
     getApplicationTimeline(fundId){
-        return request.get(BACKEND_URL + '/getApplicationTimeline', {params: {fundId,fundId}})
+        return request.get(BACKEND_URL + '/getApplicationTimeline', {params: {fundId:fundId}})
     },
     getAdminMessages(params){
         return request.get(BACKEND_URL + '/getAdminMessages', {params: params})
