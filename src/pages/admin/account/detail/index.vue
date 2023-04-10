@@ -44,11 +44,11 @@
 
           </a-card>
 
-          <a-modal v-model:visible="visible" title="加入课题组">
+          <a-modal v-model:visible="visible" @ok="addGroups" @cancel="clearForm" title="加入课题组">
             <a-form>
               <a-form-item label="加入课题组">
                 <a-select v-model="form.group" multiple>
-                  <a-option v-for="item in groups">{{item.label}}</a-option>
+                  <a-option v-for="item in allGroupNames">{{item}}</a-option>
                 </a-select>
               </a-form-item>
               <a-form-item  label="管理员权限">
@@ -113,6 +113,7 @@ import api from "@/api"
 import DeleteButton from "@/components/operation/delete-button";
 import {mapMutations} from 'vuex'
 import detailSkeleton from "@/components/operation/detail-skeleton";
+import {Message} from '@arco-design/web-vue'
 
 export default {
   name: "index",
@@ -123,7 +124,27 @@ export default {
     detailSkeleton
   },
   methods:{
-    ...mapMutations(['setRoutes'])
+    ...mapMutations(['setRoutes']),
+    addGroups(){
+      api.addUserToGroups(this.userInfo[0].value, this.form).then(res => {
+        if (res.data.code == 200) {
+          Message.success(res.data.msg)
+          this.groups = res.data.data
+        } else {
+          Message.error(res.data.msg)
+        }
+      })
+      this.clearForm()
+    },
+    clearForm(){
+      this.form.group = []
+      this.form.admin = []
+    },
+    getAllGroupNames(){
+      api.getAllGroupName().then(res => {
+        this.allGroupNames = res.data.data
+      })
+    }
   },
   data(){
     return{
@@ -135,20 +156,21 @@ export default {
         {label: '手机号', value: ''},
         {label:'密码', value:''},
       ],
-
       groups:[
-        {id: 42, name: 'Zha', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity:true},
-        {id: 42, name: 'Zhang', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity:false},
-        {id: 42, name: 'Zha', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity: false},
+        // {id: 42, name: 'Zha', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity:true},
+        // {id: 42, name: 'Zhang', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity:false},
+        // {id: 42, name: 'Zha', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity: false},
       ],
       form:{
         group:[],
         admin:[],
       },
+      allGroupNames:[]
     }
   },
   created(){
     this.setRoutes([{label:'账号', name:'admin-account'}])
+    this.getAllGroupNames()
     api.getUsers({key:this.$route.params.user,pageSize:1,page:1}).then(res => {
       let info = res.data.data.users[0]
       this.userInfo[0].value = info.key

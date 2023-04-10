@@ -15,7 +15,7 @@
           </a-grid-item>
         </a-grid>
 
-        <div style="display: flex; justify-content: right; margin-top: 20px">
+        <!-- <div style="display: flex; justify-content: right; margin-top: 20px">
           <a-pagination
               v-model:current="current"
               :total="total"
@@ -26,7 +26,7 @@
               show-jumper
               show-page-size
           />
-        </div>
+        </div> -->
       </a-spin>
     </template>
 
@@ -110,6 +110,7 @@
 import groupCard from '@/components/group/group-card'
 import searchSkeleton from '@/components/operation/search-skeleton'
 import {mapMutations} from "vuex";
+import api from "@/api"
 
 
 export default {
@@ -133,8 +134,14 @@ export default {
   },
   methods: {
     ...mapMutations(['setRoutes']),
+    getGroups(){
+      api.getUserGroups().then(res => {
+        this.groups = res.data.data
+      })
+    },
   },
   created(){
+    this.getGroups()
     this.setRoutes([{label:'课题组', name:'user-group'}])
   }
 }
