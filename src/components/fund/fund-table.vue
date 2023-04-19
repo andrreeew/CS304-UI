@@ -27,9 +27,9 @@
         Reject
       </a-tag>
     </template>
-    <template #dateRange="{ record }">
+    <!-- <template #dateRange="{ record }">
       {{dayjs(record.dateRange[0]).format('YYYY/MM/DD')}}-{{dayjs(record.dateRange[1]).format('YYYY/MM/DD')}}
-    </template>
+    </template> -->
     <template #optional="{ record }">
       <a-space>
         <a-button @click="showDetail(record)">查看</a-button>

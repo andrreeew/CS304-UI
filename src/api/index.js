@@ -23,26 +23,26 @@ const api={
         return request.get(BACKEND_URL + '/admin/system/sysUser/getUsers', {params: params})
     },
     deleteUsers(ids) {
-        return request.post(BACKEND_URL + '/deleteUsers', {ids: ids})
+        return request.post(BACKEND_URL + '/admin/system/sysUser/deleteUsers', {ids: ids})
     },
     getGroups(params) {
         return request.get(BACKEND_URL + '/admin/system/sysGroup/getGroups', {params: params})
     },
 
-    getGroup(id){
-        return request.get(BACKEND_URL + '/admin/system/sysGroup/getGroup', {params:{id:id}})
-    },
+    // getGroup(id){
+    //     return request.get(BACKEND_URL + '/admin/system/sysGroup/getGroup', {params:{id:id}})
+    // },
     deleteGroup(id) {
         return request.post(BACKEND_URL + '/admin/system/sysGroup/deleteGroup', {id:id})
     },
     changeGroupUserAdmin(groupId, userId) {
-        return request.post(BACKEND_URL + '/changeGroupUserAdmin', {group:groupId, user:userId})
+        return request.post(BACKEND_URL + '/admin/system/sysRole/changeGroupUserAdmin', {group:groupId, user:userId})
     },
-    deleteGroupUser(groupId, userId) {
-        return request.post(BACKEND_URL + '/deleteGroupUser', {group:groupId, user:userId})
+    deleteGroupUser(groupName, userId) {
+        return request.post(BACKEND_URL + '/admin/system/sysGroup/deleteGroupUser', {group:groupName, user:userId})
     },
-    addGroupUsers(groupId, form) {
-        return request.post(BACKEND_URL + '/addGroupUsers', {group:groupId, form:form})
+    addGroupUsers(groupName, account, admin) {
+        return request.post(BACKEND_URL + '/admin/system/sysGroup/addGroupUsers', {group:groupName, account:account, admin:admin})
     },
     getUsersNotInGroup(groupName) {
         return request.get(BACKEND_URL + '/admin/system/sysGroup/getUsersNotInGroup', {params: {groupName:groupName}})
@@ -50,29 +50,30 @@ const api={
 
 
     getFundInfoByGroup(groupId) {
-        return request.get(BACKEND_URL + '/getFundInfoByGroup', {params: {groupId:groupId}})
+        return request.get(BACKEND_URL + '/admin/system/sysFunding/getFundInfoByGroup', {params: {groupId:groupId}})
     },
     deleteGroupFund(groupId, fundId) {
-        return request.post(BACKEND_URL + '/deleteGroupFund', {groupId:groupId,fundId:fundId})
+        return request.post(BACKEND_URL + '/admin/system/sysFunding/deleteGroupFund', {groupId:groupId,fundId:fundId})
     },
     getFunds(params) {
-        return request.get(BACKEND_URL + '/getFunds', {params: params})
+        return request.get(BACKEND_URL + '/admin/system/sysFunding/getFunds', {params: params})
     },
     getGroupByFund(fundId) {
-        return request.get(BACKEND_URL + '/getGroupByFund', {params: {id:fundId}})
+        return request.get(BACKEND_URL + '/admin/system/sysFunding/getGroupByFund', {params: {id:fundId}})
     },
     deleteFundGroup(fundId, groupName) {
-        return request.post(BACKEND_URL + '/deleteFundGroup', {fundId:fundId,groupName:groupName})
+        return request.post(BACKEND_URL + '/admin/system/sysFunding/deleteFundGroup', {fundId:fundId,groupName:groupName})
     },
     addGroupsToFund(fundId, groups) {
-        return request.post(BACKEND_URL + '/addGroupsToFund', {fundId: fundId, groups:groups})
+        return request.post(BACKEND_URL + '/admin/system/sysFunding/addGroupsToFund', {fundId: fundId, groups:groups})
     },
     getFundDetailByGroup(fundId, groupId) {
-        return request.get(BACKEND_URL + '/getFundDetailByGroup', {params: {fundId:fundId,groupId:groupId}})
+        return request.get(BACKEND_URL + '/admin/system/sysFunding/getFundDetailByGroup', {params: {fundId:fundId,groupId:groupId}})
     },
     modifyGroupFundDetail(fundId, groupId, detail) {
-        return request.post(BACKEND_URL + '/modifyGroupFundDetail', {fundId:fundId,groupId:groupId, detail:detail})
+        return request.post(BACKEND_URL + '/admin/system/sysFunding/modifyGroupFundDetail', {fundId:fundId,groupId:groupId, detail:detail})
     },
+    
     getApplications(params) {
         return request.get(BACKEND_URL + '/admin/system/application/getApplications', {params: params})
     },
@@ -85,6 +86,7 @@ const api={
     createApplication(form){
         return request.post(BACKEND_URL + '/admin/system/application/createApplication', form)
     },
+    
     getAdminHomeStatistics(){
         return request.get(BACKEND_URL + '/getAdminHomeStatistics')
     },
@@ -100,6 +102,7 @@ const api={
     getApplicationTimeline(fundId){
         return request.get(BACKEND_URL + '/getApplicationTimeline', {params: {fundId:fundId}})
     },
+    
     getAdminMessages(params){
         return request.get(BACKEND_URL + '/getAdminMessages', {params: params})
     },

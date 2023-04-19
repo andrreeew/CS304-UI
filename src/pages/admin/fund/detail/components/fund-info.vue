@@ -33,7 +33,7 @@ export default {
       this.fundInfo[0].value = this.data.id
       this.fundInfo[1].value = this.data.name
       this.fundInfo[2].value = this.data.state
-      this.fundInfo[3].value = dayjs(this.data.dateRange[0]).format('YYYY/MM/DD') + '-' + dayjs(this.data.dateRange[1]).format('YYYY/MM/DD')
+      this.fundInfo[3].value = dayjs(this.data.dateRange[0]) + '-' + dayjs(this.data.dateRange[1])
       this.fundInfo[4].value = this.data.leftDay
       // TODO
     }

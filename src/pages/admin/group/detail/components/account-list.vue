@@ -93,7 +93,7 @@ export default {
       }).finally(()=>this.updateData)
     },
     addUsers(){
-      api.addGroupUsers(this.groupData.name, this.form).then(res => {
+      api.addGroupUsers(this.groupData.name, this.form.account,this.form.admin).then(res => {
         if (res.data.code === 200) {
           Message.success(res.data.msg)
           this.data = res.data.data
