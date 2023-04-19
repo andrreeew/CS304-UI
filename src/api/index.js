@@ -35,8 +35,8 @@ const api={
     deleteGroup(id) {
         return request.post(BACKEND_URL + '/admin/system/sysGroup/deleteGroup', {id:id})
     },
-    changeGroupUserAdmin(groupId, userId) {
-        return request.post(BACKEND_URL + '/admin/system/sysRole/changeGroupUserAdmin', {group:groupId, user:userId})
+    changeGroupUserAdmin(groupName, userId) {
+        return request.post(BACKEND_URL + '/admin/system/sysRole/changeGroupUserAdmin', {group:groupName, user:userId})
     },
     deleteGroupUser(groupName, userId) {
         return request.post(BACKEND_URL + '/admin/system/sysGroup/deleteGroupUser', {group:groupName, user:userId})
