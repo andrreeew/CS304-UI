@@ -126,7 +126,7 @@ export default {
   methods:{
     ...mapMutations(['setRoutes']),
     addGroups(){
-      api.addUserToGroups(this.userInfo[0].value, this.form).then(res => {
+      api.addUserToGroups(this.userInfo[0].value, this.form.group, this.form.admin).then(res => {
         if (res.data.code == 200) {
           Message.success(res.data.msg)
           this.groups = res.data.data

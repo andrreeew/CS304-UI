@@ -76,7 +76,7 @@ export default {
     },
     submitForm() {
       this.loading=true
-      api.createAccount(this.form).then(res => {
+      api.createAccount(this.form.name,this.form.email,this.form.phone,this.form.group).then(res => {
         if (res.data.code === 200) {
           Message.success(res.data.msg)
           router.push({name:'admin-account'})

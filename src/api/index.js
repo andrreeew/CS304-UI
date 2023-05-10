@@ -5,8 +5,8 @@ const api={
     login(user) {
         return request.post(BACKEND_URL + '/user/login', user)
     },
-    createAccount(account) {
-        return request.post(BACKEND_URL + '/admin/system/sysUser/createAccount', account)
+    createAccount(name,email,phone,group) {
+        return request.post(BACKEND_URL + '/admin/system/sysUser/createAccount', {name:name,email:email,phone:phone,groups:group})
     },
 
     createGroup(group) {
@@ -74,8 +74,8 @@ const api={
         return request.post(BACKEND_URL + '/admin/system/sysFunding/modifyGroupFundDetail', {fundId:fundId,groupId:groupId, detail:detail})
     },
     
-    getApplications(params) {
-        return request.get(BACKEND_URL + '/admin/system/application/getApplications', {params: params})
+    getApplications(page,type) {
+        return request.get(BACKEND_URL + '/admin/system/application/getApplications', {params: {page: page, type: type}})
     },
     permitApplication(applicationId) {
         return request.post(BACKEND_URL + '/permitApplication', {id:applicationId})
@@ -88,10 +88,10 @@ const api={
     },
     
     getAdminHomeStatistics(){
-        return request.get(BACKEND_URL + '/getAdminHomeStatistics')
+        return request.get(BACKEND_URL + '/admin/system/sysUser/getAdminHomeStatistics')
     },
     getGroupStatistics(groupId){
-        return request.get(BACKEND_URL + '/getGroupStatistics', {params: {groupId:groupId}})
+        return request.get(BACKEND_URL + '/admin/system/sysGroup/getGroupStatistics', {params: {groupId:groupId}})
     },
     getFundStatistics(fundId){
         return request.get(BACKEND_URL + '/getFundStatistics', {params: {fundId:fundId}})
@@ -115,8 +115,8 @@ const api={
     getUserMessages(params){
         return request.get(BACKEND_URL + '/getUserMessages', {params: params})
     },
-    addUserToGroups(userId, form){
-        return request.post(BACKEND_URL + '/addUserToGroups', {userId:userId, form:form})
+    addUserToGroups(userId, group, admin){
+        return request.post(BACKEND_URL + '/admin/system/sysUser/addUserToGroups', {userId:userId, groups:group, admin:admin})
     }
 }
 
