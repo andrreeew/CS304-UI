@@ -137,7 +137,7 @@ export default {
       this.visible = true
     },
     denyApplication(id){
-      api.denyApplications([id], 'admin').then(res => {
+      api.denyApplications([id]).then(res => {
         if (res.data.code=== 200) {
           Message.success(res.data.msg)
           this.$socket.send('deny');

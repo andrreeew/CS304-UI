@@ -159,7 +159,7 @@ export default {
     },
     getData(){
       this.loading = true
-      api.getApplications(1, underway).then(res => {
+      api.getApplications(1, "underway").then(res => {
         this.applicationData = res.data.data.data
       }).finally(()=>{this.loading=false})
     },

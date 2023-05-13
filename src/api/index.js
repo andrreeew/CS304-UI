@@ -73,18 +73,25 @@ const api={
     modifyGroupFundDetail(fundId, groupId, detail) {
         return request.post(BACKEND_URL + '/admin/system/sysFunding/modifyGroupFundDetail', {fundId:fundId,groupId:groupId, detail:detail})
     },
-    
+    //admin端对申请的操作
     getApplications(page,type) {
         return request.get(BACKEND_URL + '/admin/system/application/getApplications', {params: {page: page, type: type}})
     },
     permitApplication(applicationId) {
-        return request.post(BACKEND_URL + '/permitApplication', {id:applicationId})
+        return request.post(BACKEND_URL + '/admin/system/application//permitApplication', {id:applicationId})
     },
-    denyApplications(applicationIds, role) {
-        return request.post(BACKEND_URL + '/denyApplications', {ids:applicationIds,role:role})
+    denyApplications(applicationIds) {
+        return request.post(BACKEND_URL + '/admin/system/application/denyApplications', {ids:applicationIds})
+    },
+    //user端对申请的操作
+    batchCancelApplication(applicationIds) {
+        return request.post(BACKEND_URL + '/user/application/batchCancelApplication', {ids:applicationIds})
+    },
+    cancelApplication(id){
+        return request.post(BACKEND_URL + '/user/application/cancelApplication', {id:id})
     },
     createApplication(form){
-        return request.post(BACKEND_URL + '/admin/system/application/createApplication', form)
+        return request.post(BACKEND_URL + '/user/application/createApplication', {form})
     },
     
     getAdminHomeStatistics(){

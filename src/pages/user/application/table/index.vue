@@ -174,7 +174,7 @@ export default {
       }).finally(()=>{this.loading=false})
     },
     cancelApplication(id){
-      api.denyApplications([id], 'user').then(res => {
+      api.cancelApplication([id]).then(res => {
         if (res.data.code == 200) {
           Message.success(res.data.msg)
           this.getData()
@@ -188,7 +188,7 @@ export default {
         Message.error('未选中申请记录！')
         return
       }
-      api.denyApplications(this.selectedKeys, 'user').then(res => {
+      api.batchCancelApplication(this.selectedKeys).then(res => {
         if (res.data.code == 200) {
           Message.success(res.data.msg)
           this.getData()
