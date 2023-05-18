@@ -159,7 +159,7 @@ export default {
     },
     getData(){
       this.loading = true
-      api.getApplications(1, "underway").then(res => {
+      api.getApplications({page:1, type:"2underway"}).then(res => {
         this.applicationData = res.data.data.data
       }).finally(()=>{this.loading=false})
     },
@@ -169,7 +169,7 @@ export default {
       })
     },
     getMsgs(){
-      api.getAdminMessages({type:'all',page:1}).then(res => {
+      api.getAdminMessages({page:1,type:'all'}).then(res => {
         this.msgs = res.data.data.data
       })
     }

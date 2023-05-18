@@ -28,10 +28,6 @@ const api={
     getGroups(params) {
         return request.get(BACKEND_URL + '/admin/system/sysGroup/getGroups', {params: params})
     },
-
-    // getGroup(id){
-    //     return request.get(BACKEND_URL + '/admin/system/sysGroup/getGroup', {params:{id:id}})
-    // },
     deleteGroup(id) {
         return request.post(BACKEND_URL + '/admin/system/sysGroup/deleteGroup', {id:id})
     },
@@ -74,8 +70,8 @@ const api={
         return request.post(BACKEND_URL + '/admin/system/sysFunding/modifyGroupFundDetail', {fundId:fundId,groupId:groupId, detail:detail})
     },
     //admin端对申请的操作
-    getApplications(page,type) {
-        return request.get(BACKEND_URL + '/admin/system/application/getApplications', {params: {page: page, type: type}})
+    getApplications(params) {
+        return request.get(BACKEND_URL + '/admin/system/application/getApplications', {params: params})
     },
     permitApplication(applicationId) {
         return request.post(BACKEND_URL + '/admin/system/application//permitApplication', {id:applicationId})
@@ -84,6 +80,9 @@ const api={
         return request.post(BACKEND_URL + '/admin/system/application/denyApplications', {ids:applicationIds})
     },
     //user端对申请的操作
+    getUserApplications(params) {
+        return request.get(BACKEND_URL + '/user/application/getUserApplications', {params: params})
+    },
     batchCancelApplication(applicationIds) {
         return request.post(BACKEND_URL + '/user/application/batchCancelApplication', {ids:applicationIds})
     },
@@ -93,6 +92,7 @@ const api={
     createApplication(form){
         return request.post(BACKEND_URL + '/user/application/createApplication', {form})
     },
+
     
     getAdminHomeStatistics(){
         return request.get(BACKEND_URL + '/admin/system/sysUser/getAdminHomeStatistics')
@@ -101,26 +101,26 @@ const api={
         return request.get(BACKEND_URL + '/admin/system/sysGroup/getGroupStatistics', {params: {groupId:groupId}})
     },
     getFundStatistics(fundId){
-        return request.get(BACKEND_URL + '/getFundStatistics', {params: {fundId:fundId}})
+        return request.get(BACKEND_URL + '/admin/system/sysFunding/getFundStatistics', {params: {id:fundId}})
     },
-    getApplicationInfo(fundId){
-        return request.get(BACKEND_URL + '/getApplicationInfo', {params: {fundId:fundId}})
+    getApplicationInfo(id){
+        return request.get(BACKEND_URL + '/admin/system/application/getApplicationInfo', {params: {id:id}})
     },
-    getApplicationTimeline(fundId){
-        return request.get(BACKEND_URL + '/getApplicationTimeline', {params: {fundId:fundId}})
+    getApplicationTimeline(id){
+        return request.get(BACKEND_URL + '/admin/system/application/getApplicationTimeline', {params: {id:id}})
     },
     
     getAdminMessages(params){
-        return request.get(BACKEND_URL + '/getAdminMessages', {params: params})
+        return request.get(BACKEND_URL + '/admin/system/sysUser/getAdminMessages', {params: params})
     },
     getUserHomeStatistics(){
-        return request.get(BACKEND_URL + '/getUserHomeStatistics')
+        return request.get(BACKEND_URL + '/admin/system/sysUser/getUserHomeStatistics')
     },
     getUserGroups(){
-        return request.get(BACKEND_URL + '/getUserGroups')
+        return request.get(BACKEND_URL + '/admin/system/sysFunding/getUserGroups')
     },
-    getUserMessages(params){
-        return request.get(BACKEND_URL + '/getUserMessages', {params: params})
+    getUserMessages(page,type){
+        return request.get(BACKEND_URL + '/admin/system/sysUser/getUserMessages', {params: {page: page, type:type}})
     },
     addUserToGroups(userId, group, admin){
         return request.post(BACKEND_URL + '/admin/system/sysUser/addUserToGroups', {userId:userId, groups:group, admin:admin})

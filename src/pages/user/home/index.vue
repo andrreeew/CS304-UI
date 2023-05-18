@@ -195,7 +195,7 @@ export default {
     },
     getApplications(){
       this.loading = true
-      api.getApplications(1,"all").then(res => {
+      api.getUserApplications({page:1, type:"all"}).then(res => {
         this.applicationData = res.data.data.data
       }).finally(()=>{this.loading=false})
     },
