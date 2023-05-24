@@ -5,7 +5,7 @@
         <a-card title="课题组信息">
 <!--            <a-descriptions :data="groupInfo"  size="large" :column="{xs:1, lg:2}"/>-->
 <!--            <a-divider></a-divider>-->
-            <fund-num :member-num="groupData.users?length(groupData.users):0" :total-fund="groupData.total" :left-fund="groupData.left"
+            <fund-num :member-num="memberNum" :total-fund="groupData.total" :left-fund="groupData.left"
                       :used-fund="groupData.cost"></fund-num>
         </a-card>
         <a-card title="分得经费">
@@ -17,15 +17,15 @@
       <a-space direction="vertical" style="width: 100%" size="medium">
         <a-card style="background-color:rgb(var(--arcoblue-6))">
           <a-space size="medium">
-            <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">A</a-avatar>
+            <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">{{groupFirst}}</a-avatar>
             <a-typography style="color:white;font-size: 22px">
-              课题组：1224
+              课题组：{{groupData.name}}
             </a-typography>
           </a-space>
         </a-card>
       <a-card title="人员">
 
-          <account-list v-model:groupData="groupData" :accounts="accounts" :update-data="updateData"></account-list>
+          <account-list :groupData="groupData" :accounts="accounts" :update-data="updateData"></account-list>
       </a-card>
       </a-space>
     </template>
@@ -52,9 +52,15 @@ export default {
   computed:{
     memberNum(){
       if(this.groupData.users){
-        return length(this.groupData.users)
+        return this.groupData.users.length
       }
       return 0;
+    },
+    groupFirst(){
+      if(this.groupData.name){
+        // return this.groupData.name.charAt(0).toUpperCase()
+      }
+      return  'G';
     }
   },
   methods:{
@@ -62,6 +68,8 @@ export default {
     updateData(){
       api.getGroups({id:this.$route.params.groupId,pageSize:1,page:1}).then(res => {
         this.groupData = res.data.data.groups[0]
+
+
         // this.groupInfo[0].value = this.groupData.name
       }).then(() => {
         api.getUsersNotInGroup(this.groupData.name).then(res => {
@@ -87,6 +95,7 @@ export default {
   created(){
     this.setRoutes([{label:'课题组', name:'admin-group'}])
     this.updateData()
+    console.log(this.groupData.users)
   }
 }
 </script>

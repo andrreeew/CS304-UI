@@ -35,9 +35,9 @@
       <a-space direction="vertical" style="width: 100%" size="medium">
         <a-card style="background-color:rgb(var(--arcoblue-6))">
           <a-space size="medium">
-            <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">A</a-avatar>
+            <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">{{fundFirst}}</a-avatar>
             <a-typography style="color:white;font-size: 22px">
-              经费：国自然zz
+              经费：{{data.name}}
             </a-typography>
           </a-space>
         </a-card>
@@ -76,6 +76,14 @@ export default {
       api.getFundStatistics(this.id).then(res => {
         this.statistics = res.data.data
       })
+    }
+  },
+  computed:{
+    fundFirst(){
+      if(this.data.name){
+        return this.data.name.charAt(0).toUpperCase()
+      }
+      return 'F'
     }
   },
   data() {

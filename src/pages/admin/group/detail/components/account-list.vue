@@ -80,7 +80,8 @@ export default {
         } else {
           Message.error(res.data.msg)
         }
-      }).finally(()=>this.updateData)
+        console.log('chamge admin')
+      }).finally(()=>this.updateData())
     },
     deleteUser(user){
       api.deleteGroupUser(this.groupData.name, user.id).then(res => {
@@ -90,7 +91,7 @@ export default {
         } else {
           Message.error(res.data.msg)
         }
-      }).finally(()=>this.updateData)
+      }).finally(()=>this.updateData())
     },
     addUsers(){
       api.addGroupUsers(this.groupData.name, this.form.account,this.form.admin).then(res => {
@@ -100,7 +101,7 @@ export default {
         } else {
           Message.error(res.data.msg)
         }
-      }).finally(()=>this.updateData)
+      }).finally(()=>this.updateData())
       this.clearForm()
     },
 

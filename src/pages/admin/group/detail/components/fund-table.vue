@@ -40,7 +40,9 @@ export default {
     deleteButton
   },
   props:{
-    groupId: Number
+    groupId: {
+      default: -1
+    }
   },
   data(){
     return{
@@ -74,8 +76,7 @@ export default {
   methods:{
     deleteFund(fundId){
       api.deleteGroupFund(this.groupId, fundId).then(res => {
-        if (res.data.code == 200) {
-          Message.success(res.data.msg)
+        if (res.data.code === 200) {
           this.data = res.data.data
         } else {
           Message.error(res.data.msg)
@@ -86,9 +87,10 @@ export default {
   watch:{
     groupId(newVal, oldVal){
       api.getFundInfoByGroup(newVal).then(res => {
-        if (res.data.code == 200) {
-          this.data = res.data.data
-        }
+        // console.log(res.data)
+        // if (res.data.code=== 200) {
+        //   this.data = res.data.data
+        // }
       })
     }
   },

@@ -94,9 +94,9 @@
       <a-space direction="vertical" style="width: 100%" size="medium">
         <a-card style="background-color:rgb(var(--arcoblue-6))">
           <a-space size="medium">
-            <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">A</a-avatar>
+            <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">{{this.userInfo[1].value.charAt(0).toUpperCase()}}</a-avatar>
             <a-typography style="color:white;font-size: 22px">
-              账号：1224
+              账号：{{this.userInfo[1].value}}
             </a-typography>
           </a-space>
         </a-card>
@@ -123,17 +123,29 @@ export default {
     groupCard,
     detailSkeleton
   },
+
   methods:{
     ...mapMutations(['setRoutes']),
+    init(){
+      api.getUsers({key:this.$route.params.user,pageSize:1,page:1}).then(res => {
+        let info = res.data.data.users[0]
+        this.userInfo[0].value = info.key
+        this.userInfo[1].value = info.name
+        this.userInfo[2].value = info.email
+        this.userInfo[3].value = info.phone
+        this.groups = info.group
+      })
+    },
     addGroups(){
       api.addUserToGroups(this.userInfo[0].value, this.form.group, this.form.admin).then(res => {
-        if (res.data.code == 200) {
+        if (res.data.code ===200) {
           Message.success(res.data.msg)
           this.groups = res.data.data
+
         } else {
           Message.error(res.data.msg)
         }
-      })
+      }).finally(()=>this.init())
       this.clearForm()
     },
     clearForm(){
@@ -171,14 +183,7 @@ export default {
   created(){
     this.setRoutes([{label:'账号', name:'admin-account'}])
     this.getAllGroupNames()
-    api.getUsers({key:this.$route.params.user,pageSize:1,page:1}).then(res => {
-      let info = res.data.data.users[0]
-      this.userInfo[0].value = info.key
-      this.userInfo[1].value = info.name
-      this.userInfo[2].value = info.email
-      this.userInfo[3].value = info.phone
-      this.groups = info.group
-    })
+    this.init()
   }
 }
 </script>
