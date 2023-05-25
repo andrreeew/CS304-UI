@@ -5,7 +5,8 @@
         v-model:rows="selectedKeys" 
         :select="true" 
         :data="applicationData"
-        @deny="cancelApplication" 
+        @deny="cancelApplication"
+        :update-data="getData"
       >
       </application-table>
 

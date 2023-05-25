@@ -41,17 +41,13 @@
 <!--        </a-select>-->
 <!--        <a-select :style="{width:'200px'}" :options="categorise[form.category1] || []" v-model="form.category2" ></a-select>-->
 
-        <template #category1="{ rowIndex }">
-          <a-select v-if="edit && data[rowIndex].new" :style="{width:'150px'}" v-model="data[rowIndex].category1">
-            <a-option v-for="value of Object.keys(categorise)">{{value}}</a-option>
+        <template #category="{ rowIndex }">
+          <a-select v-if="edit && data[rowIndex].new" :style="{width:'150px'}" v-model="data[rowIndex].category">
+            <a-option v-for="item in categorise">{{item}}</a-option>
           </a-select>
-          <div v-else>{{data[rowIndex].category1}}</div>
+          <div v-else>{{data[rowIndex].category}}</div>
         </template>
 
-        <template #category2="{ rowIndex }">
-          <a-select v-if="edit && data[rowIndex].new" :style="{width:'150px'}" :options="categorise[data[rowIndex].category1] || []" v-model="data[rowIndex].category2" ></a-select>
-          <div v-else>{{data[rowIndex].category2}}</div>
-        </template>
 
         <template #total="{ rowIndex }">
           <a-tooltip v-if="edit && data[rowIndex].new" :content="tip">
@@ -131,29 +127,24 @@ export default {
         {label: '是否达标', value: true},
       ],
       columns:[
-        {title: '支出类别一级', dataIndex: 'category1', slotName: 'category1', },
-        {title: '支出类别二级', dataIndex: 'category2', slotName: 'category2'},
+        {title: '支出类别', dataIndex: 'category', slotName: 'category', },
         {title: '经费总额', dataIndex: 'total', slotName: 'total'},
-        {title: '已使用', dataIndex: 'cost', width:100},
-        {title: '经费余额', dataIndex: 'left', slotName:'left', width: 100},
+        {title: '已使用', dataIndex: 'cost'},
+        {title: '经费余额', dataIndex: 'left', slotName:'left'},
         {title: '操作', slotName: 'operate'}
       ],
       left: 1000,
       data:[
-        {category1:'Beijing', category2:'', total:10, cost:20, left:10, new:false},
-        {category1:'Sichuan', category2:4, total:10, cost:20, left:10, new:true}
+        // {category:'Beijing', total:10, cost:20, left:10, new:false},
+        // {category1:'Sichuan', total:10, cost:20, left:10, new:true}
       ],
-      categorise : {
-        Beijing: ['Haidian', 'Chaoyang', 'Changping'],
-        Sichuan: ['Chengdu', 'Mianyang', 'Aba'],
-        Guangdong: ['Guangzhou', 'Shenzhen', 'Shantou']
-      }
+      categorise : ['电脑费', '文印费', '打车费'],
     }
   },
   methods:{
     ...mapMutations(['setRoutes']),
     addRecord(){
-      this.data.push({category1:'', category2:'', total:0, cost:0, left:0, new:true})
+      this.data.push({category:'', total:0, cost:0, left:0, new:true})
     },
     getData(){
       api.getFundDetailByGroup(this.fundId, this.groupId).then(res => {
@@ -178,7 +169,7 @@ export default {
         } else {
           Message.error(res.data.msg)
         }
-      })
+      }).finally(()=>this.getData())
     },
     getGroupInfo(){
       api.getGroupStatistics(this.groupId).then(res => {

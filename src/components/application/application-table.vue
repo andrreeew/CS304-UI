@@ -26,7 +26,8 @@
         <template #icon>
           <icon-close-circle-fill />
         </template>
-        驳回
+
+        {{identity==='admin'?'驳回':'撤回'}}
       </a-tag>
     </template>
     <template #date="{ record }">
