@@ -38,8 +38,11 @@
         <a-tooltip  v-if="identity==='admin'&&record.state==='underway'" content="通过" >
           <check-button @click="permitApplication(record.id)"></check-button>
         </a-tooltip>
-        <a-tooltip  v-if="record.state==='underway'" :content="identity==='admin'?'驳回':'撤回'" >
+        <a-tooltip  v-if="record.state==='underway'&& identity==='admin' " content='驳回' >
           <delete-button @click="denyApplication(record.id)"></delete-button>
+        </a-tooltip>
+        <a-tooltip  v-if="record.state==='underway'&& identity==='user'" content='撤回' >
+          <delete-button @click="cancelApplication(record.id)"></delete-button>
         </a-tooltip>
       </a-space>
     </template>
@@ -50,8 +53,11 @@
         <a-tooltip  v-if="identity==='admin'&&selectedRecord.state==='underway'" content="通过" >
           <check-button @click="permitApplication(selectedRecord.id)"></check-button>
         </a-tooltip>
-        <a-tooltip  v-if="selectedRecord.state==='underway'" :content="identity==='admin'?'驳回':'撤回'" >
+        <a-tooltip  v-if="selectedRecord.state==='underway' && identity==='admin'" content='驳回' >
           <delete-button @click="denyApplication(selectedRecord.id)"></delete-button>
+        </a-tooltip>
+        <a-tooltip  v-if="selectedRecord.state==='underway'&& identity==='user'" content='撤回'>
+          <delete-button @click="cancelApplication(selectedRecord.id)"></delete-button>
         </a-tooltip>
       </template>
       <application-detail :applicationInfo="applicationInfo" :applicationTimeline="applicationTimeline"></application-detail>
@@ -138,6 +144,16 @@ export default {
     },
     denyApplication(id){
       api.denyApplications([id]).then(res => {
+        if (res.data.code=== 200) {
+          Message.success(res.data.msg)
+          this.$socket.send('deny');
+        } else {
+          Message.error(res.data.msg)
+        }
+      }).finally(()=>{this.updateData()})
+    },
+    cancelApplication(id){
+      api.cancelApplication(id).then(res=>{
         if (res.data.code=== 200) {
           Message.success(res.data.msg)
           this.$socket.send('deny');
