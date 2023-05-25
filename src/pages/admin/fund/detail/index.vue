@@ -85,7 +85,8 @@ export default {
     ...mapMutations(['setRoutes']),
     getData(){
       api.getFunds({id:this.id}).then(res => {
-        this.data = res.data.data[0]
+        this.data = res.data.data
+        console.log(this.data)
       })
       api.getFundStatistics(this.id).then(res => {
         this.statistics = res.data.data
