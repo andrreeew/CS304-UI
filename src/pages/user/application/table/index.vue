@@ -4,7 +4,7 @@
       <application-table 
         v-model:rows="selectedKeys" 
         :select="true" 
-        :applicationData="applicationData"
+        :data="applicationData"
         @deny="cancelApplication" 
       >
       </application-table>

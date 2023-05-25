@@ -105,7 +105,7 @@ export default {
         {title: '金额', dataIndex: 'num'},
         {title: '申请日期', dataIndex: 'date'},
         {title: '经办人', dataIndex: 'people'},
-        {title: '支出类别一级', dataIndex: 'category'},
+        {title: '支出类别', dataIndex: 'category'},
         {title: '操作', slotName: 'optional', fixed: 'right', width:200},
       ],
       selectedKeys:this.rows,

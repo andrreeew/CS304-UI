@@ -59,35 +59,13 @@ export default {
         {title: '是否达标', slotName: 'complete',},
         {title: '操作', slotName: 'optional', fixed: 'right'},
       ],
-      data:[{
-        complete: true,
-        group: 'dsafsa',
-        total: 2141,
-        cost: 242,
-        left: 155,
-        percent: 241,
-      }, {
-        complete: true,
-        group: 'dsafsa',
-        total: 2141,
-        cost: 242,
-        left: 155,
-        percent: 241,
-      }, {
-        complete: false,
-        group: 'dsafsa',
-        total: 2141,
-        cost: 242,
-        left: 155,
-        percent: 241,
-      }
-      ]
+      data:[]
     }
   },
   methods: {
     deleteGroup(groupName){
       api.deleteFundGroup(this.fundId, groupName).then(res => {
-        if (res.data.code == 200) {
+        if (res.data.code === 200) {
           Message.success(res.data.msg)
           this.data = res.data.data
         } else {
@@ -97,7 +75,7 @@ export default {
     },
     addGroup(){
       api.addGroupsToFund(this.fundId,this.selectGroups).then(res => {
-        if (res.data.code == 200) {
+        if (res.data.code === 200) {
           Message.success(res.data.msg)
           this.data = res.data.data
         } else {
