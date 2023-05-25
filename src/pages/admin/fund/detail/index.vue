@@ -8,7 +8,8 @@
           <fund-num :statistics="statistics"></fund-num>
         </a-card>
 
-        <a-card title="分配课题组" style="padding-bottom: 20px">
+        <!-- <a-card title="分配课题组" style="padding-bottom: 20px"> -->
+        <a-card title="分配课题组">
           <group-table :fundId="data.id"></group-table>
         </a-card>
 <!--        <a-card title="使用记录">-->
@@ -17,6 +18,11 @@
 <!--          </template>-->
 <!--          <application-table style="margin-bottom: 20px"></application-table>-->
 <!--        </a-card>-->
+
+        <!-- <a-card title="使用记录" style="padding-bottom: 20px"> -->
+        <a-card title="使用记录">
+          <line-chart :id="id" style="height: 200px;"></line-chart>
+        </a-card>
 
       </a-space>
 
@@ -41,6 +47,10 @@
             </a-typography>
           </a-space>
         </a-card>
+
+        <a-card title="分配情况">
+          <pie-chart style="height: 400px;"></pie-chart>
+        </a-card>
       </a-space>
     </template>
   </detail-skeleton>
@@ -56,6 +66,8 @@ import api from "@/api"
 import deleteButton from '@/components/operation/delete-button'
 import {mapMutations} from 'vuex'
 import detailSkeleton from "@/components/operation/detail-skeleton";
+import lineChart from '@/components/chart/line-chart'
+import pieChart from '@/components/chart/pie-chart'
 
 export default {
   name: "index",
@@ -65,7 +77,9 @@ export default {
     fundInfo,
     fundNum,
     deleteButton,
-    detailSkeleton
+    detailSkeleton,
+    lineChart,
+    pieChart
   },
   methods:{
     ...mapMutations(['setRoutes']),
@@ -84,7 +98,7 @@ export default {
         return this.data.name.charAt(0).toUpperCase()
       }
       return 'F'
-    }
+    },
   },
   data() {
     return {
@@ -96,7 +110,7 @@ export default {
         left:0,
         used:0,
         completeRate:0
-      }
+      },
     }
   },
   created(){
@@ -107,5 +121,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
