@@ -30,7 +30,7 @@
               <a-typography-text style="font-size: 14px;color: var(--color-neutral-6)">
                 {{edit?'保存':'修改'}}
               </a-typography-text>
-              <a-switch @click="switchEdit" type="line"></a-switch>
+              <a-switch v-model="edit"  type="line"></a-switch>
             </a-space>
 
           </div>
@@ -171,9 +171,10 @@ export default {
     },
     submit(){
       api.modifyGroupFundDetail(this.fundId, this.groupId, this.data).then(res => {
-        if (res.data.code == 200) {
+        if (res.data.code === 200) {
           Message.success(res.data.msg)
           this.data = res.data.data
+          this.edit = false
         } else {
           Message.error(res.data.msg)
         }

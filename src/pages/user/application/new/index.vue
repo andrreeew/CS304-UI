@@ -90,6 +90,11 @@ export default {
   },
   methods: {
     ...mapMutations(['setRoutes']),
+    init(){
+      api.getUserGroups().then(res=>{
+        console.log(res.data.data())
+      })
+    },
     clearForm(){
       for (let key in this.form){
          this.form[key] = ''
@@ -113,9 +118,10 @@ export default {
   },
   created() {
     this.setRoutes([{label:'申请', name:'user-application'}, {label: '创建申请', name: 'user-application-new'}])
-    api.getAllGroupName().then(res => {
-      this.groups = res.data.data
-    })
+    // api.getAllGroupName().then(res => {
+    //   this.groups = res.data.data
+    // })
+    this.init();
   }
 }
 </script>

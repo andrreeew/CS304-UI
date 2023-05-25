@@ -5,7 +5,7 @@
         <a-avatar :size="32" :style="{ backgroundColor: '#3370ff' }">
           <IconUser />
         </a-avatar>
-        <a-link  @click="$router.push({name:'admin-group-detail', params:{groupId:info.id}})" style="font-size: 20px">
+        <a-link  @click="$router.push({name:identity+'-group-detail', params:{groupId:info.id}})" style="font-size: 20px">
           {{info.name}}
         </a-link>
         <slot name="extra"></slot>

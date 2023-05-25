@@ -9,12 +9,12 @@
         </a-space>
 
         <a-space>
-        <a-button @click="changeUserAdmin(item)">修改权限</a-button>
-        <delete-button @click="deleteUser(item)"></delete-button>
+        <a-button v-if="identity==='admin'"  @click="changeUserAdmin(item)">修改权限</a-button>
+        <delete-button v-if="identity==='admin'"  @click="deleteUser(item)"></delete-button>
         </a-space>
       </div>
     </a-list-item>
-    <a-list-item >
+    <a-list-item v-if="identity==='admin'" >
       <div style="display: flex;justify-content: center">
         <a-button shape="circle" @click="visible=true">
           <icon-plus></icon-plus>
@@ -46,6 +46,11 @@ export default {
   name: "account-list",
   components:{
     deleteButton
+  },
+  computed:{
+    identity(){
+      return this.$route.path.substring(1).split('/')[0];
+    },
   },
   props:{
     groupData: {
