@@ -127,6 +127,9 @@ const api={
     },
     getFundHistory(fundId){
         return request.get(BACKEND_URL + '/admin/system/application/getApplicationsByFundId', {params: {fundId:fundId}})
+    },
+    getFundPie(fundId){
+        return request.get(BACKEND_URL + '/admin/system/sysFunding/getGroupFundByFundId', {params: {fundId:fundId}})
     }
 }
 

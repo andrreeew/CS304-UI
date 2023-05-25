@@ -13,7 +13,6 @@ export default {
     id:{default:1}
   },
   mounted() {
-    console.log(this.id);
     api.getFundHistory(this.id).then(res => {
       this.data = res.data.data
     })

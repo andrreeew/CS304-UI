@@ -49,7 +49,7 @@
         </a-card>
 
         <a-card title="分配情况">
-          <pie-chart style="height: 400px;"></pie-chart>
+          <pie-chart :id="id" style="height: 400px;"></pie-chart>
         </a-card>
       </a-space>
     </template>
