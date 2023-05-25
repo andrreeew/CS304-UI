@@ -4,23 +4,32 @@
 
 <script>
 import {graphic} from 'echarts';
+import dayjs from "dayjs";
+import api from "@/api"
 
 export default {
   name: "line-chart",
+  props:{
+    id:{default:1}
+  },
   mounted() {
-    this.data = [
-      {x:'Mon', y: 0},
-      {x:'Tue', y: 10},
-      {x:'Wed', y: 2},
-      {x:'Thu', y: 3},
-      {x:'Fri', y: 3}
-    ]
+    console.log(this.id);
+    api.getFundHistory(this.id).then(res => {
+      this.data = res.data.data
+    })
+    // this.data = [
+    //   {x:'2023/05/18', y: 0},
+    //   {x:'2023-05-20', y: 0},
+    //   {x:'2023-05-21', y: 10},
+    //   {x:'2023-05-22', y: 2},
+    //   {x:'2023-05-23', y: 3},
+    //   {x:'2023-05-24', y: 3}
+    // ]
     this.$nextTick(() => {
       window.addEventListener("resize", this.handleResize);
       this.chart = this.$refs.myChart;
       this.chart.resize();
     });
-
   },
   data() {
     return {
@@ -32,7 +41,7 @@ export default {
       return  {
         grid: {
           left: '20',
-          right: '20',
+          right: '50',
           top: '20',
           bottom: '80',
           containLabel: true
@@ -46,7 +55,8 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: this.data.map(item=>item.x),
+          data: this.data.map(item=>item.changeTime),
+          // interval: 24 * 60 * 60 * 1000,
           boundaryGap: false,
           axisLine: {
             lineStyle: {
@@ -83,7 +93,7 @@ export default {
         },
         series:[
           {
-            data: this.data.map(item=>item.y),
+            data: this.data.map(item=>item.number),
             type: 'line',
             smooth: true,
             // symbol: 'circle',

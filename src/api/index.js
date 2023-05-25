@@ -124,6 +124,9 @@ const api={
     },
     addUserToGroups(userId, group, admin){
         return request.post(BACKEND_URL + '/admin/system/sysUser/addUserToGroups', {userId:userId, groups:group, admin:admin})
+    },
+    getFundHistory(fundId){
+        return request.get(BACKEND_URL + '/admin/system/application/getApplicationsByFundId', {params: {fundId:fundId}})
     }
 }
 
