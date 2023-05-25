@@ -30,7 +30,7 @@
         <template #title>
           添加课题组
         </template>
-        <group-form></group-form>
+<!--        <group-form></group-form>-->
       </a-modal>
 <!--  <a-modal v-model:visible="visible" >-->
 <!--    <template #title>-->

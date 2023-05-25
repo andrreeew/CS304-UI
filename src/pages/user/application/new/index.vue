@@ -7,27 +7,24 @@
     <a-form :model="form" style="margin-bottom: 20px" layout="vertical">
       <a-form-item label="课题组">
         <a-select v-model="form.group"  placeholder="Please select ...">
-          <a-option v-for="item in groups">{{item.label}}</a-option>
+          <a-option v-for="item in groups">{{item.name}}</a-option>
         </a-select>
 
       </a-form-item>
       <a-form-item label="经费名称">
-        <a-select v-model="form.group" style="max-width: 200px" placeholder="Please select ...">
-          <a-option v-for="item in groups">{{item.label}}</a-option>
+        <a-select v-model="form.fund" style="max-width: 200px" placeholder="Please select ...">
+          <a-option v-for="item in funds">{{item}}</a-option>
         </a-select>
-        <div style="margin-left: 30px">剩余经费:10000</div>
+
       </a-form-item>
 
       <a-form-item label="支出类别">
         <a-space size="medium">
-          <a-select :style="{width:'200px'}" v-model="form.category1">
-          <a-option v-for="value of Object.keys(categorise)">{{value}}</a-option>
+          <a-select :style="{width:'200px'}" v-model="form.category">
+
+          <a-option v-for="item in this.categories">{{item.category}}</a-option>
           </a-select>
-          <a-select :style="{width:'200px'}" :options="categorise[form.category1] || []" v-model="form.category2" ></a-select>
-<!--        <a-select v-model="form.category1" placeholder="Please select ...">-->
-<!--        </a-select>-->
-<!--          <a-select v-model="form.category2">-->
-<!--          </a-select>-->
+          <div style="margin-left: 30px">剩余经费:{{amount}}</div>
         </a-space>
 
       </a-form-item>
@@ -68,31 +65,75 @@ export default {
   data(){
     return{
       form: {
-        title: '',
         group: '',
-        category1: '',
-        category2: '',
+        fund:'',
+        category: '',
         number: '',
-        abstract: '',
+        remark: '',
         comment: '',
       },
       groups:[
-        {value: 'li', label: 'Li'},
-        {value: 'fang', label: 'Fang'}
+        {name: 'li'},
       ],
-      categorise : {
-        Beijing: ['Haidian', 'Chaoyang', 'Changping'],
-        Sichuan: ['Chengdu', 'Mianyang', 'Aba'],
-        Guangdong: ['Guangzhou', 'Shenzhen', 'Shantou']
+    }
+  },
+  computed:{
+    funds(){
+      var result = []
+      if (this.form.group!==''){
+        for (var i=0;i<this.groups.length;i++) {
+          if(this.groups[i].name===this.form.group){
+            for (var j=0; j<this.groups[i].fund.length;j++) {
+              if (result.indexOf(this.groups[i].fund[j].name) === -1) {
+                result.push(this.groups[i].fund[j].name)
+              }
+            }
+          }
+        }
       }
+      return result
+    },
+    categories(){
+      var result = []
+      if (this.form.fund!==''&&this.form.group!=='') {
+        for (var i=0;i<this.groups.length;i++) {
+          if(this.groups[i].name===this.form.group){
+            for (var j=0; j<this.groups[i].fund.length;j++) {
+              if (this.groups[i].fund[j].name===this.form.fund) {
+                result.push(this.groups[i].fund[j])
+              }
+            }
+          }
+        }
+      }
+      return result
+    },
+    amount(){
+      console.log('fasf')
+      if (this.form.fund!==''&&this.form.group!==''&&this.form.category!=='') {
+        if (this.form.fund!==''&&this.form.group!=='') {
+          for (var i=0;i<this.groups.length;i++) {
+            if(this.groups[i].name===this.form.group){
+              for (var j=0; j<this.groups[i].fund.length;j++) {
+                if (this.groups[i].fund[j].name===this.form.fund && this.groups[i].fund[j].category===this.form.category) {
 
+                  return this.groups[i].fund[j].remain_amount
+                }
+                // console.log(this.groups[i].fund[j])
+                // console.log(this.form.category)
+              }
+            }
+          }
+        }
+      }
+      return ''
     }
   },
   methods: {
     ...mapMutations(['setRoutes']),
     init(){
       api.getUserGroups().then(res=>{
-        console.log(res.data.data())
+        this.groups = res.data.data
       })
     },
     clearForm(){
@@ -102,7 +143,7 @@ export default {
     },
     submit(){
       api.createApplication(this.form).then(res => {
-        if (res.data.code == 200) {
+        if (res.data.code === 200) {
           Message.success(res.data.msg)
         } else {
           Message.error(res.data.msg)
