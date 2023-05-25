@@ -10,7 +10,7 @@
         </a-typography-text>
 
 
-        <a-input v-model=auth.account style="margin-top: 15px">
+        <a-input v-model=auth.username style="margin-top: 15px">
           <template #prefix>
             <icon-user />
           </template>
@@ -42,7 +42,7 @@ export default {
   data(){
     return{
       auth:{
-        account: '',
+        username: '',
         password: '',
       }
     }
