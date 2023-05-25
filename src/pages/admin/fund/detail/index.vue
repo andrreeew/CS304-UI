@@ -21,7 +21,7 @@
 
         <!-- <a-card title="使用记录" style="padding-bottom: 20px"> -->
         <a-card title="使用记录">
-          <line-chart :id="id" style="height: 200px;"></line-chart>
+          <line-chart :id="id" style="height: 400px;"></line-chart>
         </a-card>
 
       </a-space>
