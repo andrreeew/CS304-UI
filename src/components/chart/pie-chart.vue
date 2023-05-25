@@ -12,18 +12,17 @@ export default {
     id:{default:1}
   },
   mounted() {
-    // api.getFundPie(this.id).then(res => {
-    //   this.data = res.data.data
-    // })
-    this.data = [
-      {name:'3-2', value: 1},
-      {name:'3-1', value: 10},
-      {name:'3-3', value: 2},
-      {name:'3-4', value: 3},
-      {name:'3-5', value: 3}
-    ]
-    this.data[this.data.length-1].itemStyle = {color:'#D3D3D3'}
-    console.log(this.data);
+    api.getFundPie(this.id).then(res => {
+      this.data = res.data.data
+      this.data[this.data.length-1].itemStyle = {color:'#D3D3D3'}
+    })
+    // this.data = [
+    //   {name:'3-2', value: 1},
+    //   {name:'3-1', value: 10},
+    //   {name:'3-3', value: 2},
+    //   {name:'3-4', value: 3},
+    //   {name:'3-5', value: 3}
+    // ]
     this.$nextTick(() => {
       window.addEventListener("resize", this.handleResize);
       this.chart = this.$refs.myChart;
