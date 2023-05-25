@@ -90,7 +90,7 @@ const api={
         return request.post(BACKEND_URL + '/user/cancelApplication', {id:id})
     },
     createApplication(form){
-        return request.post(BACKEND_URL + '/user/application/createApplication', {form})
+        return request.post(BACKEND_URL + '/user/createApplication', {form})
     },
 
     
