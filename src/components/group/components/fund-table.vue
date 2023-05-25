@@ -8,15 +8,15 @@
 
     <template #optional="{ record }">
       <a-space>
-        <a-button @click="this.$router.push({name:'admin-fund-group', params:{fundId:record.fundId, groupId: groupId}})">查看</a-button>
-          <delete-button @click="deleteFund(record.fundId)"></delete-button>
+        <a-button @click="this.$router.push({name:identity+'-fund-group', params:{fundId:record.fundId, groupId: groupId}})">查看</a-button>
+          <delete-button v-if="identity==='admin'" @click="deleteFund(record.fundId)"></delete-button>
       </a-space>
     </template>
   </a-table>
 
   <div style="display: flex;justify-content: center; margin-top: 10px">
 
-    <a-button @click="visible=true" shape="circle">
+    <a-button v-if="identity==='admin'" @click="visible=true" shape="circle">
       <icon-plus></icon-plus>
     </a-button>
   </div>
@@ -40,10 +40,19 @@ export default {
     deleteButton
   },
   props:{
-    groupId: Number
+    groupId: {
+      default: -1
+    },
+
+  },
+  computed:{
+    identity(){
+      return this.$route.path.substring(1).split('/')[0];
+    },
   },
   data(){
     return{
+      identity: this.$route.path.substring(1).split('/')[0],
       visible: false,
       selectFunds:[],
       funds:[
@@ -74,8 +83,7 @@ export default {
   methods:{
     deleteFund(fundId){
       api.deleteGroupFund(this.groupId, fundId).then(res => {
-        if (res.data.code == 200) {
-          Message.success(res.data.msg)
+        if (res.data.code === 200) {
           this.data = res.data.data
         } else {
           Message.error(res.data.msg)
@@ -86,9 +94,10 @@ export default {
   watch:{
     groupId(newVal, oldVal){
       api.getFundInfoByGroup(newVal).then(res => {
-        if (res.data.code == 200) {
-          this.data = res.data.data
-        }
+        // console.log(res.data)
+        // if (res.data.code=== 200) {
+        //   this.data = res.data.data
+        // }
       })
     }
   },

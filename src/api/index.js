@@ -81,13 +81,13 @@ const api={
     },
     //user端对申请的操作
     getUserApplications(params) {
-        return request.get(BACKEND_URL + '/user/application/getUserApplications', {params: params})
+        return request.get(BACKEND_URL + '/user/getUserApplications', {params: params})
     },
     batchCancelApplication(applicationIds) {
-        return request.post(BACKEND_URL + '/user/application/batchCancelApplication', {ids:applicationIds})
+        return request.post(BACKEND_URL + '/user/batchCancelApplication', {ids:applicationIds})
     },
     cancelApplication(id){
-        return request.post(BACKEND_URL + '/user/application/cancelApplication', {id:id})
+        return request.post(BACKEND_URL + '/user/cancelApplication', {id:id})
     },
     createApplication(form){
         return request.post(BACKEND_URL + '/user/application/createApplication', {form})
@@ -117,13 +117,16 @@ const api={
         return request.get(BACKEND_URL + '/admin/system/sysUser/getUserHomeStatistics')
     },
     getUserGroups(){
-        return request.get(BACKEND_URL + '/admin/system/sysFunding/getUserGroups')
+        return request.get(BACKEND_URL + '/user/getUserGroups')
     },
     getUserMessages(page,type){
         return request.get(BACKEND_URL + '/admin/system/sysUser/getUserMessages', {params: {page: page, type:type}})
     },
     addUserToGroups(userId, group, admin){
         return request.post(BACKEND_URL + '/admin/system/sysUser/addUserToGroups', {userId:userId, groups:group, admin:admin})
+    },
+    getFundHistory(fundId){
+        return request.get(BACKEND_URL + '/admin/system/application/getApplicationsByFundId', {params: {fundId:fundId}})
     }
 }
 

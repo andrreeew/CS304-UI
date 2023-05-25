@@ -8,6 +8,7 @@ import ECharts from 'vue-echarts'
 import 'echarts';
 import '@arco-design/web-vue/dist/arco.css'
 import VueNativeSock from 'vue-native-websocket-vue3'
+import i18n from "./locale/index";
 
 
 const app = createApp(App)
@@ -16,6 +17,7 @@ app.use(store)
 app.use(router)
 app.use(ArcoVue)
 app.use(ArcoVueIcon)
+app.use(i18n)
 app.use(VueNativeSock, 'ws://localhost:5002', {
     reconnection: true, // 是否自动重新连接
     reconnectionAttempts: 5, // 重新连接次数

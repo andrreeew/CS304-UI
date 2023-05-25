@@ -21,13 +21,21 @@
     </div>
     <div class="right-side">
       <a-space :size="20">
-        <a-tooltip content="语言">
-          <a-button class="nav-btn" type="outline" :shape="'circle'">
-            <template #icon>
-              <icon-language />
-            </template>
-          </a-button>
-        </a-tooltip>
+        <a-trigger trigger="click">
+          <a-tooltip :content="$t('language')">
+            <a-dropdown @select="changeLanguage">
+              <a-button class="nav-btn" type="outline" :shape="'circle'">
+                <template #icon>
+                  <icon-language/>
+                </template>
+              </a-button>
+              <template #content>
+                <a-doption value="zh-CN">简体中文</a-doption>
+                <a-doption value="en-US">English</a-doption>
+              </template>
+            </a-dropdown>
+          </a-tooltip>
+        </a-trigger>
 
         <a-tooltip content="设置">
           <a-button class="nav-btn" type="outline" :shape="'circle'">
@@ -78,7 +86,11 @@ export default {
     notifyList,
   },
   methods:{
-    ...mapActions('auth', ['logout'])
+    ...mapActions('auth', ['logout']),
+    changeLanguage(val) {
+      this.$i18n.locale = val   // 设置当前语言
+      localStorage.setItem('locale', val)
+    },
   },
   data(){
     return{

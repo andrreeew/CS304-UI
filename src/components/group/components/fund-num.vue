@@ -6,7 +6,7 @@
             src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
         />
       </a-avatar>
-      <a-statistic title="总人数" :value="memberNumber" >
+      <a-statistic title="总人数" :value="memberNum" >
 
       </a-statistic>
     </a-space>
@@ -39,42 +39,6 @@
     </a-space>
 
   </a-grid>
-  <!--  <a-space direction="vertical" style="width: 100%">-->
-  <!--    <div style="display: flex; justify-content: space-around">-->
-  <!--      -->
-  <!--      <a-statistic title="已分配金额" :value="50.52" :precision="2" :value-style="{ color: '#0fbf60' }">-->
-  <!--        <template #prefix>-->
-  <!--          <icon-arrow-rise/>-->
-  <!--        </template>-->
-  <!--        <template #suffix>%</template>-->
-  <!--      </a-statistic>-->
-  <!--      <a-statistic title="待分配金额" :value="50.52" :precision="2" :value-style="{ color: '#0fbf60' }">-->
-  <!--        <template #prefix>-->
-  <!--          <icon-arrow-rise/>-->
-  <!--        </template>-->
-  <!--        <template #suffix>%</template>-->
-  <!--      </a-statistic>-->
-  <!--    </div>-->
-  <!--    <div style="display: flex; justify-content: space-around">-->
-  <!--      <a-statistic title="已使用总金额" :value="125670" show-group-separator>-->
-  <!--        <template #suffix>-->
-  <!--          <icon-arrow-rise/>-->
-  <!--        </template>-->
-  <!--      </a-statistic>-->
-  <!--      <a-statistic title="剩余金额" :value="50.52" :precision="2" :value-style="{ color: '#0fbf60' }">-->
-  <!--        <template #prefix>-->
-  <!--          <icon-arrow-rise/>-->
-  <!--        </template>-->
-  <!--        <template #suffix>%</template>-->
-  <!--      </a-statistic>-->
-  <!--      <a-statistic title="完成度" :value="50.52" :precision="2" :value-style="{ color: '#0fbf60' }">-->
-  <!--        <template #prefix>-->
-  <!--          <icon-arrow-rise/>-->
-  <!--        </template>-->
-  <!--        <template #suffix>%</template>-->
-  <!--      </a-statistic>-->
-  <!--    </div>-->
-  <!--  </a-space>-->
 </template>
 
 <script>

@@ -114,7 +114,8 @@ export default {
   },
   computed: {
     canSubmit() {
-      return !(this.emailStatus==='success' && this.phoneStatus=== 'success' && this.form.name !=='' && !this.loading)
+      return false
+      // return !(this.emailStatus==='success' && this.phoneStatus=== 'success' && this.form.name !=='' && !this.loading)
     }
   },
   created() {

@@ -163,7 +163,12 @@ const routes = [
                 path: '',
                 name: 'user-group-table',
                 component: ()=>import('../pages/user/group/table')
-              }
+              },
+              {
+                path: ':groupId',
+                name: 'user-group-detail',
+                component: () => import('../pages/user/group/detail')
+              },
             ]
           },
           {

@@ -102,6 +102,8 @@ export default {
     jumpTo(v){
       this.selectKeys=v
       this.$router.push({name:this.identity+'-'+v})
+      console.log({name:this.identity+'-'+v})
+      console.log('jump to')
     }
   },
 }

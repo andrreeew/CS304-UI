@@ -13,7 +13,7 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="新增申请" :value="statistics.newApplication" :value-from="0" animation>
+                <a-statistic :title="$t('admin.home.newApplication')" :value="statistics.newApplication" :value-from="0" animation>
                   <template #suffix>件</template>
                 </a-statistic>
               </a-space>

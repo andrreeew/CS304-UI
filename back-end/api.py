@@ -8,42 +8,42 @@ import threading
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-# clients = []
+clients = []
 
-# async def reply(websocket):
-#     print("New client connected.")
-#     response = "Welcome to my WebSocket server!"
-#     await websocket.send(json.dumps({'msg':response}))
-#     clients.append(websocket)
-#     try:
-#         while True:
-#             message = await websocket.recv()
-#             print("Received message:", message)
-#             if message=='permit':
-#                 for c in clients:
-#                     await c.send(json.dumps({'identity':'user', 'type':'permit', 'msg':'申请已通过'}))
-#             elif message=='deny':
-#                 for c in clients:
-#                     await c.send(json.dumps({'identity':'user', 'type':'deny', 'msg':'申请被驳回'}))
+async def reply(websocket):
+    print("New client connected.")
+    response = "Welcome to my WebSocket server!"
+    await websocket.send(json.dumps({'msg':response}))
+    clients.append(websocket)
+    try:
+        while True:
+            message = await websocket.recv()
+            print("Received message:", message)
+            if message=='permit':
+                for c in clients:
+                    await c.send(json.dumps({'identity':'user', 'type':'permit', 'msg':'申请已通过'}))
+            elif message=='deny':
+                for c in clients:
+                    await c.send(json.dumps({'identity':'user', 'type':'deny', 'msg':'申请被驳回'}))
                 
-#     except websockets.exceptions.ConnectionClosedOK:
-#         try:
-#             clients.remove(websocket)
-#         except:
-#             pass
-#         finally:
-#             print("Client disconnected.")
+    except websockets.exceptions.ConnectionClosedOK:
+        try:
+            clients.remove(websocket)
+        except:
+            pass
+        finally:
+            print("Client disconnected.")
 
-# def ws():
-#     loop = asyncio.new_event_loop()
-#     asyncio.set_event_loop(loop)
-#     loop.run_until_complete(websockets.serve(reply, 'localhost', 5002))
-#     loop.run_forever()
-#     # asyncio.get_event_loop().run_until_complete(websockets.serve(reply, 'localhost', 5002))
-#     # asyncio.get_event_loop().run_forever()
+def ws():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(websockets.serve(reply, 'localhost', 5002))
+    loop.run_forever()
+    # asyncio.get_event_loop().run_until_complete(websockets.serve(reply, 'localhost', 5002))
+    # asyncio.get_event_loop().run_forever()
 
-# t = threading.Thread(target=ws)
-# t.start()
+t = threading.Thread(target=ws)
+t.start()
 
 
 
@@ -103,7 +103,7 @@ adminMsgs = [
     {'type':'审批通知', 'date':'2010-10-1','new':False, 'msg':'A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to design expresses the process of developing a design. The verb to design expresses the process of developing a design.A design is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The verb to '}
 ]
 
-@app.route('/login', methods=['POST'])
+@app.route('/user/login', methods=['POST'])
 def login():
     account, password = request.json['account'], request.json['password']
     if(account=='admin' and password=='12345'):
