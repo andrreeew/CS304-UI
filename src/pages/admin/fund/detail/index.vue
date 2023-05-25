@@ -21,7 +21,7 @@
 
         <!-- <a-card title="使用记录" style="padding-bottom: 20px"> -->
         <a-card title="使用记录">
-          <line-chart :id="id" style="height: 200px;"></line-chart>
+          <line-chart :id="id" style="height: 400px;"></line-chart>
         </a-card>
 
       </a-space>
@@ -49,7 +49,7 @@
         </a-card>
 
         <a-card title="分配情况">
-          <pie-chart style="height: 400px;"></pie-chart>
+          <pie-chart :id="id" style="height: 400px;"></pie-chart>
         </a-card>
       </a-space>
     </template>
@@ -85,7 +85,8 @@ export default {
     ...mapMutations(['setRoutes']),
     getData(){
       api.getFunds({id:this.id}).then(res => {
-        this.data = res.data.data[0]
+        this.data = res.data.data
+        console.log(this.data)
       })
       api.getFundStatistics(this.id).then(res => {
         this.statistics = res.data.data

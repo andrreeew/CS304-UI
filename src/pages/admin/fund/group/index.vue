@@ -106,7 +106,7 @@ export default {
   name: "index",
   computed:{
     tip(){
-      return '剩余'+this.left+'可分配'
+      return '剩余'+this.fundInfo[3].value+'可分配'
     }
   },
   data(){
