@@ -147,22 +147,26 @@ export default {
       this.data.push({category:'', total:0, cost:0, left:0, new:true})
     },
     getData(){
-      api.getFundDetailByGroup(this.fundId, this.groupId).then(res => {
-
-        if(res.data.code===200){
-          this.data = res.data.data
-          if(this.data.length===0){
-            this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
-          }else{
+      api.getGroupByFund(this.$route.params.fundId).then(res=>{
+        var groups = res.data.data
+        var flag = false;
+        for (let i = 0; i < groups.length; i++) {
+          if(groups[i].group===this.$route.params.groupId){
+            flag = true
+            break
+          }
+        }
+        if(!flag){
+          this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
+        }else{
+          api.getFundDetailByGroup(this.fundId, this.groupId).then(res => {
+            this.data = res.data.data
             this.getFundInfo()
             this.getGroupInfo()
-          }
-
-        }else{
-          this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
+          })
         }
-
       })
+
 
     },
     switchEdit(){

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-result status="404">
+    <a-result status="404" subtitle="Whoops, that page is gone.">
       <template #extra>
         <a-space>
           <a-button type="primary" @click="$router.go(-2)">Back</a-button>

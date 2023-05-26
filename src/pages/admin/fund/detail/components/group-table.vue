@@ -47,9 +47,7 @@ export default {
     return{
       visible: false,
       selectGroups:[],
-      groups:[
-        {value: 'li', label: 'Li'},
-      ],
+      groups:[],
       columns:[
         {title: '课题组', dataIndex: 'group'},
         {title: '经费总额', dataIndex: 'total'},
