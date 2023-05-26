@@ -102,7 +102,12 @@ export default {
   name: "index",
   computed:{
     tip(){
-      return '剩余'+this.fundInfo[3].value+'可分配'
+      var left = this.fundInfo[2].value
+      console.log(left)
+      for (let i = 0; i < this.data.length; i++) {
+        left -= this.data[i].total
+      }
+      return '剩余'+left+'可分配'
     }
   },
   data(){

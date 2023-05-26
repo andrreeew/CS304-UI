@@ -4,7 +4,7 @@
       <a-input-search :style="{width:'320px'}" placeholder="Please enter something"/>
     </template>
     <template v-slot:header-left>
-      <a-tabs type="rounded" :active-key="type" size="mini" v style="margin-bottom: -20px" @change="jump">
+      <a-tabs type="rounded" :active-key="queryArgs.type" size="mini" v style="margin-bottom: -20px" @change="jump">
         <a-tab-pane key="all" title="全部">
         </a-tab-pane>
         <a-tab-pane key="underway" title="待审批">
@@ -203,7 +203,6 @@ export default {
       // selectedKeys: ['1'],
       batch: false,
       advance: false,
-      type:'',
       pageSize:3,
       current:1,
       total:5,
@@ -221,7 +220,8 @@ export default {
       this.$router.push({name:'admin-application-table', query:queryArgs})
     },
     init(){
-      this.type=this.$route.query.type?this.$route.query.type:'all'
+      this.queryArgs.type=this.$route.query.type?this.$route.query.type:'all'
+      console.log(this.type)
       this.queryArgs.page=this.$route.query.page?this.$route.query.page:1
       if (this.$route.query.page == null) {
         this.current = 1
