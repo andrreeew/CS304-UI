@@ -2,6 +2,54 @@
   <router-view/>
 </template>
 
+<script>
+import api from "@/api";
+import {mapMutations} from 'vuex'
+import {Message} from "@arco-design/web-vue";
+
+export default {
+  created() {
+    // this.init()
+  },
+
+  methods:{
+    ...mapMutations('auth', ['clearToken']),
+    init(){
+      // console.log('fsafa')
+      // console.log(this.$route)
+      // api.getIdentity().then(res=>{
+      //   var identity = res.data.data.identity
+      //   console
+      //   if(identity===''){
+      //     Message.warning('请先登录')
+      //     this.clearToken()
+      //     this.$router.push({name: 'login'})
+      //   }else{
+      //     if(this.$route.name==='layout'){
+      //       this.$router.push({name: identity})
+      //     }else {
+      //       var id = this.$route.name.split('-')[0]
+      //       if((id==='admin'&&identity==='user')||(id==='user'&&identity==='admin')){
+      //         Message.warning('没有权限')
+      //         this.$router.push({name: identity})
+      //       }
+      //     }
+      //
+      //   }
+      // })
+    }
+  },
+
+  watch: {
+    $route() {
+      // this.init()
+
+    },
+  },
+}
+
+</script>
+
 <style>
 *{
   box-sizing: border-box;

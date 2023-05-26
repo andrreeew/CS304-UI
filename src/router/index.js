@@ -2,8 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '../layout'
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
-import {isLogin} from "@/utils/auth";
+import {isLogin, getIdentity} from "@/utils/auth";
 import {Message} from "@arco-design/web-vue";
+import api from "@/api";
+
 
 NProgress.configure({
   showSpinner: false,
@@ -197,12 +199,28 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  console.log(to.name)
-  if (to.name !== 'login' && !isLogin()){
-    // Message.warning('请先登录')
-    next({ name: 'login' })
+  if (to.name==='login'){
+    next()
+  }else {
+    api.getIdentity().then(res=>{
+      var identity = res.data.data.identity
+      if ((to.name !== 'login' && !isLogin())||identity===''){
+        Message.warning('请先登录')
+        next({ name: 'login' })
+      }  else {
+        var id = to.name.split('-')[0]
+        if((id==='admin'&&identity==='user')||(id==='user'&&identity==='admin')){
+          Message.warning('无权限')
+          next({ name: identity })
+        }else {
+          next()
+        }
+      }
 
-  }  else next()
+    })
+  }
+
+
 })
 
 router.afterEach(() => {

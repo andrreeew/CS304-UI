@@ -130,6 +130,9 @@ const api={
     },
     getFundPie(fundId){
         return request.get(BACKEND_URL + '/admin/system/sysFunding/getGroupFundByFundId', {params: {fundId:fundId}})
+    },
+    getIdentity(){
+        return request.get(BACKEND_URL+'/user/getIdentity')
     }
 }
 

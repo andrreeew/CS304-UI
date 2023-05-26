@@ -13,16 +13,16 @@
               <a-grid-item span="1" v-for="group in groups">
                 <group-card :info="group" >
                   <template v-slot:extra>
-                    <a-tag v-if="group.identity" color="arcoblue">管理员</a-tag>
+                    <a-tag v-if="isAdmin(group)" color="arcoblue">管理员</a-tag>
                   </template>
 
                   <template v-slot:operation>
                     <a-space>
-                      <a-button>
+                      <a-button @click="changeUserAdmin(group.name, userId)">
                         修改权限
                       </a-button>
                       <a-tooltip content="将该人移除该组">
-                        <delete-button></delete-button>
+                        <delete-button  @click="deleteUser(group.name, userId)"></delete-button>
                       </a-tooltip>
                     </a-space>
                   </template>
@@ -123,6 +123,9 @@ export default {
     groupCard,
     detailSkeleton
   },
+  computed:{
+
+  },
 
   methods:{
     ...mapMutations(['setRoutes']),
@@ -134,12 +137,34 @@ export default {
           this.userInfo[1].value = info.name
           this.userInfo[2].value = info.email
           this.userInfo[3].value = info.phone
+          this.userId = info.id
           this.groups = info.group
         }else{
           this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
         }
 
       })
+    },
+    changeUserAdmin(groupName, userId){
+      api.changeGroupUserAdmin(groupName, userId).then(res => {
+        if (res.data.code === 200) {
+          Message.success(res.data.msg)
+          this.data = res.data.data
+        } else {
+          Message.error(res.data.msg)
+        }
+        console.log('chamge admin')
+      }).finally(()=>this.init())
+    },
+    deleteUser(groupName, userId){
+      api.deleteGroupUser(groupName, userId).then(res => {
+        if (res.data.code === 200) {
+          Message.success(res.data.msg)
+          this.data = res.data.data
+        } else {
+          Message.error(res.data.msg)
+        }
+      }).finally(()=>this.init())
     },
     addGroups(){
       api.addUserToGroups(this.userInfo[0].value, this.form.group, this.form.admin).then(res => {
@@ -161,6 +186,15 @@ export default {
       api.getAllGroupName().then(res => {
         this.allGroupNames = res.data.data
       })
+    },
+    isAdmin(group){
+      console.log(group)
+      for (let i = 0; i < group.users.length; i++) {
+        if(group.users[i].id===this.userId){
+          return group.users[i].admin
+        }
+      }
+      return true
     }
   },
   data(){
@@ -173,6 +207,7 @@ export default {
         {label: '手机号', value: ''},
         {label:'密码', value:''},
       ],
+      userId:'',
       groups:[
         // {id: 42, name: 'Zha', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity:true},
         // {id: 42, name: 'Zhang', total: 120, cost: 21, left: 14, member: ['ABC', 'BSET', 'BSET', 'BSET'], identity:false},

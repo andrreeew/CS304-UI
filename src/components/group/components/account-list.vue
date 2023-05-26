@@ -85,7 +85,7 @@ export default {
         } else {
           Message.error(res.data.msg)
         }
-        console.log('chamge admin')
+        // console.log('chamge admin')
       }).finally(()=>this.updateData())
     },
     deleteUser(user){
