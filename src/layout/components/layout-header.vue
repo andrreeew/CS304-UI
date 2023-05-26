@@ -66,10 +66,27 @@
           <IconUser />
         </a-avatar>
           <template #content>
-            <a-doption style="text-align: center">个人信息</a-doption>
+            <a-doption style="text-align: center" @click="info">个人信息</a-doption>
             <a-doption style="text-align: center;" @click="logout">登出</a-doption>
           </template>
         </a-dropdown>
+
+        <a-modal v-model:visible="visible" @ok="submit" @cancel="cancel" title="修改个人信息">
+          <a-form>
+            <a-form-item label="用户名" required>
+              <a-input v-model="form.name"></a-input>
+            </a-form-item>
+            <a-form-item label="邮箱" required :validate-status="emailStatus" :help="emailHelp" feedback>
+              <a-input v-model="form.email"></a-input>
+            </a-form-item>
+            <a-form-item label="手机号" required :validate-status="phoneStatus" :help="phoneHelp" feedback>
+              <a-input v-model="form.phone"></a-input>
+            </a-form-item>
+            <a-form-item label="密码" required feedback>
+              <a-input v-model="form.pwd"></a-input>
+            </a-form-item>
+          </a-form>
+        </a-modal>
       </a-space>
     </div>
 
@@ -79,6 +96,7 @@
 <script>
 import notifyList from '@/components/operation/notify-list'
 import {mapActions} from 'vuex'
+import api from "@/api"
 
 export default {
   name: "header",
@@ -91,11 +109,50 @@ export default {
       this.$i18n.locale = val   // 设置当前语言
       localStorage.setItem('locale', val)
     },
+    info() {
+      this.visible = true
+    },
+    submit() {
+      // api.createAccount(this.form.name,this.form.email,this.form.phone,this.form.group).then(res => {
+      //   if (res.data.code === 200) {
+      //     Message.success(res.data.msg)
+      //     router.push({name:'admin-account'})
+      //   } else {
+      //     Message.error(res.data.msg)
+      //   }
+      // })
+      this.visible = false
+      this.clearForm()
+    },
+    cancel() {
+      this.visible = false
+      this.clearForm()
+    },
+    clearForm(){
+      for (let key in this.form){
+        this.form[key] = ''
+      }
+      this.emailStatus = ''
+      this.phoneStatus = ''
+      this.emailHelp = ''
+      this.phoneHelp = ''
+    },
   },
   data(){
     return{
       identity:this.$route.path.substring(1).split('/')[0],
       notify:[],
+      visible: false,
+      form: {
+        name : '',
+        pwd: '',
+        email: '',
+        phone: '',
+      },
+      emailStatus: '',
+      emailHelp: '',
+      phoneStatus: '',
+      phoneHelp: '',
     }
   },
   mounted() {
@@ -110,9 +167,33 @@ export default {
         }
       }
     }
-  }
-
-
+  },
+  watch: {
+    'form.email'(){
+      if (this.form.email !== '') {
+        var reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.(com|cn|net)$/
+        if (!reg.test(this.form.email)) {
+          this.emailStatus = 'error'
+          this.emailHelp = 'Please input a valid email!'
+        } else {
+          this.emailStatus = 'success'
+          this.emailHelp = ''
+        }
+      }
+    },
+    'form.phone'(){
+      if (this.form.phone !== '') {
+        var reg = /[0-9]{11}/
+        if (!reg.test(this.form.phone) || this.form.phone.length !== 11) {
+          this.phoneStatus = 'error'
+          this.phoneHelp = 'Please input a valid phone number!'
+        } else {
+          this.phoneStatus = 'success'
+          this.phoneHelp = ''
+        }
+      }
+    },
+  },
 }
 </script>
 
