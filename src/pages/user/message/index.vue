@@ -269,7 +269,7 @@ export default {
     },
     getData(){
       this.loading = true
-      api.getAdminMessages({page:this.queryArgs.page, type:this.queryArgs.type}).then(res => {
+      api.getUserMessages({page:this.queryArgs.page, type:this.queryArgs.type}).then(res => {
         this.msg = res.data.data.data
         this.total = res.data.data.total
       }).finally(()=>{this.loading=false})
