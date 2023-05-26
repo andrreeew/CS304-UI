@@ -114,13 +114,13 @@ const api={
         return request.get(BACKEND_URL + '/admin/system/sysUser/getAdminMessages', {params: params})
     },
     getUserHomeStatistics(){
-        return request.get(BACKEND_URL + '/admin/system/sysUser/getUserHomeStatistics')
+        return request.get(BACKEND_URL + '/user/getUserHomeStatistics')
     },
     getUserGroups(){
         return request.get(BACKEND_URL + '/user/getUserGroups')
     },
-    getUserMessages(page,type){
-        return request.get(BACKEND_URL + '/admin/system/sysUser/getUserMessages', {params: {page: page, type:type}})
+    getUserMessages(params){
+        return request.get(BACKEND_URL + '/user/getUserMessages', {params: params})
     },
     addUserToGroups(userId, group, admin){
         return request.post(BACKEND_URL + '/admin/system/sysUser/addUserToGroups', {userId:userId, groups:group, admin:admin})
