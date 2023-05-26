@@ -201,7 +201,10 @@ router.beforeEach((to, from, next) => {
   NProgress.start();
   if (to.name==='login'){
     next()
-  }else {
+  }else if(!isLogin()){
+    Message.warning('请先登录')
+    next({ name: 'login' })
+  }else{
     api.getIdentity().then(res=>{
       var identity = res.data.data.identity
       if ((to.name !== 'login' && !isLogin())||identity===''){

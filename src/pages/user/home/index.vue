@@ -117,7 +117,7 @@
           <a-space direction="vertical" style="width: 100%">
             <div style="display: flex;justify-content: space-between; padding: 0px 10px">
               <a-typography style="font-size: 18px; line-height: 1.1;">我的课题组</a-typography>
-              <a-link>更多</a-link>
+              <a-link @click="$router.push({name:'user-group'})">更多</a-link>
             </div>
             <a-divider style="margin-top: 0px; margin-bottom: 10px"></a-divider>
             <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 1, xl:1, xxl:1}" :colGap="20" :rowGap="16" >

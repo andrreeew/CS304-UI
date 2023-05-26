@@ -10,7 +10,7 @@
         </a-link>
         <slot name="extra"></slot>
 
-<!--        <a-tag v-if="identity==='user'" color="arcoblue">管理员身份</a-tag>-->
+        <a-tag v-if="identity==='user'&&info.isAdmin" color="arcoblue">管理员身份</a-tag>
       </a-space>
       <div>
         总金额：{{info.total}} 已使用金额：{{info.total-info.left}} 剩余金额：{{info.left}}
