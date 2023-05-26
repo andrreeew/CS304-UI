@@ -119,8 +119,8 @@ const api={
     getUserGroups(){
         return request.get(BACKEND_URL + '/user/getUserGroups')
     },
-    getUserMessages(page,type){
-        return request.get(BACKEND_URL + '/user/getUserMessages', {params: {page: page, type:type}})
+    getUserMessages(params){
+        return request.get(BACKEND_URL + '/user/getUserMessages', {params: params})
     },
     addUserToGroups(userId, group, admin){
         return request.post(BACKEND_URL + '/admin/system/sysUser/addUserToGroups', {userId:userId, groups:group, admin:admin})
