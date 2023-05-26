@@ -4,7 +4,7 @@
       <a-input-search :style="{width:'320px'}" placeholder="Please enter something"/>
     </template>
     <template v-slot:header-left>
-      <a-tabs type="rounded" size="mini" :active-key="type" v style="margin-bottom: -20px" @change="jump">
+      <a-tabs type="rounded" size="mini" :active-key="queryArgs.type" v style="margin-bottom: -20px" @change="jump">
         <a-tab-pane key="all" title="全部通知">
         </a-tab-pane>
         <a-tab-pane key="old" title="已读通知">
@@ -49,15 +49,15 @@
 
       <div style="display: flex; justify-content: right">
         <!-- <a-pagination :total="50" size="medium" show-total show-jumper show-page-size/> -->
-        <a-pagination 
-          v-model:current="current" 
-          :total="total" 
-          :page-size="pageSize" 
-          :page-size-options="[pageSize]" 
-          size="medium" 
-          show-total 
-          show-jumper 
-          show-page-size 
+        <a-pagination
+          v-model:current="current"
+          :total="total"
+          :page-size="pageSize"
+          :page-size-options="[pageSize]"
+          size="medium"
+          show-total
+          show-jumper
+          show-page-size
           @change="changePage"
         />
       </div>
@@ -249,7 +249,7 @@ export default {
     //   this.$router.push({name:'user-message', query:{type:value}})
     // }
     jumpPage(queryArgs){
-      this.$router.push({name:'admin-message', query:queryArgs})
+      this.$router.push({name:'user-message', query:queryArgs})
     },
     init(){
       this.type=this.$route.query.type?this.$route.query.type:'all'

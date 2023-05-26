@@ -85,12 +85,18 @@ export default {
     ...mapMutations(['setRoutes']),
     getData(){
       api.getFunds({id:this.id}).then(res => {
-        this.data = res.data.data
-        console.log(this.data)
+        console.log('getfund')
+        if (res.data.code === 200) {
+          this.data = res.data.data
+          api.getFundStatistics(this.id).then(res => {
+            this.statistics = res.data.data
+          })
+        }else{
+          this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
+        }
       })
-      api.getFundStatistics(this.id).then(res => {
-        this.statistics = res.data.data
-      })
+
+
     }
   },
   computed:{
@@ -107,10 +113,10 @@ export default {
       data: {},
       visible: false,
       statistics: {
-        totalFund:0,
-        left:0,
-        used:0,
-        completeRate:0
+        totalFund:'0',
+        left:'0',
+        used:'0',
+        completeRate:'0'
       },
     }
   },

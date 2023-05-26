@@ -148,8 +148,22 @@ export default {
     },
     getData(){
       api.getFundDetailByGroup(this.fundId, this.groupId).then(res => {
-        this.data = res.data.data
+
+        if(res.data.code===200){
+          this.data = res.data.data
+          if(this.data.length===0){
+            this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
+          }else{
+            this.getFundInfo()
+            this.getGroupInfo()
+          }
+
+        }else{
+          this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
+        }
+
       })
+
     },
     switchEdit(){
       this.edit = !this.edit

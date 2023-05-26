@@ -4,7 +4,7 @@
       <a-input-search :style="{width:'320px'}" placeholder="Please enter something"/>
     </template>
     <template v-slot:header-left>
-      <a-tabs type="rounded" size="mini" :active-key="type" v style="margin-bottom: -20px" @change="jump">
+      <a-tabs type="rounded" size="mini" :active-key="queryArgs.type" v style="margin-bottom: -20px" @change="jump">
         <a-tab-pane key="all" title="全部通知">
         </a-tab-pane>
         <a-tab-pane key="old" title="已读通知">
@@ -31,7 +31,7 @@
                   class="msg" @click="showDetail(item)">
                 {{item.msg}}
               </a-typography-paragraph>
-              <a-badge v-if="item.new" text="new"></a-badge>
+              <a-badge v-if="item.newComing" text="new"></a-badge>
             </a-space>
 
             <div style="color: var(--color-neutral-6)">{{item.date}}</div>
@@ -262,7 +262,7 @@ export default {
       this.$router.push({name:'admin-message', query:queryArgs})
     },
     init(){
-      this.type=this.$route.query.type?this.$route.query.type:'all'
+      this.queryArgs.type=this.$route.query.type?this.$route.query.type:'all'
       this.queryArgs.page=this.$route.query.page?this.$route.query.page:1
       if (this.$route.query.page == null) {
         this.current = 1

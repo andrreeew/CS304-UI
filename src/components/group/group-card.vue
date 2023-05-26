@@ -13,7 +13,7 @@
 <!--        <a-tag v-if="identity==='user'" color="arcoblue">管理员身份</a-tag>-->
       </a-space>
       <div>
-        总金额：{{info.total}} 已使用金额：{{info.cost}} 剩余金额：{{info.left}}
+        总金额：{{info.total}} 已使用金额：{{info.total-info.left}} 剩余金额：{{info.left}}
       </div>
       <div style="display: flex; justify-content: space-between">
         <a-avatar-group :size="32">

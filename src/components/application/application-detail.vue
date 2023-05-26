@@ -30,8 +30,7 @@ export default {
         {label: '课题组总额度', value: 19},
         {label: '已用额度', value: true},
         {label: '经办人', value: 'fasfsa'},
-        {label: '支出类别一级', value: true},
-        {label: '支出类别二级', value: true},
+        {label: '支出类别', value: true},
         {label: '支出金额', value: 192},
         {label: '内容摘要', value: 21414451251},
         {label: '备注', value:241241242}]

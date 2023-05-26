@@ -128,12 +128,17 @@ export default {
     ...mapMutations(['setRoutes']),
     init(){
       api.getUsers({key:this.$route.params.user,pageSize:1,page:1}).then(res => {
-        let info = res.data.data.users[0]
-        this.userInfo[0].value = info.key
-        this.userInfo[1].value = info.name
-        this.userInfo[2].value = info.email
-        this.userInfo[3].value = info.phone
-        this.groups = info.group
+        if(res.data.code===200){
+          let info = res.data.data.users[0]
+          this.userInfo[0].value = info.key
+          this.userInfo[1].value = info.name
+          this.userInfo[2].value = info.email
+          this.userInfo[3].value = info.phone
+          this.groups = info.group
+        }else{
+          this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
+        }
+
       })
     },
     addGroups(){

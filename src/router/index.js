@@ -197,10 +197,12 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
+  console.log(to.name)
   if (to.name !== 'login' && !isLogin()){
-    Message.warning('请先登录')
+    // Message.warning('请先登录')
     next({ name: 'login' })
-  } else next()
+
+  }  else next()
 })
 
 router.afterEach(() => {

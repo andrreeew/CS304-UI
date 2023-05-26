@@ -27,9 +27,9 @@
         Reject
       </a-tag>
     </template>
-    <!-- <template #dateRange="{ record }">
-      {{dayjs(record.dateRange[0]).format('YYYY/MM/DD')}}-{{dayjs(record.dateRange[1]).format('YYYY/MM/DD')}}
-    </template> -->
+    <template #dateRange="{ record }">
+      {{dayjs(record.dataRange[0]).format('YYYY/MM/DD')}}-{{dayjs(record.dataRange[1]).format('YYYY/MM/DD')}}
+    </template>
     <template #optional="{ record }">
       <a-space>
         <a-button @click="showDetail(record)">查看</a-button>
@@ -78,6 +78,7 @@ export default {
       this.loading=true
       api.getFunds({}).then(res => {
         this.data = res.data.data
+        console.log(this.data)
       }).finally(()=>{this.loading=false})
     }
   },

@@ -70,8 +70,11 @@ export default {
     ...mapMutations(['setRoutes']),
     updateData(){
       api.getGroups({id:this.$route.params.groupId,pageSize:1,page:1}).then(res => {
+        if (res.data.code === 200) {
         this.groupData = res.data.data.groups[0]
-
+        } else{
+          this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
+        }
 
         // this.groupInfo[0].value = this.groupData.name
       }).then(() => {

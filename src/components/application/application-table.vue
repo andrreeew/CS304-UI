@@ -31,7 +31,7 @@
       </a-tag>
     </template>
     <template #date="{ record }">
-      {{dayjs(record.date).format('YYYY-MM-DD HH:mm')}}
+      {{dayjs(record.date).format('YYYY-MM-DD')}}
     </template>
     <template #optional="{ record }">
       <a-space>
@@ -110,7 +110,7 @@ export default {
         {title: '课题组', dataIndex: 'group'},
         {title:'经费状态', slotName: 'state'},
         {title: '金额', dataIndex: 'num'},
-        {title: '申请日期', dataIndex: 'date'},
+        {title: '申请日期', slotName: 'date'},
         {title: '经办人', dataIndex: 'people'},
         {title: '支出类别', dataIndex: 'category'},
         {title: '操作', slotName: 'optional', fixed: 'right', width:200},
@@ -126,11 +126,10 @@ export default {
         {label: '课题组总额度', value: 19},
         {label: '已用额度', value: true},
         {label: '经办人', value: 'fasfsa'},
-        {label: '支出类别一级', value: true},
-        {label: '支出类别二级', value: true},
+        {label: '支出类别', value: true},
         {label: '支出金额', value: 192},
-        {label: '内容摘要', value: 21414451251},
-        {label: '备注', value:241241242}
+        // {label: '内容摘要', value: 21414451251},
+        // {label: '备注', value:241241242}
       ],
       applicationTimeline:{}
     }
@@ -184,14 +183,14 @@ export default {
         this.applicationInfo[5].value = info.groupUsedFund
         this.applicationInfo[6].value = info.people
         this.applicationInfo[7].value = info.category1
-        this.applicationInfo[8].value = info.category2
-        this.applicationInfo[9].value = info.useNum
-        this.applicationInfo[10].value = info.summary
-        this.applicationInfo[11].value = info.comment
+        this.applicationInfo[8].value = info.useNum
+        // this.applicationInfo[10].value = info.summary
+        // this.applicationInfo[11].value = info.comment
       })
     },
     getApplicationTimeline(id){
       api.getApplicationTimeline(id).then(res => {
+        console.log(res.data.data)
         this.applicationTimeline = res.data.data
       })
     }

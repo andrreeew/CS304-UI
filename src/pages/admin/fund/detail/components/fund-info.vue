@@ -19,11 +19,11 @@ export default {
     return{
       data: {},
       fundInfo: [
-        {label: '经费编号', value: 4214},
-        {label: '经费名称', value: 'Jane Doe'},
-        {label: '是否达标', value: 'complete'},
-        {label: '授权日期', value: '2013/4/2-2018/4/3'},
-        {label: '剩余天数', value: 19},
+        {label: '经费编号', value: ''},
+        {label: '经费名称', value: ''},
+        {label: '是否达标', value: ''},
+        {label: '授权日期', value: '-'},
+        {label: '剩余天数', value: ''},
       ],
     }
   },
@@ -33,7 +33,7 @@ export default {
       this.fundInfo[0].value = this.data.id
       this.fundInfo[1].value = this.data.name
       this.fundInfo[2].value = this.data.state
-      //this.fundInfo[3].value = dayjs(this.data.dateRange[0]) + '-' + dayjs(this.data.dateRange[1])
+      this.fundInfo[3].value = dayjs(this.data.dataRange[0]).format('YYYY/MM/DD') + '-' + dayjs(this.data.dataRange[1]).format('YYYY/MM/DD')
       this.fundInfo[4].value = this.data.leftDay
       // TODO
     }
