@@ -29,8 +29,8 @@
         <a-pagination 
           v-model:current="current" 
           :total="total" 
-          :page-size="pageSize" 
-          :page-size-options="[pageSize]" 
+          v-model:page-size="pageSize"
+          :page-size-options="[10, 30, 50]"
           size="medium" 
           show-total 
           show-jumper 
@@ -203,7 +203,7 @@ export default {
       // selectedKeys: ['1'],
       batch: false,
       advance: false,
-      pageSize:3,
+      pageSize:10,
       current:1,
       total:5,
       queryArgs:{

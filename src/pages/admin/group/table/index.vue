@@ -25,8 +25,8 @@
         <a-pagination 
           v-model:current="current" 
           :total="total" 
-          :page-size="searchArgs.pageSize" 
-          :page-size-options="[searchArgs.pageSize]" 
+          v-model:page-size="searchArgs.pageSize"
+          :page-size-options="[8, 20, 40]"
           size="medium" 
           show-total 
           show-jumper 
@@ -142,7 +142,7 @@ export default {
       groups: [],
       searchArgs: {
         id: this.$route.query.id,
-        pageSize: this.$route.query.pageSize|3,
+        pageSize: this.$route.query.pageSize|8,
         page: this.$route.query.p|1
       },
       total: 0,

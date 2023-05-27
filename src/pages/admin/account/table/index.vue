@@ -27,8 +27,8 @@
         <a-pagination 
           v-model:current="current" 
           :total="total" 
-          :page-size="searchArgs.pageSize" 
-          :page-size-options="[searchArgs.pageSize]" 
+          v-model:page-size="searchArgs.pageSize"
+          :page-size-options="[10, 30, 50]"
           size="medium" 
           show-total 
           show-jumper 
