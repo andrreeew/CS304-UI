@@ -54,11 +54,11 @@
           <a-tabs type="rounded" size="small" v style="width: 100%">
             <template #extra>
               <a-space>
-                <a-button type="primary" @click="$router.push({name:'user-application-new'})">创建申请</a-button>
-                <a-button @click="$router.push({name:'user-application'})">更多</a-button>
+                <a-button type="primary" @click="$router.push({name:'user-application-new'})">{{$t('user.home.createApplication')}}</a-button>
+                <a-button @click="$router.push({name:'user-application'})">{{$t('user.home.more')}}</a-button>
               </a-space>
             </template>
-            <a-tab-pane key="0" style="padding: 0px 5px" title="我的申请" >
+            <a-tab-pane key="0" style="padding: 0px 5px" :title="$t('user.home.myApplication')" >
               <application-table :data="applicationData" :loading="loading"></application-table>
             </a-tab-pane>
             <!-- <a-tab-pane key="1"  style="padding: 0px 5px" title="申请中">
@@ -83,7 +83,7 @@
           <a-space size="medium">
             <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">U</a-avatar>
             <a-typography style="color:white;font-size: 22px">
-              用户：LI
+              {{$t('user.home.user')}}：LI
             </a-typography>
           </a-space>
         </a-card>
@@ -116,8 +116,8 @@
         <a-card>
           <a-space direction="vertical" style="width: 100%">
             <div style="display: flex;justify-content: space-between; padding: 0px 10px">
-              <a-typography style="font-size: 18px; line-height: 1.1;">我的课题组</a-typography>
-              <a-link @click="$router.push({name:'user-group'})">更多</a-link>
+              <a-typography style="font-size: 18px; line-height: 1.1;">{{$t('user.home.myGroup')}}</a-typography>
+              <a-link @click="$router.push({name:'user-group'})">{{$t('user.home.more')}}</a-link>
             </div>
             <a-divider style="margin-top: 0px; margin-bottom: 10px"></a-divider>
             <a-grid :cols="{ xs: 1, sm: 1, md: 1, lg: 1, xl:1, xxl:1}" :colGap="20" :rowGap="16" >
@@ -209,13 +209,13 @@ export default {
     const hour = now.hour()
 
     if (hour >= 4 && hour < 11) {
-      this.period = '早上好'
+      this.period = this.$t('user.home.goodMorning')
     } else if(hour>=11 && hour<15){
-      this.period = '中午好'
+      this.period = this.$t('user.home.goodAfternoon')
     } else if(hour>=15 && hour<18){
-      this.period = '下午好'
+      this.period = this.$t('user.home.goodAfternoon')
     }else if(hour>=18 && hour<24){
-      this.period = '晚上好'
+      this.period = this.$t('user.home.goodEvening')
     }else {
       this.period ='夜深了，注意休息'
     }

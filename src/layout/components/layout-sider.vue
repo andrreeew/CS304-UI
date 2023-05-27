@@ -56,19 +56,19 @@
 <!--      </a-sub-menu>-->
         <a-menu-item key="home">
           <template #icon><icon-home /></template>
-          主页
+          {{$t('home')}}
         </a-menu-item>
         <a-menu-item key="group">
           <template #icon><icon-user-group /></template>
-          课题组
+          {{$t('group')}}
         </a-menu-item>
         <a-menu-item key="application">
           <template #icon><icon-unordered-list /></template>
-          申请
+          {{$t('application')}}
         </a-menu-item>
         <a-menu-item key="message">
           <template #icon><icon-message /></template>
-          通知
+          {{$t('message')}}
         </a-menu-item>
 
 

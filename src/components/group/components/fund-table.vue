@@ -8,7 +8,7 @@
 
     <template #optional="{ record }">
       <a-space>
-        <a-button @click="this.$router.push({name:identity+'-fund-group', params:{fundId:record.fundId, groupId: groupId}})">查看</a-button>
+        <a-button @click="this.$router.push({name:identity+'-fund-group', params:{fundId:record.fundId, groupId: groupName}})">查看</a-button>
           <delete-button v-if="identity==='admin'" @click="deleteFund(record.fundId)"></delete-button>
       </a-space>
     </template>
@@ -43,6 +43,9 @@ export default {
     groupId: {
       default: -1
     },
+    groupName: {
+      default: '',
+    }
 
   },
   computed:{

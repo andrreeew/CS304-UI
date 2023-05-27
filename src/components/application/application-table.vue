@@ -106,7 +106,7 @@ export default {
       dayjs,
       identity:this.$route.path.substring(1).split('/')[0],
       columns:[
-        {title: '经费名称', dataIndex: 'name' },
+        {title: this.$t('fund-name'), dataIndex: 'name' },
         {title: '课题组', dataIndex: 'group'},
         {title:'经费状态', slotName: 'state'},
         {title: '金额', dataIndex: 'num'},

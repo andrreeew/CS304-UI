@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '../layout'
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
-import {isLogin, getIdentity} from "@/utils/auth";
+import {isLogin} from "@/utils/auth";
 import {Message} from "@arco-design/web-vue";
 import api from "@/api";
 
@@ -216,13 +216,18 @@ router.beforeEach((to, from, next) => {
         Message.warning('请先登录')
         next({ name: 'login' })
       }  else {
-        var id = to.name.split('-')[0]
-        if((id==='admin'&&identity==='user')||(id==='user'&&identity==='admin')){
-          Message.warning('无权限')
+        if(to.name==='layout'){
           next({ name: identity })
-        }else {
-          next()
+        }else{
+          var id = to.name.split('-')[0]
+          if((id==='admin'&&identity==='user')||(id==='user'&&identity==='admin')){
+            Message.warning('无权限')
+            next({ name: identity })
+          }else {
+            next()
+          }
         }
+
       }
 
     })

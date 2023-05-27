@@ -9,7 +9,7 @@
                     :used-fund="groupData.cost"></fund-num>
         </a-card>
         <a-card title="分得经费">
-          <fund-table :groupId="groupData.id"></fund-table>
+          <fund-table :groupId="groupData.id" :group-name="groupData.name"></fund-table>
         </a-card>
       </a-space>
     </template>

@@ -37,7 +37,7 @@
           </a-tooltip>
         </a-trigger>
 
-        <a-tooltip content="设置">
+        <a-tooltip :content="$t('setting')">
           <a-button class="nav-btn" type="outline" :shape="'circle'">
             <template #icon>
               <icon-settings />
@@ -46,7 +46,7 @@
         </a-tooltip>
 
         <a-trigger  trigger="click"  :popup-translate="[-120, 10]">
-          <a-tooltip content="通知">
+          <a-tooltip :content="$t('message')">
             <a-button class="nav-btn" type="outline" :shape="'circle'">
               <template #icon>
                 <icon-notification />
