@@ -9,7 +9,7 @@ import api from "@/api"
 export default {
   name: "pie-chart",
   props: {
-    id:{default:1}
+    id:{default:0}
   },
   mounted() {
     api.getGroupPie(this.id).then(res => {
@@ -57,7 +57,13 @@ export default {
       }
     },
   },
-
+  watch: {
+    id(newVal, oldVal){
+        api.getGroupPie(newVal).then(res => {
+            this.data = res.data.data
+        })
+    }
+  }
 }
 </script>
 

@@ -9,7 +9,7 @@ import api from "@/api"
 export default {
   name: "pie-chart",
   props: {
-    id:{default:1}
+    id:{default:0}
   },
   mounted() {
     api.getFundPie(this.id).then(res => {
@@ -64,7 +64,14 @@ export default {
       }
     },
   },
-
+  watch: {
+    id(newVal, oldVal){
+      api.getFundPie(newVal).then(res => {
+        this.data = res.data.data
+        this.data[this.data.length-1].itemStyle = {color:'#D3D3D3'}
+      })
+    }
+  }
 }
 </script>
 
