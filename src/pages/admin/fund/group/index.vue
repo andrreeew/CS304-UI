@@ -43,7 +43,7 @@
 
         <template #category="{ rowIndex }">
           <a-select v-if="edit && data[rowIndex].new" :style="{width:'150px'}" v-model="data[rowIndex].category">
-            <a-option v-for="item in categorise">{{item}}</a-option>
+            <a-option v-for="item in candidateCategory">{{item}}</a-option>
           </a-select>
           <div v-else>{{data[rowIndex].category}}</div>
         </template>
@@ -68,7 +68,7 @@
           <a-space>
           <a-button v-if="!data[rowIndex].new">View</a-button>
           <a-button @click="data.splice(rowIndex, 1)"
-              :disabled="!edit || data[rowIndex].total!==data[rowIndex].left" status="danger">
+              :disabled="!edit || data[rowIndex].cost>0" status="danger">
             <icon-delete />
           </a-button>
           </a-space>
@@ -103,11 +103,31 @@ export default {
   computed:{
     tip(){
       var left = this.fundInfo[2].value
-      console.log(left)
       for (let i = 0; i < this.data.length; i++) {
-        left -= this.data[i].total
+        if(!this.data[i].new){
+          left -= (this.data[i].left+this.data[i].cost)
+        }else{
+          left -= this.data[i].total
+        }
+
       }
       return '剩余'+left+'可分配'
+    },
+    candidateCategory(){
+      var result = []
+      for (let i = 0; i < this.categorise.length; i++) {
+        var flag = false;
+        for (let j = 0; j < this.data.length; j++) {
+          if(this.categorise[i]===this.data[j].category){
+            flag = true;
+            break
+          }
+        }
+        if(!flag){
+          result.push(this.categorise[i])
+        }
+      }
+      return result
     }
   },
   data(){

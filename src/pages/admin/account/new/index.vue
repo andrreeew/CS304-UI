@@ -83,7 +83,7 @@ export default {
         } else {
           Message.error(res.data.msg)
         }
-      })
+      }).finally(()=>this.loading=false)
     }
   },
   watch: {
