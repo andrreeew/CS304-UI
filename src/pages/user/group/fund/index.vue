@@ -153,26 +153,29 @@ export default {
     },
     getData(){
       api.getGroupByFund(this.$route.params.fundId).then(res=>{
-        var groups = res.data.data
-        var flag = false;
-        for (let i = 0; i < groups.length; i++) {
-          if(groups[i].group===this.$route.params.groupId){
-            flag = true
-            break
+        if (res.data.code == 200) {
+          var groups = res.data.data
+          var flag = false;
+          for (let i = 0; i < groups.length; i++) {
+            if(groups[i].group===this.$route.params.groupId){
+              flag = true
+              break
+            }
           }
-        }
-        if(!flag){
+          console.log('flag = '+ flag);
+          if(!flag){
+            this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
+          }else{
+            api.getFundDetailByGroup(this.fundId, this.groupId).then(res => {
+              this.data = res.data.data
+              this.getFundInfo()
+              this.getGroupInfo()
+            })
+          }
+        } else {
           this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
-        }else{
-          api.getFundDetailByGroup(this.fundId, this.groupId).then(res => {
-            this.data = res.data.data
-            this.getFundInfo()
-            this.getGroupInfo()
-          })
         }
       })
-
-
     },
     switchEdit(){
       this.edit = !this.edit

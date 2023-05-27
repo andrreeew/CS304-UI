@@ -10,7 +10,7 @@ import api from "@/api"
 export default {
   name: "line-chart",
   props:{
-    id:{default:1}
+    id:{default:0}
   },
   mounted() {
     api.getFundHistory(this.id).then(res => {
@@ -174,7 +174,13 @@ export default {
       }
     },
   },
-
+  watch: {
+    id(newVal, oldVal){
+      api.getFundHistory(newVal).then(res => {
+        this.data = res.data.data
+      })
+    }
+  }
 }
 </script>
 

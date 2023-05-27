@@ -74,6 +74,10 @@
 
         </a-card>
 
+        <a-card title="申请记录">
+          <heat-map-chart style="height: 250px;"></heat-map-chart>
+        </a-card>
+
       </a-space>
     </template>
 
@@ -142,6 +146,7 @@ import {mapMutations} from "vuex";
 import dayjs from "dayjs";
 import detailSkeleton from "@/components/operation/detail-skeleton";
 import api from "@/api"
+import heatMapChart from '@/components/chart/home/heat-map-chart.vue'
 
 export default {
   name: "index",
@@ -150,7 +155,8 @@ export default {
     applicationTable,
     fundTable,
     groupCard,
-    detailSkeleton
+    detailSkeleton,
+    heatMapChart
   },
   data() {
     return {
