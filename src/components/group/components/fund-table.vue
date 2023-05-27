@@ -97,7 +97,7 @@ export default {
         console.log('datatatatatat');
         console.log(res.data.data)
         // if (res.data.code=== 200) {
-          this.data = [res.data.data]
+          this.data = res.data.data
         // }
       })
     }

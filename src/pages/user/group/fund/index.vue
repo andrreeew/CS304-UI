@@ -27,10 +27,10 @@
           <div style="display: flex;justify-content: space-between">
             <a-typography-text style="font-size: 16px">分配情况</a-typography-text>
             <a-space>
-              <a-typography-text style="font-size: 14px;color: var(--color-neutral-6)">
+              <!-- <a-typography-text style="font-size: 14px;color: var(--color-neutral-6)">
                 {{edit?'保存':'修改'}}
-              </a-typography-text>
-              <a-switch v-model="edit"  type="line"></a-switch>
+              </a-typography-text> -->
+              <!-- <a-switch v-model="edit"  type="line"></a-switch> -->
             </a-space>
 
           </div>
@@ -136,7 +136,7 @@ export default {
         {title: '经费总额', dataIndex: 'total', slotName: 'total'},
         {title: '已使用', dataIndex: 'cost'},
         {title: '经费余额', dataIndex: 'left', slotName:'left'},
-        {title: '操作', slotName: 'operate'}
+        // {title: '操作', slotName: 'operate'}
       ],
       left: 1000,
       data:[

@@ -27,6 +27,10 @@
 
           <account-list :groupData="groupData" :accounts="accounts" :update-data="updateData"></account-list>
         </a-card>
+
+        <a-card title="分配情况">
+          <pie-chart :id="groupData.id" style="height: 400px;"></pie-chart>
+        </a-card>
       </a-space>
     </template>
   </detail-skeleton>
@@ -40,6 +44,7 @@ import accountList from '@/components/group/components/account-list'
 import api from "@/api"
 import {mapMutations} from "vuex";
 import detailSkeleton from "@/components/operation/detail-skeleton";
+import pieChart from '@/components/chart/group/pie-chart'
 
 export default {
   name: "index",
@@ -47,7 +52,8 @@ export default {
     fundTable,
     fundNum,
     accountList,
-    detailSkeleton
+    detailSkeleton,
+    pieChart
   },
   computed:{
     identity(){
