@@ -171,6 +171,11 @@ const routes = [
                 name: 'user-group-detail',
                 component: () => import('../pages/user/group/detail')
               },
+              {
+                path: ':groupId/:fundId',
+                name: 'user-fund-group',
+                component: () => import('../pages/user/group/fund')
+              },
             ]
           },
           {

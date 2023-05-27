@@ -24,7 +24,7 @@
 
   <a-modal v-model:visible="visible" @ok="addGroup" @cancel="clearForm" title="添加课题组">
     <a-select v-model="selectGroups"  multiple>
-      <a-option v-for="item in groups">{{item}}</a-option>
+      <a-option v-for="item in candidateGroups">{{item}}</a-option>
     </a-select>
   </a-modal>
 
@@ -60,7 +60,35 @@ export default {
       data:[]
     }
   },
+  computed:{
+    candidateGroups(){
+      var result = []
+      for (let i = 0; i < this.groups.length; i++) {
+        var flag = false;
+        for (let j = 0; j < this.data.length; j++) {
+          if(this.data[j].group===this.groups[i]){
+            flag = true;
+            break
+          }
+        }
+        if(!flag){
+          result.push(this.groups[i])
+        }
+      }
+      return result
+    }
+  },
   methods: {
+    isNotIn(group){
+      console.log(group)
+      for (let i = 0; i < this.data.length; i++) {
+        if(group===this.data[i].group){
+          return false
+        }
+        console.log(group, this.data[i])
+      }
+      return true
+    },
     deleteGroup(groupName){
       api.deleteFundGroup(this.fundId, groupName).then(res => {
         if (res.data.code === 200) {
@@ -90,12 +118,14 @@ export default {
     fundId(newVal, oldVal){
       api.getGroupByFund(newVal).then(res => {
         this.data = res.data.data
+        console.log(this.data)
       })
     }
   },
   created(){
     api.getAllGroupName().then(res => {
       this.groups = res.data.data
+      console.log(this.groups)
     })
   }
 }
