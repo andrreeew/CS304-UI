@@ -70,13 +70,13 @@ export default {
         {title: '操作', slotName: 'optional', fixed: 'right', width:175},
       ],
       data:[{
-        complete: true,
-        fundId: 14,
-        fund: 'dsafsa',
-        total: 2141,
-        cost: 242,
-        left: 155,
-        percent: 241,
+        // complete: true,
+        // fundId: 14,
+        // fund: 'dsafsa',
+        // total: 2141,
+        // cost: 242,
+        // left: 155,
+        // percent: 241,
       }]
     }
   },
@@ -94,9 +94,10 @@ export default {
   watch:{
     groupId(newVal, oldVal){
       api.getFundInfoByGroup(newVal).then(res => {
-        // console.log(res.data)
+        console.log('datatatatatat');
+        console.log(res.data.data)
         // if (res.data.code=== 200) {
-        //   this.data = res.data.data
+          this.data = [res.data.data]
         // }
       })
     }
