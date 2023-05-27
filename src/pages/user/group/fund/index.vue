@@ -153,7 +153,7 @@ export default {
     },
     getData(){
       api.getGroupByFund(this.$route.params.fundId).then(res=>{
-        if (res.code == 200) {
+        if (res.data.code == 200) {
           var groups = res.data.data
           var flag = false;
           for (let i = 0; i < groups.length; i++) {
