@@ -66,8 +66,8 @@
           <IconUser />
         </a-avatar>
           <template #content>
-            <a-doption style="text-align: center" @click="info">个人信息</a-doption>
-            <a-doption style="text-align: center;" @click="logout">登出</a-doption>
+            <a-doption style="text-align: center" @click="info">{{$t('personal-info')}}</a-doption>
+            <a-doption style="text-align: center;" @click="logout">{{$t('logout')}}</a-doption>
           </template>
         </a-dropdown>
 
@@ -128,6 +128,11 @@ export default {
       this.visible = false
       this.clearForm()
     },
+    getMsgs(){
+      api.getAdminMessages({page:1,type:'all'}).then(res => {
+        this.notify = res.data.data.data
+      })
+    },
     clearForm(){
       for (let key in this.form){
         this.form[key] = ''
@@ -167,7 +172,9 @@ export default {
         }
       }
     }
+    this.getMsgs()
   },
+
   watch: {
     'form.email'(){
       if (this.form.email !== '') {

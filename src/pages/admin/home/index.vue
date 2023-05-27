@@ -80,7 +80,7 @@
           <a-space size="medium">
             <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">A</a-avatar>
             <a-typography style="color:white;font-size: 22px">
-              管理员：LI
+              管理员：Admin
             </a-typography>
           </a-space>
         </a-card>

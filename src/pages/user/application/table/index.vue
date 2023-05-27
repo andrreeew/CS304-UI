@@ -109,7 +109,74 @@
             </a-col>
           </a-row>
         </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              支出类别一级:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              支出类别二级:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              经费状态:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              模糊搜索:
+            </a-col>
+            <a-col :span="16">
+              <a-input></a-input>
+            </a-col>
+          </a-row>
+        </a-grid-item>
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              排序:
+            </a-col>
+            <a-col :span="16">
+              <a-select></a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
 
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              升序降序:
+            </a-col>
+            <a-col :span="16">
+              <a-switch>
+                <template #checked>
+                  升序
+                </template>
+                <template #unchecked>
+                  降序
+                </template>
+              </a-switch>
+            </a-col>
+          </a-row>
+        </a-grid-item>
 
 
       </a-grid>
