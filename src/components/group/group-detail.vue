@@ -71,8 +71,8 @@ export default {
     updateData(){
       api.getGroups({id:this.$route.params.groupId,pageSize:1,page:1}).then(res => {
         if (res.data.code === 200) {
-        this.groupData = res.data.data.groups[0]
-          console.log(this.groupData)
+          this.groupData = res.data.data.groups[0]
+          // console.log(this.groupData)
         } else{
           this.$router.push({name: 'notFound', params: {pathMatch: this.$route.path.substring(1).split('/')}})
         }
@@ -102,7 +102,7 @@ export default {
   created(){
     this.setRoutes([{label:'课题组', name:'admin-group'}])
     this.updateData()
-    console.log(this.groupData.users)
+    // console.log(this.groupData.users)
   }
 }
 </script>
