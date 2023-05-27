@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import lineChart from '@/components/chart/line-chart'
+import lineChart from '@/components/chart/fund/line-chart'
 import applicationTable from '@/components/application/application-table'
 import fundTable from '@/components/fund/fund-table'
 import notifyList from '@/components/operation/notify-list'

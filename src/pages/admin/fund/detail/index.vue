@@ -66,8 +66,8 @@ import api from "@/api"
 import deleteButton from '@/components/operation/delete-button'
 import {mapMutations} from 'vuex'
 import detailSkeleton from "@/components/operation/detail-skeleton";
-import lineChart from '@/components/chart/line-chart'
-import pieChart from '@/components/chart/pie-chart'
+import lineChart from '@/components/chart/fund/line-chart'
+import pieChart from '@/components/chart/fund/pie-chart'
 
 export default {
   name: "index",
