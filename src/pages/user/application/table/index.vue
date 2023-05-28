@@ -237,7 +237,7 @@ export default {
     getData(){
       this.loading = true
       //{page:this.queryArgs.page, type:this.queryArgs.type}
-      api.getUserApplications({page:this.queryArgs.page,type:"reject"}).then(res => {
+      api.getUserApplications({page:this.queryArgs.page,type:this.queryArgs.type}).then(res => {
         this.applicationData = res.data.data.data
         this.total = res.data.data.total
       }).finally(()=>{this.loading=false})
