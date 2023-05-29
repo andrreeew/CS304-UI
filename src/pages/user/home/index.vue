@@ -13,8 +13,8 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="正在审批" :value="statistics.underwayApplication" :value-from="0" animation>
-                  <template #suffix>件</template>
+                <a-statistic :title="$t('is-underway')" :value="statistics.underwayApplication" :value-from="0" animation>
+                  <template #suffix>{{$t('piece')}}</template>
                 </a-statistic>
               </a-space>
               <a-space class="panel">
@@ -23,8 +23,8 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/fdc66b07224cdf18843c6076c2587eb5.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="最近申请" :value="statistics.recentApplication" :value-from="0" animation>
-                  <template #suffix>件</template>
+                <a-statistic :title="$t('recent-application')" :value="statistics.recentApplication" :value-from="0" animation>
+                  <template #suffix>{{$t('piece')}}</template>
                 </a-statistic>
               </a-space>
               <a-space class="panel">
@@ -33,8 +33,8 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77d74c9a245adeae1ec7fb5d4539738d.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="最近通过" :value="statistics.permittedApplication" :value-from="0" animation>
-                  <template #suffix>件</template>
+                <a-statistic :title="$t('recent-complete')" :value="statistics.permittedApplication" :value-from="0" animation>
+                  <template #suffix>{{$t('piece')}}</template>
                 </a-statistic>
               </a-space>
               <a-space class="panel">
@@ -43,8 +43,8 @@
                       src="http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                <a-statistic title="最近驳回" :value="statistics.rejectedApplication" :value-from="0" animation>
-                  <template #suffix>件</template>
+                <a-statistic :title="$t('recent-reject')" :value="statistics.rejectedApplication" :value-from="0" animation>
+                  <template #suffix>{{$t('piece')}}</template>
                 </a-statistic>
               </a-space>
             </a-grid>
@@ -187,6 +187,26 @@ export default {
       }
     }
   },
+  computed:{
+    period(){
+      var result = ''
+      const now = dayjs()
+      const hour = now.hour()
+
+      if (hour >= 4 && hour < 11) {
+        result = this.$t('user.home.goodMorning')
+      } else if(hour>=11 && hour<15){
+        result = this.$t('user.home.goodAfternoon')
+      } else if(hour>=15 && hour<18){
+        result = this.$t('user.home.goodAfternoon')
+      }else if(hour>=18 && hour<24){
+        result = this.$t('user.home.goodEvening')
+      }else {
+        result ='夜深了，注意休息'
+      }
+      return result
+    }
+  },
   methods:{
     ...mapMutations(['setRoutes']),
     getStatistics(){
@@ -211,20 +231,7 @@ export default {
     this.getGroups()
     this.getApplications()
     this.setRoutes([{label:'主页', name:'user'}])
-    const now = dayjs()
-    const hour = now.hour()
 
-    if (hour >= 4 && hour < 11) {
-      this.period = this.$t('user.home.goodMorning')
-    } else if(hour>=11 && hour<15){
-      this.period = this.$t('user.home.goodAfternoon')
-    } else if(hour>=15 && hour<18){
-      this.period = this.$t('user.home.goodAfternoon')
-    }else if(hour>=18 && hour<24){
-      this.period = this.$t('user.home.goodEvening')
-    }else {
-      this.period ='夜深了，注意休息'
-    }
   }
 }
 </script>

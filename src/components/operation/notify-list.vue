@@ -1,5 +1,6 @@
 <template>
 
+  <div>
   <a-list hoverable
           scrollbar :bordered="false" >
     <template #header>
@@ -14,7 +15,7 @@
         rows: 2,
         showTooltip: true,
       }"
-        class="msg">
+        class="msg" @click="showDetail(item)">
       {{item.msg}}
     </a-typography-paragraph>
     <div style="display: flex;justify-content: space-between; color: var(--color-neutral-6)">
@@ -23,6 +24,18 @@
     </div>
   </a-list-item>
   </a-list>
+  <a-modal v-model:visible="visible" >
+    <template #title>
+      {{selected.type}}
+    </template>
+    <div>
+      {{selected.msg}}
+    </div>
+    <div style="display: flex; justify-content: right; margin-top: 10px">
+      <div style="color: var(--color-neutral-6)">日期: {{selected.date}}</div>
+    </div>
+  </a-modal>
+  </div>
 </template>
 
 <script>
@@ -44,7 +57,15 @@ export default {
     return{
       dayjs,
       identity:this.$route.path.substring(1).split('/')[0],
+      visible:false,
+      selected:'',
     }
+  },
+  methods:{
+    showDetail(item){
+      this.selected = item
+      this.visible = true
+    },
   }
 }
 </script>

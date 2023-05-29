@@ -8,10 +8,10 @@
     </a-descriptions-item>
   </a-descriptions>
   <a-divider></a-divider>
-  <a-steps :current="2" :status="applicationTimeline.state">
-    <a-step description="2020-10-1">提交申请</a-step>
-    <a-step v-if="applicationTimeline.state==='process'">审批中</a-step>
-    <a-step v-else-if="applicationTimeline.state==='error'" :description="applicationTimeline.date2">驳回</a-step>
+  <a-steps :current="2" :status="state">
+    <a-step :description="applicationTimeline.date1">提交申请</a-step>
+    <a-step v-if="applicationTimeline.state==='underway'" :description="applicationTimeline.date2">审批中</a-step>
+    <a-step v-else-if="applicationTimeline.state==='reject'" :description="applicationTimeline.date2">驳回</a-step>
     <a-step v-else :description="applicationTimeline.date2">通过</a-step>
   </a-steps>
   </div>
@@ -20,6 +20,17 @@
 <script>
 export default {
   name: "application-detail",
+  computed:{
+    state(){
+      if(this.applicationTimeline.state==='reject'){
+        return 'error'
+      }else if(this.applicationTimeline.state==='complete'){
+        return 'finish'
+      }else {
+        return 'process'
+      }
+    }
+  },
   props:{
     applicationInfo:{
       default:[

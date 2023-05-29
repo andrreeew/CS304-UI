@@ -14,20 +14,20 @@
         <template #icon>
           <icon-check-circle-fill />
         </template>
-        通过
+        {{$t('complete')}}
       </a-tag>
       <a-tag v-else-if="record.state==='underway'" color="arcoblue">
         <template #icon>
           <icon-up-circle />
         </template>
-        审批中
+        {{$t('underway')}}
       </a-tag>
       <a-tag v-else-if="record.state==='reject'" color="red">
         <template #icon>
           <icon-close-circle-fill />
         </template>
 
-        {{identity==='admin'?'驳回':'撤回'}}
+        {{identity==='admin'?$t('reject'):'撤回'}}
       </a-tag>
     </template>
     <template #date="{ record }">
@@ -35,7 +35,7 @@
     </template>
     <template #optional="{ record }">
       <a-space>
-        <a-button @click="showDetail(record)">查看</a-button>
+        <a-button @click="showDetail(record)">{{$t('view')}}</a-button>
         <a-tooltip  v-if="identity==='admin'&&record.state==='underway'" content="通过" >
           <check-button @click="permitApplication(record.id)"></check-button>
         </a-tooltip>
@@ -99,22 +99,26 @@ export default {
   computed:{
     rowSelection(){
       return this.select? {type: 'checkbox', showCheckedAll: true,}:null
-    }
+    },
+    columns(){
+      return [
+      {title: this.$t('fund-name'), dataIndex: 'name' },
+      {title: this.$t('group'), dataIndex: 'group'},
+      {title: this.$t('fund-state'), slotName: 'state'},
+      {title: this.$t('number'), dataIndex: 'num'},
+      {title: '申请日期', slotName: 'date'},
+      {title: '经办人', dataIndex: 'people'},
+      {title: '支出类别', dataIndex: 'category'},
+      {title: this.$t('operation'), slotName: 'optional', fixed: 'right', width:200},
+    ]
+    },
+
   },
   data(){
     return{
       dayjs,
       identity:this.$route.path.substring(1).split('/')[0],
-      columns:[
-        {title: this.$t('fund-name'), dataIndex: 'name' },
-        {title: '课题组', dataIndex: 'group'},
-        {title:'经费状态', slotName: 'state'},
-        {title: '金额', dataIndex: 'num'},
-        {title: '申请日期', slotName: 'date'},
-        {title: '经办人', dataIndex: 'people'},
-        {title: '支出类别', dataIndex: 'category'},
-        {title: '操作', slotName: 'optional', fixed: 'right', width:200},
-      ],
+
       selectedKeys:this.rows,
       selectedRecord:'',
       visible:false,

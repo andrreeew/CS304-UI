@@ -10,10 +10,10 @@
         </a-link>
         <slot name="extra"></slot>
 
-        <a-tag v-if="identity==='user'&&info.isAdmin" color="arcoblue">管理员身份</a-tag>
+        <a-tag v-if="identity==='user'&&info.isAdmin" color="arcoblue">{{$t('admin-identity')}}</a-tag>
       </a-space>
       <div>
-        总金额：{{info.total}} 已使用金额：{{info.total-info.left}} 剩余金额：{{info.left}}
+        {{$t('total-fund')}}：{{info.total}} {{$t('cost-fund')}}：{{info.total-info.left}} {{$t('left-fund')}}：{{info.left}}
       </div>
       <div style="display: flex; justify-content: space-between">
         <a-avatar-group :size="32">
