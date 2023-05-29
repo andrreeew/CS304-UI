@@ -9,7 +9,7 @@ import api from '@/api'
 export default {
   name: "heatmapChart",
   mounted() {
-    api.getFundHistory().then(res => {
+    api.getFundHistoryUser().then(res => {
       this.chartData = res.data.data
       this.chartData = this.chartData.map(item => [item.day, item.num])
       this.max = Math.max(...this.chartData.map(item => item[1]))
@@ -51,12 +51,12 @@ export default {
           cellSize: ['auto', 13],
           range: '2023',
           itemStyle: {
-            borderWidth: 0.0
+            borderWidth: 0.5
           },
           splitLine:{ 
             lineStyle: {
               // color:'white',
-              opacity: 0.1
+              opacity: 0.3
             }
           },
           yearLabel: { show: false }

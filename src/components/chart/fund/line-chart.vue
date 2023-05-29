@@ -178,6 +178,8 @@ export default {
     id(newVal, oldVal){
       api.getFundHistory(newVal).then(res => {
         this.data = res.data.data
+        console.log('history');
+        console.log(this.data);
       })
     }
   }
