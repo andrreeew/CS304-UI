@@ -166,10 +166,10 @@
             <a-col :span="8" >
               升序降序:
             </a-col>
-            <a-col :span="2" >
+            <a-col :span="1" >
               按
             </a-col>
-            <a-col :span="7">
+            <a-col :span="6">
               <a-select v-model="form.sortBy">
                 <a-option v-for="item in sortOptions">{{ item }}</a-option>
               </a-select>
