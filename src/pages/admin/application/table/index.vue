@@ -1,5 +1,5 @@
 <template>
-  <search-skeleton>
+  <search-skeleton @clear="clearForm">
     <template v-slot:header-right>
       <a-input-search :style="{width:'320px'}" placeholder="Please enter something"/>
     </template>
@@ -48,7 +48,7 @@
               经费编号:
             </a-col>
             <a-col :span="16">
-              <a-select></a-select>
+              <a-input v-model="form.fundId"></a-input>
             </a-col>
           </a-row>
         </a-grid-item>
@@ -58,7 +58,7 @@
               经费名称:
             </a-col>
             <a-col :span="16">
-              <a-select></a-select>
+              <a-input v-model="form.fundName"></a-input>
             </a-col>
           </a-row>
         </a-grid-item>
@@ -68,7 +68,7 @@
               课题组:
             </a-col>
             <a-col :span="16">
-              <a-select></a-select>
+              <a-input v-model="form.group"></a-input>
             </a-col>
           </a-row>
         </a-grid-item>
@@ -78,7 +78,7 @@
               申请日期:
             </a-col>
             <a-col :span="16">
-              <a-range-picker/>
+              <a-range-picker @select="selectDate"/>
             </a-col>
           </a-row>
         </a-grid-item>
@@ -89,9 +89,9 @@
             </a-col>
             <a-col :span="16">
               <a-space>
-                <a-input  placeholder="first" />
+                <a-input v-model="form.startValue" placeholder="first" />
                 -
-                <a-input  placeholder="second" />
+                <a-input v-model="form.endValue" placeholder="second" />
               </a-space>
             </a-col>
           </a-row>
@@ -102,21 +102,23 @@
               经办人:
             </a-col>
             <a-col :span="16">
-              <a-select></a-select>
+              <a-input v-model="form.person"></a-input>
             </a-col>
           </a-row>
         </a-grid-item>
         <a-grid-item >
           <a-row class="search-item" >
             <a-col :span="8" >
-              支出类别一级:
+              支出类别:
             </a-col>
             <a-col :span="16">
-              <a-select></a-select>
+              <a-select v-model="form.category">
+                <a-option v-for="item in categorise">{{item}}</a-option>
+              </a-select>
             </a-col>
           </a-row>
         </a-grid-item>
-        <a-grid-item >
+        <!-- <a-grid-item >
           <a-row class="search-item" >
             <a-col :span="8" >
               支出类别二级:
@@ -125,18 +127,20 @@
               <a-select></a-select>
             </a-col>
           </a-row>
-        </a-grid-item>
+        </a-grid-item> -->
         <a-grid-item >
           <a-row class="search-item" >
             <a-col :span="8" >
               经费状态:
             </a-col>
             <a-col :span="16">
-              <a-select></a-select>
+              <a-select v-model="formtype">
+                <a-option v-for="item in types">{{ item }}</a-option>
+              </a-select>
             </a-col>
           </a-row>
         </a-grid-item>
-        <a-grid-item >
+        <!-- <a-grid-item >
           <a-row class="search-item" >
             <a-col :span="8" >
               模糊搜索:
@@ -155,7 +159,7 @@
               <a-select></a-select>
             </a-col>
           </a-row>
-        </a-grid-item>
+        </a-grid-item> -->
 
         <a-grid-item >
           <a-row class="search-item" >
@@ -174,8 +178,6 @@
             </a-col>
           </a-row>
         </a-grid-item>
-
-
       </a-grid>
     </template>
   </search-skeleton>
@@ -211,7 +213,22 @@ export default {
         page:null,
       },
       applicationData:[],
-      loading:false
+      loading:false,
+      form: {
+        // fundId: 1,
+        // fundName: 'fund',
+        // group: 'group',
+        // startDate: '2023-5-27',
+        // endDate: '2023-5-28',
+        // startValue: 1,
+        // endValue: 2,
+        // person: 'Li',
+        // category: '电脑费',
+        // type: 'complete'
+      },
+      categorise : ['电脑费', '文印费', '打车费'],
+      types: ['通过', '驳回', '待审批'],
+      formtype: ''
     }
   },
   methods:{
@@ -244,11 +261,29 @@ export default {
         this.total = res.data.data.total
       }).finally(()=>{this.loading=false})
     },
+    selectDate(dateString, date) {
+      this.form.startDate = dateString[0]
+      this.form.endDate = dateString[1]
+    },
+    clearForm() {
+      console.log(this.form);
+      this.form = {}
+      this.formtype = ''
+    }
   },
   watch: {
     $route() {
       this.init()
     },
+    formtype() {
+      if (this.formtype == '通过') {
+        this.form.type = 'complete'
+      } else if (this.formtype == '驳回') {
+        this.form.type = 'reject'
+      } else {
+        this.form.type = 'underway'
+      }
+    }
   },
   created() {
     this.setRoutes([{label:'申请', name:'admin-application'}])

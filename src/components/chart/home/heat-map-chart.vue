@@ -41,7 +41,7 @@ export default {
           left: 'center',
           bottom: '10%',
           inRange: {
-            color: ['WhiteSmoke','Blue']
+            color: ['White','Blue']
           }
         },
         calendar: {
@@ -51,7 +51,13 @@ export default {
           cellSize: ['auto', 13],
           range: '2023',
           itemStyle: {
-            borderWidth: 0.3
+            borderWidth: 0.0
+          },
+          splitLine:{ 
+            lineStyle: {
+              // color:'white',
+              opacity: 0.1
+            }
           },
           yearLabel: { show: false }
         },

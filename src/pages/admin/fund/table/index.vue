@@ -41,7 +41,7 @@
             </a-col>
           </a-row>
         </a-grid-item>
-        <a-grid-item >
+        <!-- <a-grid-item >
           <a-row class="search-item" >
             <a-col :span="8" >
               课题组:
@@ -50,7 +50,7 @@
               <a-select></a-select>
             </a-col>
           </a-row>
-        </a-grid-item>
+        </a-grid-item> -->
         <a-grid-item >
           <a-row class="search-item" >
             <a-col :span="8" >
@@ -75,7 +75,7 @@
             </a-col>
           </a-row>
         </a-grid-item>
-        <a-grid-item >
+        <!-- <a-grid-item >
           <a-row class="search-item" >
             <a-col :span="8" >
               经办人:
@@ -84,7 +84,7 @@
               <a-select></a-select>
             </a-col>
           </a-row>
-        </a-grid-item>
+        </a-grid-item> -->
       </a-grid>
     </template>
   </search-skeleton>
@@ -104,6 +104,11 @@ export default {
   data(){
     return{
       type:'',
+      form: {
+        fundId: 1,
+        fundName: 'fund',
+
+      }
     }
   },
   methods:{
