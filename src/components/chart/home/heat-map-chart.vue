@@ -41,7 +41,7 @@ export default {
           left: 'center',
           bottom: '10%',
           inRange: {
-            color: ['White','Blue']
+            color: ['White','rgb(22,93,254)']
           }
         },
         calendar: {

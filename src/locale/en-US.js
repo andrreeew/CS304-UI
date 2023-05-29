@@ -26,6 +26,7 @@ export default {
     'recent-application':'Recent Application',
     'recent-reject':'Recent Rejection',
     'piece':'',
+    'application-record': 'Application Record',
 
     ...localeUserHome
 }
