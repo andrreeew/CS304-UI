@@ -14,19 +14,19 @@
     </template>
   </a-table>
 
-  <div style="display: flex;justify-content: center; margin-top: 10px">
+  <!-- <div style="display: flex;justify-content: center; margin-top: 10px"> -->
 
-    <a-button v-if="identity==='admin'" @click="visible=true" shape="circle">
+    <!-- <a-button v-if="identity==='admin'" @click="visible=true" shape="circle">
       <icon-plus></icon-plus>
-    </a-button>
-  </div>
+    </a-button> -->
+  <!-- </div> -->
   <a-divider  style="margin-top: 10px"></a-divider>
 
-  <a-modal v-model:visible="visible" title="添加经费">
+  <!-- <a-modal v-model:visible="visible" title="添加经费">
     <a-select v-model="selectFunds"  placeholder="Please select ..." multiple allow-create>
       <a-option v-for="item in funds">{{item.label}}</a-option>
     </a-select>
-  </a-modal>
+  </a-modal> -->
 </template>
 
 <script>
