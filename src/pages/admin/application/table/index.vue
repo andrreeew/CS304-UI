@@ -1,5 +1,5 @@
 <template>
-  <search-skeleton @clear="clearForm">
+  <search-skeleton @clear="clearForm" @search="search">
     <template v-slot:header-right>
       <a-input-search :style="{width:'320px'}" placeholder="Please enter something"/>
     </template>
@@ -167,7 +167,7 @@
               升序降序:
             </a-col>
             <a-col :span="16">
-              <a-switch>
+              <a-switch v-model="form.ascend">
                 <template #checked>
                   升序
                 </template>
@@ -267,8 +267,18 @@ export default {
     },
     clearForm() {
       console.log(this.form);
-      this.form = {}
+      this.form = {ascend: false}
       this.formtype = ''
+    },
+    search() {
+      let args = this.form
+      args.page = 1
+      this.loading = true
+      api.getApplications(args).then(res => {
+        console.log(args);
+        this.applicationData = res.data.data.data
+        this.total = res.data.data.total
+      }).finally(()=>{this.loading=false})
     }
   },
   watch: {
