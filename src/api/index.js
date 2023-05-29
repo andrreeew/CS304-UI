@@ -136,7 +136,10 @@ const api={
     },
     getIdentity(){
         return request.get(BACKEND_URL+'/user/getIdentity')
-    }
+    },
+    getFundHistory(){
+        return request.get(BACKEND_URL + '/user/getUserAppTimes')
+    },
 }
 
 export default api
