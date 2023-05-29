@@ -26,6 +26,7 @@ export default {
     'recent-application':'最近申请',
     'recent-reject':'最近驳回',
     'piece':'件',
+    'application-record': '申请记录',
 
     ...localeUserHome
 }

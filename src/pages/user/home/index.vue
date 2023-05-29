@@ -74,8 +74,8 @@
 
         </a-card>
 
-        <a-card title="申请记录">
-          <heat-map-chart style="height: 250px;"></heat-map-chart>
+        <a-card :title="$t('application-record')">
+          <heat-map-chart style="height: 280px;margin-top: -30px"></heat-map-chart>
         </a-card>
 
       </a-space>

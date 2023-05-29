@@ -133,7 +133,13 @@ export default {
     ...mapMutations(['setRoutes']),
     init(){
       api.getUserGroups().then(res=>{
-        this.groups = res.data.data
+        var data = res.data.data
+        this.groups = []
+        for (let i = 0; i < data.length; i++) {
+          if(data[i].isAdmin){
+            this.groups.push(data[i])
+          }
+        }
       })
     },
     clearForm(){
