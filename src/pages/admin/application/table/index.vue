@@ -237,6 +237,7 @@ export default {
         // person: 'Li',
         // category: '电脑费',
         // type: 'complete'
+        ascend: false
       },
       categorise : ['电脑费', '文印费', '打车费'],
       types: ['通过', '驳回', '待审批'],
