@@ -160,22 +160,23 @@
             </a-col>
           </a-row>
         </a-grid-item> -->
+        <a-grid-item >
+          <a-row class="search-item" >
+            <a-col :span="8" >
+              排序:
+            </a-col>
+            <a-col :span="16">
+              <a-select v-model="form.sortBy">
+                <a-option v-for="item in sortOptions">{{ item }}</a-option>
+              </a-select>
+            </a-col>
+          </a-row>
+        </a-grid-item>
 
         <a-grid-item >
           <a-row class="search-item" >
             <a-col :span="8" >
               升序降序:
-            </a-col>
-            <a-col :span="1" >
-              按
-            </a-col>
-            <a-col :span="6">
-              <a-select v-model="form.sortBy">
-                <a-option v-for="item in sortOptions">{{ item }}</a-option>
-              </a-select>
-            </a-col>
-            <a-col :span="3" >
-              排序
             </a-col>
             <a-col :span="4">
               <a-switch v-model="form.ascend">
