@@ -166,7 +166,18 @@
             <a-col :span="8" >
               升序降序:
             </a-col>
-            <a-col :span="16">
+            <a-col :span="2" >
+              按
+            </a-col>
+            <a-col :span="7">
+              <a-select v-model="form.sortBy">
+                <a-option v-for="item in sortOptions">{{ item }}</a-option>
+              </a-select>
+            </a-col>
+            <a-col :span="3" >
+              排序
+            </a-col>
+            <a-col :span="4">
               <a-switch v-model="form.ascend">
                 <template #checked>
                   升序
@@ -228,7 +239,8 @@ export default {
       },
       categorise : ['电脑费', '文印费', '打车费'],
       types: ['通过', '驳回', '待审批'],
-      formtype: ''
+      formtype: '',
+      sortOptions: ['经费名称','课题组','金额','申请日期','经办人','支出类别']
     }
   },
   methods:{
