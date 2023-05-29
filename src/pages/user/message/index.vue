@@ -21,9 +21,6 @@
               <a-tag v-if="item.type==='系统通知'" color="arcoblue">{{item.type}}</a-tag>
               <a-tag v-else color="green">{{item.type}}</a-tag>
               <a-typography-paragraph
-                  :ellipsis="{
-                    rows: 1,
-                  }"
                   class="msg" @click="showDetail(item)">
                 {{item.msg}}
               </a-typography-paragraph>
