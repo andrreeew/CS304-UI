@@ -166,7 +166,7 @@
               排序:
             </a-col>
             <a-col :span="16">
-              <a-select v-model="form.sortBy">
+              <a-select v-model="sortBy">
                 <a-option v-for="item in sortOptions">{{ item }}</a-option>
               </a-select>
             </a-col>
@@ -241,7 +241,8 @@ export default {
       categorise : ['电脑费', '文印费', '打车费'],
       types: ['通过', '驳回', '待审批'],
       formtype: '',
-      sortOptions: ['经费名称','课题组','金额','申请日期','经办人','支出类别']
+      sortOptions: ['经费名称','课题组','金额','申请日期','经办人','支出类别'],
+      sortBy: ''
     }
   },
   methods:{
@@ -269,7 +270,7 @@ export default {
     getData(){
       this.loading = true
       //{page:this.queryArgs.page, type:this.queryArgs.type}
-      api.getApplications({page:this.queryArgs.page, type:this.queryArgs.type}).then(res => {
+      api.getApplications({page:this.queryArgs.page, type:this.queryArgs.type, pageSize:this.pageSize}).then(res => {
         this.applicationData = res.data.data.data
         this.total = res.data.data.total
       }).finally(()=>{this.loading=false})
@@ -282,10 +283,12 @@ export default {
       console.log(this.form);
       this.form = {ascend: false}
       this.formtype = ''
+      this.sortBy = ''
     },
     search() {
       let args = this.form
       args.page = 1
+      args.pageSize = this.pageSize
       this.loading = true
       api.getApplications(args).then(res => {
         console.log(args);
@@ -305,6 +308,21 @@ export default {
         this.form.type = 'reject'
       } else {
         this.form.type = 'underway'
+      }
+    },
+    sortBy() {
+      if (this.sortBy == '经费名称') {
+        this.form.sortBy = 'fundName'
+      } else if (this.sortBy == '课题组') {
+        this.form.sortBy = 'group'
+      } else if (this.sortBy == '金额') {
+        this.form.sortBy = 'value'
+      } else if (this.sortBy == '申请日期') {
+        this.form.sortBy = 'date'
+      } else if (this.sortBy == '经办人') {
+        this.form.sortBy = 'person'
+      } else if (this.sortBy == '支出类别') {
+        this.form.sortBy = 'category'
       }
     }
   },
