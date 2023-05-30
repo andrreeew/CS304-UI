@@ -82,7 +82,10 @@
             <a-form-item label="手机号" required :validate-status="phoneStatus" :help="phoneHelp" feedback>
               <a-input v-model="form.phone"></a-input>
             </a-form-item>
-            <a-form-item label="密码" required feedback>
+            <a-form-item label="旧密码" required feedback>
+              <a-input v-model="form.pwd"></a-input>
+            </a-form-item>
+            <a-form-item label="新密码" required feedback>
               <a-input v-model="form.pwd"></a-input>
             </a-form-item>
           </a-form>
@@ -154,6 +157,7 @@ export default {
         email: '',
         phone: '',
       },
+      username:'',
       emailStatus: '',
       emailHelp: '',
       phoneStatus: '',
@@ -161,13 +165,18 @@ export default {
     }
   },
   mounted() {
+    api.getUserInfo().then(res=>{
+      this.username = res.data.data.name
+      this.form.name=res.data.data.name
+      this.form.phone = res.data.data.phone
+      this.form.email=res.data.data.email
+    })
     this.$options.sockets.onmessage = (message) => {
-
       var data = JSON.parse(message.data)
-      if(this.identity===data.identity){
-        if(data.type==='permit'){
+      if(this.identity==='user'){
+        if(data.msg==='permit'){
           this.$notification.success(data.msg)
-        }else if(data.type==='deny') {
+        }else if(data.msg==='deny') {
           this.$notification.error(data.msg)
         }
       }

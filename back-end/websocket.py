@@ -19,13 +19,13 @@ class DanmakuServer:
         self.clients.append(client)
         try:
             while True:
-                # message = await websocket.recv()
-                # if message=='admin':
-                #     client[1] = True
+                message = await websocket.recv()
+                if message=='admin':
+                    client[1] = True
 
-                # print("Received message:", message)
-                # if client[1]:
-                    # response = "You said: " + message
+                print("Received message:", message)
+                if client[1]:
+                    response = "You said: " + message
                 for c in self.clients:
                     await c[0].send(json.dumps({'msg':response}))
                 

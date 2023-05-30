@@ -87,7 +87,7 @@
           <a-space size="medium">
             <a-avatar :size="70" style="color: rgb(var(--arcoblue-6)); background-color: rgb(var(--arcoblue-1))">U</a-avatar>
             <a-typography style="color:white;font-size: 22px">
-              {{$t('user.home.user')}}：LI
+              {{$t('user.home.user')}}：{{this.username}}
             </a-typography>
           </a-space>
         </a-card>
@@ -166,6 +166,7 @@ export default {
         permittedApplication:0,
         rejectedApplication:0
       },
+      username:'',
       groups:[],
       applicationData:[],
       loading:false,
@@ -231,6 +232,9 @@ export default {
     this.getGroups()
     this.getApplications()
     this.setRoutes([{label:'主页', name:'user'}])
+    api.getUserInfo().then(res=>{
+      this.username = res.data.data.name
+    })
 
   }
 }

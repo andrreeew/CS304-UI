@@ -140,6 +140,9 @@ const api={
     getFundHistoryUser(){
         return request.get(BACKEND_URL + '/user/getUserAppTimes')
     },
+    getUserInfo(){
+        return request.get(BACKEND_URL+'/user/getUser')
+    }
 }
 
 export default api
