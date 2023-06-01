@@ -98,5 +98,5 @@ The main code is in pages, and the architecture of pages is
 
 ```
 
-The main api of backend and description of method and paramters can see in  http://10.16.54.166:80/doc.html#/home
+The main api of backend and description of method and paramters can see in  http://10.16.54.166:8800/doc.html#/home
 
